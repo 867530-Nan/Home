@@ -6,7 +6,7 @@ const HomeStyleGuide = {
     darkgray: '#807F7F',
     lightgray: '#D9D9D9',
     darkblue: '#30415D',
-    lightblue: '#316384',
+    lightblue: '#697892',
     darkred: '#76323F',
     lightred: '#98505E',
     darkgreen: '#3E5842',
