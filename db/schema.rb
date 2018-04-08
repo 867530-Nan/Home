@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408005506) do
+ActiveRecord::Schema.define(version: 20180408005733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(version: 20180408005506) do
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id"
   end
 
+  create_table "budgets", force: :cascade do |t|
+    t.bigint "subdepartment_id", null: false
+    t.float "amount", null: false
+    t.date "date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subdepartment_id"], name: "index_budgets_on_subdepartment_id"
+  end
+
   create_table "departments", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "hotel_id", null: false
@@ -38,10 +47,10 @@ ActiveRecord::Schema.define(version: 20180408005506) do
   end
 
   create_table "employee_jobs", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.bigint "job_id"
+    t.bigint "employee_id", null: false
+    t.bigint "job_id", null: false
     t.string "pay_type"
-    t.float "pay_rate"
+    t.float "pay_rate", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employee_jobs_on_employee_id"
@@ -49,9 +58,9 @@ ActiveRecord::Schema.define(version: 20180408005506) do
   end
 
   create_table "employee_roles", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.bigint "role_id"
-    t.bigint "hotel_id"
+    t.bigint "employee_id", null: false
+    t.bigint "role_id", null: false
+    t.bigint "hotel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employee_roles_on_employee_id"
@@ -74,18 +83,18 @@ ActiveRecord::Schema.define(version: 20180408005506) do
   end
 
   create_table "expense_categories", force: :cascade do |t|
-    t.string "name"
-    t.bigint "department_id"
+    t.string "name", null: false
+    t.bigint "department_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_expense_categories_on_department_id"
   end
 
   create_table "expenses", force: :cascade do |t|
-    t.string "name"
-    t.bigint "expense_category_id"
-    t.float "amount"
-    t.date "date"
+    t.string "name", null: false
+    t.bigint "expense_category_id", null: false
+    t.float "amount", null: false
+    t.date "date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expense_category_id"], name: "index_expenses_on_expense_category_id"
@@ -101,31 +110,31 @@ ActiveRecord::Schema.define(version: 20180408005506) do
   end
 
   create_table "jobs", force: :cascade do |t|
-    t.string "name"
-    t.bigint "subdepartment_id"
-    t.string "pay_type"
+    t.string "name", null: false
+    t.bigint "subdepartment_id", null: false
+    t.string "pay_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["subdepartment_id"], name: "index_jobs_on_subdepartment_id"
   end
 
   create_table "rights", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "roles_rights", force: :cascade do |t|
-    t.bigint "role_id"
-    t.bigint "right_id"
+    t.bigint "role_id", null: false
+    t.bigint "right_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["right_id"], name: "index_roles_rights_on_right_id"
@@ -169,6 +178,7 @@ ActiveRecord::Schema.define(version: 20180408005506) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "budgets", "subdepartments"
   add_foreign_key "departments", "hotels"
   add_foreign_key "employee_jobs", "employees"
   add_foreign_key "employee_jobs", "jobs"

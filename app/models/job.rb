@@ -1,4 +1,9 @@
 class Job < ApplicationRecord
   belongs_to :subdepartment
   has_many :employee_jobs
+
+  validates :name, presence: { message: "Please enter the name of the job." }
+  validates :pay_type, presence: { message: "Please enter a pay type"},
+            inclusion: { in: %w(hourly salary)} 
+
 end
