@@ -1,5 +1,5 @@
 class Api::HotelsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def index
     render json: Hotel.all
@@ -17,7 +17,7 @@ class Api::HotelsController < ApplicationController
   private 
   def hotel_params
     params.require(:hotel).permit(:name, :phone_number, :manager_name, :number_of_rooms,
-      address_attributes: [:street_one, :street_two, :city, :state, :zip, :country]
+      address_attributes: [:street_one, :street_two, :city, :state, :zip, :country])
   end 
 
 end
