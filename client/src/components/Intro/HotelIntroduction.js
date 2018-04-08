@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
@@ -6,6 +7,10 @@ import { Form } from 'semantic-ui-react'
 
 class HotelIntroduction extends Component {
   state = {street_one: "", name: "", phone_number: "", number_of_rooms: "", manager: "", city: "", state: "", country: "", zip: ""}
+
+  saveHotelIncrementToNextScreen = () => {
+    
+  }
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -15,7 +20,7 @@ class HotelIntroduction extends Component {
   displayButton = () => {
     return (
       <HomeDiv
-        onClick={this.props.increment}
+        onClick={this.saveHotelIncrementToNextScreen}
         height={'50px'}
         width={'25%'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
