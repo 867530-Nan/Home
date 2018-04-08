@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
@@ -6,6 +7,11 @@ import { Form } from 'semantic-ui-react'
 
 class DepartmentIntroduction extends Component {
   state = { number: 0, departments: [], input: ""}
+
+  componentDidMount() {
+    axios.get('/api/hotels')
+    .then( res => console.log(res))
+  }
 
   handleChange = (e) => {
     const { id , value } = e.target;
