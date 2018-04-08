@@ -9,7 +9,15 @@ class HotelIntroduction extends Component {
   state = {street_one: "", name: "", phone_number: "", number_of_rooms: "", manager: "", city: "", state: "", country: "", zip: ""}
 
   saveHotelIncrementToNextScreen = () => {
-    
+    const address = {street_one: this.state.street_one, city: this.state.city, state: this.state.state, country: this.state.country, zip: this.state.zip}
+    const everything = { name: this.state.name, number_of_rooms: this.state.number_of_rooms, phone_number: this.state.phone_number, address: address, manager: this.state.manager}
+    axios.post(`/api/hotels/${everything}`)
+    .then( res => {
+      console.log("success")
+      console.log(res)
+      }).catch( err => {
+        console.log("error")
+    });
   }
 
   handleChange = (e) => {
