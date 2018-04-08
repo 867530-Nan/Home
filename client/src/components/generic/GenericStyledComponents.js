@@ -343,6 +343,7 @@ export const HomeInput = styled.input`
   border-style: ${props => props.borderStyle || 'inset'};
   margin: ${props => props.margin || '10px'};
   text-align: ${props => props.textAlign || 'center'};
+  width: ${props => props.width};
 `
 
 export const HomeFooterAnchor = styled.a.attrs({

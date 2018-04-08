@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 import First from './First'
 import Second from './Second'
-import Third from './Third'
+import Third from './LaborExpenseCPORIntro'
+import HotelIntroduction from './HotelIntroduction'
+import DepartmentInformation from './DepartmentInformation'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
@@ -22,6 +24,10 @@ class Index extends Component {
     } else if (slide === 2) {
       component = <Second increment={this.incrementState} />
     } else if (slide === 3) {
+      component = <HotelIntroduction increment={this.incrementState} />
+    } else if (slide === 4) {
+      component = <DepartmentInformation increment={this.incrementState} />
+    } else if (slide === 5) {
       component = <Third increment={this.incrementState} />
     } else {
       return(

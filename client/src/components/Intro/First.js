@@ -15,7 +15,6 @@ const DemoResponsiveDiv = HomeDiv.extend`
   ${media.tablet`
     background-color: ${HomeStyleGuide.color.darkblue};
   `}
-
 `
 
 class First extends Component {
@@ -37,7 +36,10 @@ class First extends Component {
             margin={'30px 0 10px 0'}
             fontWeight={'300'}
           >
-            Welcome to Hotel Operations Made Easy.<br/>(H.O.M.E.)
+            Welcome to Hotel Operations Made Easy.
+            <br/>
+            (H.O.M.E.)
+            <br/>
           </HomeSectionHeader>
           <HomeDiv
             onClick={this.props.increment}

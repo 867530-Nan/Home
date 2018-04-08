@@ -22,7 +22,7 @@ class Second extends Component {
             margin={'30px 0 10px 0'}
             fontWeight={'300'}
           >
-            In order to calculate the appropriate staffing levels, we will need to establish the budgets and forecast
+            To begin, let's gather information necessary to complete a month's budget, and establish a work schedule for employees.
           </HomeSectionHeader>
           <HomeDiv
             onClick={this.props.increment}
