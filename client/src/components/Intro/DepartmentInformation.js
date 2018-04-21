@@ -41,7 +41,7 @@ class DepartmentIntroduction extends Component {
   }
 
   departmentIncrement = () => {
-    axios.post('/api/hotels/1/departments', this.state.departments)
+    axios.post('/api/hotels/1/departments/create_multiple', this.state.departments)
         .then( res => {
           this.setState({ increment: this.state.increment + 1})
           }).catch( err => {

@@ -7,16 +7,16 @@ class Api::ExpenseCategoriesController < ApplicationController
   end
 
   def by_department
-    
+    render json: Department.find_by(params[:department_id]).expense_categories
   end 
 
   def create
-     = @hotel.expense_categories.create(expense_category_params)
-    if expense_category.save
-      render json: expense_category.to_json
-    else
-      render_error(expense_category)
-    end
+    #  = @hotel.expense_categories.create(expense_category_params)
+    # if expense_category.save
+    #   render json: expense_category.to_json
+    # else
+    #   render_error(expense_category)
+    # end
   end 
 
   private 

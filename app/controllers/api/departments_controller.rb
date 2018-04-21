@@ -7,12 +7,7 @@ class Api::DepartmentsController < ApplicationController
   end
 
   def create
-    binding.pry
-    params[:_json].each do |department_params|
-      department = @hotel.departments.create(department_params)
-      department.save
-    end 
-
+    department = @hotel.departments.create(department_params)
     if department.save
       render json: department.to_json
     else
@@ -21,7 +16,8 @@ class Api::DepartmentsController < ApplicationController
   end 
 
   def create_multiple
-
+    params[:_json].each{ |name| department = @hotel.departments.create(name: name)}
+    render json: @hotel.departments.to_json
   end 
 
   private 
