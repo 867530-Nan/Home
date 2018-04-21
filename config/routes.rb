@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :hotels do 
       resources :departments
+      resources :subdepartments 
     end 
      
     #API ROUTES SHOULD GO HERE
