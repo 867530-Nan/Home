@@ -20,9 +20,8 @@ class Api::HotelsController < ApplicationController
       address_attributes: [:street_one, :street_two, :city, :state, :zip, :country])
   end 
 
-  def render_error(hotel)
-    errors = hotel.errors.full_messages.join(",")
-    render json: {errors: errors}, status: 418
+  def get_hotel
+    @hotel = Hotel.find(params[:id])
   end
 
 end

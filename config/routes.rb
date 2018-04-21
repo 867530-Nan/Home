@@ -2,7 +2,10 @@ Rails.application.routes.draw do
 
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
-    resources :hotels 
+    resources :hotels do 
+      resources :departments
+    end 
+     
     #API ROUTES SHOULD GO HERE
   end
 
