@@ -11,13 +11,20 @@ class HotelIntroduction extends Component {
   saveHotelIncrementToNextScreen = () => {
     const address = {street_one: this.state.street_one, city: this.state.city, state: this.state.state, country: this.state.country, zip: this.state.zip}
     const everything = { name: this.state.name, number_of_rooms: this.state.number_of_rooms, phone_number: this.state.phone_number, address: address, manager_name: this.state.manager_name}
-    axios.post('/api/hotels', everything)
-    .then( res => {
-      this.props.increment()
-      }).catch( err => {
-        console.log("error")
-        console.log(err)
-    });
+    const parsed = parseInt(this.state.phone_number)
+    console.log(parsed+" "+this.state.phone_number.length)
+    if (Number.isInteger(parsed) && this.state.phone_number.length === 10){
+      axios.post('/api/hotels', everything)
+      .then( res => {
+        this.props.increment()
+        }).catch( err => {
+          console.log("error")
+          console.log(err)
+      });
+    } else {
+      this.setState({ phone_number: "" })
+      alert("Please enter a 10-digit phone number.")
+    }
   }
 
   handleChange = (e) => {
