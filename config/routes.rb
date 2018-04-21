@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
     resources :hotels do 
-      resources :departments
+      resources :departments do
+        get '/expense_cateogies/', to: 'expense_categories#by_department' 
+      end 
       resources :subdepartments 
     end 
      
