@@ -30,7 +30,9 @@ class DepartmentIntroduction extends Component {
     return(
       this.state.departments.map( (single, index) => {
         return(
-          <HomeHeader>
+          <HomeHeader
+            key={index}
+          >
             {single.name}
           </HomeHeader>
         )
@@ -39,20 +41,49 @@ class DepartmentIntroduction extends Component {
   }
 
   departmentIncrement = () => {
-    axios.post('/api/hotels/0/departments', this.state.departments)
-        .then( res => {
-          this.setState({ increment: this.state.increment + 1})
-          }).catch( err => {
-            console.log("error")
-            console.log(err)
-        });
-    
+    // axios.post('/api/hotels/0/departments', this.state.departments)
+    //     .then( res => {
+    //       this.setState({ increment: this.state.increment + 1})
+    //       }).catch( err => {
+    //         console.log("error")
+    //         console.log(err)
+    //     });
+    this.setState({ increment: this.state.increment + 1})
   }
   
   displayDepartmentIncrement = () => {
     return (
       <HomeDiv
         onClick={this.departmentIncrement}
+        height={'50px'}
+        width={'25%'}
+        border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+        borderRadius={'20px'}
+        hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+        hoverColor={HomeStyleGuide.color.white}
+        cursor={'pointer'}
+      >
+        Next
+      </HomeDiv>
+    )
+  }
+
+  subdepartmentIncrement = () => {
+    const departments = this.state.departments
+    axios.post('/api/hotels/0/departments', departments)
+        .then( res => {
+          this.setState({ increment: this.state.increment + 1})
+          }).catch( err => {
+            console.log("error")
+            console.log(err)
+        });
+    // this.setState({ increment: this.state.increment + 1})
+  }
+  
+  displaySubdepartmentIncrement = () => {
+    return (
+      <HomeDiv
+        onClick={this.subdepartmentIncrement}
         height={'50px'}
         width={'25%'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
@@ -75,7 +106,7 @@ class DepartmentIntroduction extends Component {
     case 0:
       return <DepartmentBox appendDepartment={this.appendDepartment} displayDepartments={this.displayDepartments} handleChange={this.handleChange} displayButton={this.displayDepartmentIncrement} departments={this.state.departments}/>
     case 1: 
-      return <SubDepartmentBox appendDepartment={this.appendDepartment} departments={this.state.departments} displayButton={this.displayButton}/>
+      return <SubDepartmentBox appendDepartment={this.appendDepartment} departments={this.state.departments} displayButton={this.displaySubdepartmentIncrement}/>
     }
   }
 }

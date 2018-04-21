@@ -19,6 +19,7 @@ class DepartmentIntroduction extends Component {
   }
 
   displayDepartments = () => {
+    console.log(this.props)
     this.props.departments.map( (single, i) => {
         <HomeDiv
           height={'100vh'}
