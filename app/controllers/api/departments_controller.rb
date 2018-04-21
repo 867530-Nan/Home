@@ -8,8 +8,11 @@ class Api::DepartmentsController < ApplicationController
 
   def create
     binding.pry
-    params[:departments].each do |d| 
-      department = @hotel.departments.create(name: department)
+    params[:_json].each do |department_params|
+      department = @hotel.departments.create(department_params)
+      department.save
+    end 
+
     if department.save
       render json: department.to_json
     else
@@ -17,9 +20,14 @@ class Api::DepartmentsController < ApplicationController
     end
   end 
 
+  def create_multiple
+
+  end 
+
   private 
   def department_params
     params.require(:department).permit(:name)
+  end 
 
   def get_hotel
     @hotel = Hotel.find(params[:hotel_id])
