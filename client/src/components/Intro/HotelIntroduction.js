@@ -13,14 +13,20 @@ class HotelIntroduction extends Component {
     const everything = { name: this.state.name, number_of_rooms: this.state.number_of_rooms, phone_number: this.state.phone_number, address: address, manager_name: this.state.manager_name}
     const parsed = parseInt(this.state.phone_number)
     console.log(parsed+" "+this.state.phone_number.length)
+
     if (Number.isInteger(parsed) && this.state.phone_number.length === 10){
-      axios.post('/api/hotels', everything)
-      .then( res => {
-        this.props.increment()
-        }).catch( err => {
-          console.log("error")
-          console.log(err)
-      });
+      if (isNaN(this.state.number_of_rooms)){
+        this.setState({ number_of_rooms: "" })
+        alert("Please enter a valid number of rooms")
+      } else {
+        axios.post('/api/hotels', everything)
+        .then( res => {
+          this.props.increment()
+          }).catch( err => {
+            console.log("error")
+            console.log(err)
+        });
+      }
     } else {
       this.setState({ phone_number: "" })
       alert("Please enter a 10-digit phone number.")
