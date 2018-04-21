@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
-import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
+import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
 import { Form } from 'semantic-ui-react'
 
+import SingleSubDepartment from './SingleSubDepartment'
+
 class DepartmentIntroduction extends Component {
-  state = { number: 0, subDepartments: [], name: "", budget: ""}
+  state = { number: 0, departments: [], subDepartments: [], name: "", budget: ""}
 
   handleChange = (e) => {
     const { id , value } = e.target;
     this.setState({ [id]: value });
+  }
+
+  componentDidMount() {
+    axios.get('/api/hotels/0/departments')
+      .then(res => this.setState({ departments: res.data }))
   }
 
   appendSubDepartment = () => {
@@ -18,8 +25,25 @@ class DepartmentIntroduction extends Component {
       this.state.subDepartments.push(single)
   }
 
+  displaySubDepartments = () => {
+    return this.state.subDepartments.map( (single, index) => {
+      return (
+        <HomeDiv
+          flexDirection={'row'}
+        >
+          <HomeSectionHeader>
+            {single.name}
+          </HomeSectionHeader>
+          <HomeSectionHeader>
+            {single.budget}
+          </HomeSectionHeader>
+        </HomeDiv>
+      )
+    })
+  }
+
   displayDepartments = () => {
-    return this.props.departments.map( (single, i) => {
+    return this.state.departments.map( (single, i) => {
       return(
         <HomeDiv
           height={'100vh'}
@@ -28,30 +52,10 @@ class DepartmentIntroduction extends Component {
             <HomeHeader
               fontSize={HomeStyleGuide.font.size.medium}
             >
-              {single.name}
+              {single}
             </HomeHeader>
-            <HomeDiv
-              flexDirection={'row'}
-            >
-              <HomeInput
-                width={'80%'} 
-                fluid 
-                value={this.state.name}
-                label='' 
-                placeholder='Sub-Department Name' 
-                id="name"
-                onChange={this.handleChange}
-              />
-              <HomeInput
-                width={'80%'} 
-                fluid 
-                value={this.state.budget}
-                label='' 
-                placeholder="Sub-Department's Monthly Budget" 
-                id="budget"
-                onChange={this.handleChange}
-              />
-            </HomeDiv>
+            {this.displaySubDepartments()}
+            <SingleSubDepartment subdepartments={this.state.subdepartments} />
               <HomeDiv
                 onClick={this.appendSubDepartment}
                 height={'50px'}

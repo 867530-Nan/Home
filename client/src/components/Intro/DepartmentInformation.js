@@ -33,7 +33,7 @@ class DepartmentIntroduction extends Component {
           <HomeHeader
             key={index}
           >
-            {single.name}
+            {single}
           </HomeHeader>
         )
       })
