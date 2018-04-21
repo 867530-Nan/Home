@@ -22,7 +22,7 @@ class DepartmentIntroduction extends Component {
   }
 
   appendDepartment = (name) => {
-    this.state.departments.push({name: name})
+    this.state.departments.push(name)
     this.setState({input: ""})
   }
 
@@ -41,14 +41,14 @@ class DepartmentIntroduction extends Component {
   }
 
   departmentIncrement = () => {
-    // axios.post('/api/hotels/0/departments', this.state.departments)
-    //     .then( res => {
-    //       this.setState({ increment: this.state.increment + 1})
-    //       }).catch( err => {
-    //         console.log("error")
-    //         console.log(err)
-    //     });
-    this.setState({ increment: this.state.increment + 1})
+    axios.post('/api/hotels/0/departments', this.state.departments)
+        .then( res => {
+          this.setState({ increment: this.state.increment + 1})
+          }).catch( err => {
+            console.log("error")
+            console.log(err)
+        });
+    // this.setState({ increment: this.state.increment + 1})
   }
   
   displayDepartmentIncrement = () => {
@@ -69,15 +69,15 @@ class DepartmentIntroduction extends Component {
   }
 
   subdepartmentIncrement = () => {
-    const departments = this.state.departments
-    axios.post('/api/hotels/0/departments', departments)
-        .then( res => {
-          this.setState({ increment: this.state.increment + 1})
-          }).catch( err => {
-            console.log("error")
-            console.log(err)
-        });
-    // this.setState({ increment: this.state.increment + 1})
+    // const departments = this.state.departments
+    // axios.post('/api/hotels/0/departments', departments)
+    //     .then( res => {
+    //       this.setState({ increment: this.state.increment + 1})
+    //       }).catch( err => {
+    //         console.log("error")
+    //         console.log(err)
+    //     });
+    this.setState({ increment: this.state.increment + 1})
   }
   
   displaySubdepartmentIncrement = () => {
@@ -97,8 +97,25 @@ class DepartmentIntroduction extends Component {
     )
   }
 
-  addingSubdepartments = () => {
-    
+  decrement = () => {
+    this.setState({ increment: this.state.increment - 1 })
+  }
+
+  backButton = () => {
+    return (
+      <HomeDiv
+        onClick={this.decrement}
+        height={'50px'}
+        width={'25%'}
+        border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+        borderRadius={'20px'}
+        hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+        hoverColor={HomeStyleGuide.color.white}
+        cursor={'pointer'}
+      >
+        Back
+      </HomeDiv>
+    )
   }
   
   render() {
@@ -106,7 +123,7 @@ class DepartmentIntroduction extends Component {
     case 0:
       return <DepartmentBox appendDepartment={this.appendDepartment} displayDepartments={this.displayDepartments} handleChange={this.handleChange} displayButton={this.displayDepartmentIncrement} departments={this.state.departments}/>
     case 1: 
-      return <SubDepartmentBox appendDepartment={this.appendDepartment} departments={this.state.departments} displayButton={this.displaySubdepartmentIncrement}/>
+      return <SubDepartmentBox displayBackButton={this.backButton} appendDepartment={this.appendDepartment} departments={this.state.departments} displayButton={this.displaySubdepartmentIncrement}/>
     }
   }
 }

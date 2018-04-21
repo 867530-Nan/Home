@@ -6,7 +6,7 @@ import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponen
 import { Form } from 'semantic-ui-react'
 
 class DepartmentIntroduction extends Component {
-  state = { number: 0, subDepartments: [], name: "", name: ""}
+  state = { number: 0, subDepartments: [], name: "", budget: ""}
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -19,24 +19,27 @@ class DepartmentIntroduction extends Component {
   }
 
   displayDepartments = () => {
-    console.log(this.props)
-    this.props.departments.map( (single, i) => {
+    return this.props.departments.map( (single, i) => {
+      return(
         <HomeDiv
           height={'100vh'}
-          backgroundColor={HomeStyleGuide.color.darkred}
+          width={'100%'}
         >
             <HomeHeader
               fontSize={HomeStyleGuide.font.size.medium}
             >
               {single.name}
             </HomeHeader>
+            <HomeDiv
+              flexDirection={'row'}
+            >
               <HomeInput
                 width={'80%'} 
                 fluid 
                 value={this.state.name}
                 label='' 
                 placeholder='Sub-Department Name' 
-                id="input"
+                id="name"
                 onChange={this.handleChange}
               />
               <HomeInput
@@ -45,9 +48,10 @@ class DepartmentIntroduction extends Component {
                 value={this.state.budget}
                 label='' 
                 placeholder="Sub-Department's Monthly Budget" 
-                id="input"
+                id="budget"
                 onChange={this.handleChange}
               />
+            </HomeDiv>
               <HomeDiv
                 onClick={this.appendSubDepartment}
                 height={'50px'}
@@ -58,9 +62,10 @@ class DepartmentIntroduction extends Component {
                 hoverColor={HomeStyleGuide.color.white}
                 cursor={'pointer'}
               >
-                Add Department
+                Add Sub-Department
               </HomeDiv>
           </HomeDiv>
+        )
       })
   }
 
@@ -83,7 +88,12 @@ class DepartmentIntroduction extends Component {
             Next, add Subdepartment information
           </HomeHeader>
             {this.displayDepartments()}
+            <HomeDiv
+              flexDirection={'row'}
+            >
             { this.state.subDepartments !== [] ? this.props.displayButton() : null  }
+            { this.props.displayBackButton () }
+            </HomeDiv>
         </HomeDiv>
       </HomeDiv>
     );
