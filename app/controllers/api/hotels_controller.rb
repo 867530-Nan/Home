@@ -10,7 +10,7 @@ class Api::HotelsController < ApplicationController
     if hotel.save
       render json: hotel.to_json
     else
-      render json: { errors: hotel.errors.join(',') }, status: 422
+      render_error(hotel)
     end
   end 
 
@@ -19,5 +19,10 @@ class Api::HotelsController < ApplicationController
     params.require(:hotel).permit(:name, :phone_number, :manager_name, :number_of_rooms,
       address_attributes: [:street_one, :street_two, :city, :state, :zip, :country])
   end 
+
+  def render_error(hotel)
+    errors = hotel.errors.full_messages.join(",")
+    render json: {errors: errors}, status: 418
+  end
 
 end
