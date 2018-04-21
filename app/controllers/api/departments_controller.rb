@@ -7,6 +7,7 @@ class Api::DepartmentsController < ApplicationController
   end
 
   def create
+    binding.pry
     params[:departments].each do |d| 
       department = @hotel.departments.create(name: department)
     if department.save
