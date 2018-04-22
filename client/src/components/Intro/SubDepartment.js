@@ -7,7 +7,7 @@ import { Form } from 'semantic-ui-react'
 
 import SingleSubDepartment from './SingleSubDepartment'
 
-class DepartmentIntroduction extends Component {
+class SubDepartment extends Component {
   state = { number: 0, departments: [], subDepartments: [], name: "", budget: ""}
 
   handleChange = (e) => {
@@ -15,21 +15,28 @@ class DepartmentIntroduction extends Component {
     this.setState({ [id]: value });
   }
 
-  componentDidMount() {
-    axios.get('/api/hotels/0/departments')
+
+  componentWillMount() {
+    axios.get('/api/hotels/1/departments')
       .then(res => this.setState({ departments: res.data }))
   }
 
-  appendSubDepartment = () => {
-      const single = {name: this.state.name, budget: this.state.budget}
-      this.state.subDepartments.push(single)
+  appendSubDepartment = (single) => {
+    console.log("here")
+    console.log(single)
+      // this.state.subDepartments.push(single)
+      this.setState({subDepartments: [...this.state.subDepartments, single]})
   }
 
-  displaySubDepartments = () => {
-    return this.state.subDepartments.map( (single, index) => {
+  displaySubDepartments = (departmentIndex) => {
+    const result = this.state.subDepartments.filter(single => single.departmentID === departmentIndex)
+    return result.map( (single, index) => {
       return (
         <HomeDiv
           flexDirection={'row'}
+          backgroundColor={index % 2 === 0 ? `${HomeStyleGuide.color.white}` : `${HomeStyleGuide.color.gray}`}
+          width={'80%'}
+          borderRadius={'5px'}
         >
           <HomeSectionHeader>
             {single.name}
@@ -46,28 +53,17 @@ class DepartmentIntroduction extends Component {
     return this.state.departments.map( (single, i) => {
       return(
         <HomeDiv
-          height={'100vh'}
+          height={'100%'}
+          margin={'50px 0'}
           width={'100%'}
         >
             <HomeHeader
               fontSize={HomeStyleGuide.font.size.medium}
             >
-              {single}
+              {single.name}
             </HomeHeader>
-            {this.displaySubDepartments()}
-            <SingleSubDepartment subdepartments={this.state.subdepartments} />
-              <HomeDiv
-                onClick={this.appendSubDepartment}
-                height={'50px'}
-                width={'25%'}
-                border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-                borderRadius={'20px'}
-                hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-                hoverColor={HomeStyleGuide.color.white}
-                cursor={'pointer'}
-              >
-                Add Sub-Department
-              </HomeDiv>
+            {this.displaySubDepartments(i)}
+            <SingleSubDepartment appendSubDepartment={this.appendSubDepartment} departmentID={i}/>
           </HomeDiv>
         )
       })
@@ -77,7 +73,7 @@ class DepartmentIntroduction extends Component {
   render() {
     return(
       <HomeDiv
-        height={'100vh'}
+        height={'100%'}
         backgroundColor={HomeStyleGuide.color.darkred}
       >
         <HomeDiv  
@@ -89,11 +85,12 @@ class DepartmentIntroduction extends Component {
           <HomeHeader
             fontSize={HomeStyleGuide.font.size.medium}
           >
-            Next, add Subdepartment information
+            Next, <br/>Let's add Subdepartment information..
           </HomeHeader>
-            {this.displayDepartments()}
+            {this.state.departments.length !== 0 && this.displayDepartments()}
             <HomeDiv
               flexDirection={'row'}
+              width={'80%'}
             >
             { this.state.subDepartments !== [] ? this.props.displayButton() : null  }
             { this.props.displayBackButton () }
@@ -104,4 +101,4 @@ class DepartmentIntroduction extends Component {
   }
 }
 
-export default DepartmentIntroduction;
+export default SubDepartment;

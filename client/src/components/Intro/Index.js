@@ -10,7 +10,7 @@ import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 
 class Index extends Component {
-  state = { slide: 4 }
+  state = { slide: 1 }
 
   incrementState = () => {
     this.setState({ slide: this.state.slide + 1 })

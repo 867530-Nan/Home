@@ -14,8 +14,13 @@ class DepartmentBox extends React.Component {
   }
 
   nextPage = () => {
-    this.setState({name: ""})
-    this.props.appendDepartment(this.state.name)
+    if (this.state.name === ""){
+      alert("Please enter a valid department name")
+      this.setState({name: ""})
+    } else {
+      this.setState({name: ""})
+      this.props.appendDepartment(this.state.name)
+    }
   }
 
   render() {

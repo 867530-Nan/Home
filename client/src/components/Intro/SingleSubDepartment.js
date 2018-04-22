@@ -5,13 +5,19 @@ import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
 import { Form } from 'semantic-ui-react'
 
-class DepartmentIntroduction extends Component {
+class SingleSubDepartment extends Component {
   state = { name: "", budget: ""}
 
   handleChange = (e) => {
     const { id , value } = e.target;
     this.setState({ [id]: value });
   }
+
+  appendSubDepartment = () => {
+    const single = {name: this.state.name, budget: this.state.budget, departmentID: this.props.departmentID}
+    this.props.appendSubDepartment(single)
+    this.setState({name: "", budget: ""})
+}
   
   render() {
     return(
@@ -36,9 +42,21 @@ class DepartmentIntroduction extends Component {
           id="budget"
           onChange={this.handleChange}
         />
+        <HomeDiv
+            onClick={() => this.appendSubDepartment()}
+            height={'50px'}
+            width={'25%'}
+            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            borderRadius={'20px'}
+            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+            hoverColor={HomeStyleGuide.color.white}
+            cursor={'pointer'}
+            >
+            Add Sub-Department
+            </HomeDiv>
       </HomeDiv>
     );
   }
 }
 
-export default DepartmentIntroduction;
+export default SingleSubDepartment;

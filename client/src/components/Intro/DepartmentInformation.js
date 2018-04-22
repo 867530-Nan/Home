@@ -9,11 +9,15 @@ import DepartmentBox from './DepartmentBox'
 import SubDepartmentBox from './SubDepartment'
 
 class DepartmentIntroduction extends Component {
-  state = { number: 0, departments: [], input: "", increment: 0 }
+  state = { number: 0, departments: [], subDepartments: [], input: "", increment: 0 }
 
   componentDidMount() {
     axios.get('/api/hotels')
     .then (res => console.log(res) )
+  }
+
+  appendSubDepartment = (sub) => {
+    this.state.subDepartments.push(sub)
   }
 
   handleChange = (e) => {
@@ -48,7 +52,6 @@ class DepartmentIntroduction extends Component {
             console.log("error")
             console.log(err)
         });
-    // this.setState({ increment: this.state.increment + 1})
   }
   
   displayDepartmentIncrement = () => {
@@ -77,7 +80,7 @@ class DepartmentIntroduction extends Component {
     //         console.log("error")
     //         console.log(err)
     //     });
-    this.setState({ increment: this.state.increment + 1})
+    this.props.increment()
   }
   
   displaySubdepartmentIncrement = () => {
@@ -86,6 +89,7 @@ class DepartmentIntroduction extends Component {
         onClick={this.subdepartmentIncrement}
         height={'50px'}
         width={'25%'}
+        margin={'0 10px'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
         borderRadius={'20px'}
         hoverBackgroundColor={HomeStyleGuide.color.darkgray}
@@ -105,6 +109,7 @@ class DepartmentIntroduction extends Component {
     return (
       <HomeDiv
         onClick={this.decrement}
+        margin={'0 10px'}
         height={'50px'}
         width={'25%'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
@@ -123,7 +128,7 @@ class DepartmentIntroduction extends Component {
     case 0:
       return <DepartmentBox appendDepartment={this.appendDepartment} displayDepartments={this.displayDepartments} handleChange={this.handleChange} displayButton={this.displayDepartmentIncrement} departments={this.state.departments}/>
     case 1: 
-      return <SubDepartmentBox displayBackButton={this.backButton} appendDepartment={this.appendDepartment} departments={this.state.departments} displayButton={this.displaySubdepartmentIncrement}/>
+      return <SubDepartmentBox incrementState={this.props.incrementState} appendSubDepartment={this.appendSubDepartment} displayBackButton={this.backButton} subDepartments={this.state.subDepartments} departments={this.state.departments} displayButton={this.displaySubdepartmentIncrement}/>
     }
   }
 }
