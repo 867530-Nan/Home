@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import First from './First'
 import Second from './Second'
-import Third from './LaborExpenseCPORIntro'
+import LaborExpenseCPOR from './LaborExpenseCPORIntro'
 import HotelIntroduction from './HotelIntroduction'
 import DepartmentInformation from './DepartmentInformation'
 
@@ -28,7 +28,7 @@ class Index extends Component {
     } else if (slide === 4) {
       component = <DepartmentInformation increment={this.incrementState} />
     } else if (slide === 5) {
-      component = <Third increment={this.incrementState} />
+      component = <LaborExpenseCPOR increment={this.incrementState} />
     } else {
       return(
         <HomeHeader>

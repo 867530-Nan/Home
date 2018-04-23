@@ -62,6 +62,7 @@ class DepartmentIntroduction extends Component {
         width={'25%'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
         borderRadius={'20px'}
+        margin={'0 10px'}
         hoverBackgroundColor={HomeStyleGuide.color.darkgray}
         hoverColor={HomeStyleGuide.color.white}
         cursor={'pointer'}

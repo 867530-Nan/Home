@@ -51,19 +51,25 @@ class DepartmentBox extends React.Component {
                 id="name"
                 onChange={this.handleChange}
               />
-            <HomeDiv
-              onClick={this.nextPage}
-              height={'50px'}
-              width={'25%'}
-              border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-              borderRadius={'20px'}
-              hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-              hoverColor={HomeStyleGuide.color.white}
-              cursor={'pointer'}
-            >
-              Add Department
-            </HomeDiv>
-            {this.props.departments.length !== 0 && this.props.displayButton()}
+              <HomeDiv
+                flexDirection={'row'}
+                width={'80%'}
+              >
+                <HomeDiv
+                  onClick={this.nextPage}
+                  height={'50px'}
+                  width={'25%'}
+                  margin={'0 10px'}
+                  border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+                  borderRadius={'20px'}
+                  hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+                  hoverColor={HomeStyleGuide.color.white}
+                  cursor={'pointer'}
+                >
+                  Add Department
+                </HomeDiv>
+                {this.props.departments.length !== 0 && this.props.displayButton()}
+              </HomeDiv>
         </HomeDiv>
       </HomeDiv>
     );

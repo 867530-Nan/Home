@@ -42,7 +42,7 @@ class SubDepartment extends Component {
             {single.name}
           </HomeSectionHeader>
           <HomeSectionHeader>
-            {single.budget}
+            ${single.budget}
           </HomeSectionHeader>
         </HomeDiv>
       )

@@ -1,71 +1,123 @@
 import React, { Component } from 'react';
+import axios from 'axios'
+import { Dropdown } from 'semantic-ui-react'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeHeader, HomeSectionHeader, HomeDiv, HomeInput, media, HomeParagraph } from '../generic/GenericStyledComponents';
 import { Form } from 'semantic-ui-react'
+import SingleLaborBudgetForecast from './SingleLaborBudgetForecast'
 
-class Third extends Component {
-  state = { LaborBudget: '', ExpensesBudget: '', ForecastedRooms: '' }
+class LaborExpenseCPOR extends Component {
+  state = { LaborBudget: '', ExpensesBudget: '', ForecastedRooms: '', departments: undefined, budgets: "" }
 
-  handleChange = (e) => {
-    const { id , value } = e.target;
-    if (isNaN(value)){
-      this.setState({[id]: ''})
-      alert("Please enter a valid number..")
-    } else {
-      this.setState({ [id]: value });
-    }
+  componentWillMount(){
+    axios.get('/api/hotels/1/departments')
+    .then(res => this.setState({ departments: res.data }))
   }
 
-  displayCPOR = () => {
-    const total1 = this.state.LaborBudget / this.state.ForecastedRooms
-    const total2 = this.state.ExpensesBudget / this.state.ForecastedRooms
-    const total3 = total1 + total2 
-    return(
+  saveCPOR = (info) => {
+    console.log(info)
+    this.setState({ budgets: [...this.state.budgets, info] })
+  }
+
+  nextScreen = () => {
+    //axios call to post budgets for departments
+
+    this.props.increment()
+  }
+
+
+  displayDepartmentsWithInputs = () => {
+    return this.state.departments.map( (single, i) => {
+      return(
+        <SingleLaborBudgetForecast name={single.name} departmentIndex={i} saveCPOR={this.saveCPOR} />
+      )
+    })
+  }
+
+
+  showNextButton = () => {
+    return (
       <HomeDiv
-        margin={'20px'}
-        width={'100%'}
+        onClick={this.nextScreen}
+        height={'50px'}
+        width={'25%'}
+        margin={'0 10px'}
+        border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+        borderRadius={'20px'}
+        hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+        hoverColor={HomeStyleGuide.color.white}
+        cursor={'pointer'}
       >
-        <HomeDiv
-          flexDirection={'row'}
-          margin={'0 0 30px 0'}
-        >
-          <HomeParagraph 
-            textAlign={'center'}
-          >
-            Labor CPOR: {total1.toFixed(2)}
-          </HomeParagraph>
-          <HomeParagraph 
-            textAlign={'center'}
-          >
-            Expenses CPOR: {total2.toFixed(2)}
-          </HomeParagraph>
-          <HomeParagraph 
-            textAlign={'center'}
-          >
-            Combined CPOR: {total3.toFixed(2)}
-          </HomeParagraph>
-        </HomeDiv>
-        <HomeDiv
-            onClick={this.props.increment}
-            height={'50px'}
-            width={'25%'}
-            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-            borderRadius={'20px'}
-            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-            hoverColor={HomeStyleGuide.color.white}
-            cursor={'pointer'}
-          >
-          Next
-        </HomeDiv>
+        Next
       </HomeDiv>
     )
+  }
+
+  monthToState = (e, d) => {
+    console.log("month to state")
+    console.log(e)
+    console.log(d)
+  }
+
+  SetMonth = () => {
+    const options = [
+      {
+        text: "January",
+        value: "January"
+      },
+      {
+        text: "February",
+        value: "February"
+      },
+      {
+        text: "March",
+        value: "March"
+      },
+      {
+        text: "April",
+        value: "April"
+      },
+      {
+        text: "May",
+        value: "May"
+      },
+      {
+        text: "June",
+        value: "June"
+      },
+      {
+        text: "July",
+        value: "July"
+      },
+      {
+        text: "August",
+        value: "August"
+      },
+      {
+        text: "September",
+        value: "September"
+      },
+      {
+        text: "October",
+        value: "October"
+      },
+      {
+        text: "November",
+        value: "November"
+      },
+      {
+        text: "December",
+        value: "December"
+      }
+    ]
+    return <Dropdown placeholder='Select A Month:' fluid selection options={options} onChange={(e, d)=>this.setState({month: d.value})} />
   }
 
   render() {
     return(
       <HomeDiv
-        height={'100vh'}
+        height={'100%'}
         backgroundColor={HomeStyleGuide.color.darkred}
       >
         <HomeDiv
@@ -83,49 +135,13 @@ class Third extends Component {
           >
             The budget is broken down into two catagories..<br/>LABOR and EXPENSES<br/>Each of these two budgets will be broken down further as we move through this initial setup. Begin by entering the total LABOR BUDGET, EXPENSES BUDGET, and FORCASTED ROOMS. Once this fields are entered, the "Cost Per Occupied Rooms" field will auto populate.
           </HomeSectionHeader>
-            <HomeDiv
-              margin={'20px'}
-              flexDirection={'row'}
-            >
-              <HomeDiv>
-              <label>Labor Budget<br/></label>
-              <HomeInput 
-                fluid 
-                value={this.state.LaborBudget}
-                label='Labor Budget' 
-                placeholder='Labor Budget' 
-                id="LaborBudget"
-                onChange={this.handleChange}
-              />
-              </HomeDiv>
-              <HomeDiv>
-              <label>Expenses Budget<br/></label>
-              <HomeInput 
-                fluid 
-                value={this.state.ExpensesBudget}
-                label='Expenses Budget' 
-                placeholder='Expenses Budget' 
-              id="ExpensesBudget"
-              onChange={this.handleChange}
-              />
-              </HomeDiv>
-              <HomeDiv>
-              <label>Forecasted Rooms<br/></label>
-              <HomeInput 
-                fluid 
-                value={this.state.ForecastedRooms}
-                label='Forecasted Rooms' 
-                placeholder='Forecasted Rooms' 
-                id="ForecastedRooms"
-                onChange={this.handleChange}
-                />
-                </HomeDiv>
-            </HomeDiv>
-          { this.state.ForecastedRooms !== '' && this.state.ExpensesBudget !== '' && this.state.LaborBudget !== '' ? this.displayCPOR() : null }
+            { this.SetMonth() }
+            { this.state.departments && this.displayDepartmentsWithInputs() }
+            { this.state.budgets !== "" ? this.showNextButton() : null }
         </HomeDiv>
       </HomeDiv>
     );
   }
 }
 
-export default Third;
+export default LaborExpenseCPOR;
