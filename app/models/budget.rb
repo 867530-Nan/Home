@@ -1,3 +1,3 @@
 class Budget < ApplicationRecord
-  belongs_to :subdepartment
+  belongs_to :department
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408005733) do
+ActiveRecord::Schema.define(version: 20180426231251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,12 +30,12 @@ ActiveRecord::Schema.define(version: 20180408005733) do
   end
 
   create_table "budgets", force: :cascade do |t|
-    t.bigint "subdepartment_id", null: false
     t.float "amount", null: false
     t.date "date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["subdepartment_id"], name: "index_budgets_on_subdepartment_id"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_budgets_on_department_id"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 20180408005733) do
     t.bigint "hotel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_departments_on_ancestry"
     t.index ["hotel_id"], name: "index_departments_on_hotel_id"
   end
 
@@ -111,11 +113,11 @@ ActiveRecord::Schema.define(version: 20180408005733) do
 
   create_table "jobs", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "subdepartment_id", null: false
     t.string "pay_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["subdepartment_id"], name: "index_jobs_on_subdepartment_id"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_jobs_on_department_id"
   end
 
   create_table "rights", force: :cascade do |t|
@@ -139,14 +141,6 @@ ActiveRecord::Schema.define(version: 20180408005733) do
     t.datetime "updated_at", null: false
     t.index ["right_id"], name: "index_roles_rights_on_right_id"
     t.index ["role_id"], name: "index_roles_rights_on_role_id"
-  end
-
-  create_table "subdepartments", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "department_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_subdepartments_on_department_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -178,7 +172,7 @@ ActiveRecord::Schema.define(version: 20180408005733) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "budgets", "subdepartments"
+  add_foreign_key "budgets", "departments"
   add_foreign_key "departments", "hotels"
   add_foreign_key "employee_jobs", "employees"
   add_foreign_key "employee_jobs", "jobs"
@@ -187,8 +181,7 @@ ActiveRecord::Schema.define(version: 20180408005733) do
   add_foreign_key "employee_roles", "roles"
   add_foreign_key "expense_categories", "departments"
   add_foreign_key "expenses", "expense_categories"
-  add_foreign_key "jobs", "subdepartments"
+  add_foreign_key "jobs", "departments"
   add_foreign_key "roles_rights", "rights"
   add_foreign_key "roles_rights", "roles"
-  add_foreign_key "subdepartments", "departments"
 end

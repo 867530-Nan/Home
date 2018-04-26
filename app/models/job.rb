@@ -1,5 +1,5 @@
 class Job < ApplicationRecord
-  belongs_to :subdepartment
+  belongs_to :department
   has_many :employee_jobs
 
   validates :name, presence: { message: "Please enter the name of the job." }
