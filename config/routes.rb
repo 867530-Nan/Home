@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :hotels do 
       post '/departments/create_multiple/', to: 'departments#create_multiple'
+      post '/subdepartments/create_multiple', to: 'subdepartments#create_multiple'
       resources :departments do
         get '/expense_cateogries/', to: 'expense_categories#by_department' 
       end 

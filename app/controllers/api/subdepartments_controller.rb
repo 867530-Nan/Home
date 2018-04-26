@@ -15,9 +15,17 @@ class Api::SubdepartmentsController < ApplicationController
     end
   end 
 
+  def create_multiple
+    #takes in array of objects with department_ids and creates subdepartments
+    #{name: "Concierge", amount: 1000, department_id: 2}
+    date = Date.today 
+
+
+  end 
+
   private 
   def subdepartment_params
-    params.require(:subdepartment).permit(:name)
+    params.require(:subdepartment).permit(:name, :amount)
 
   def get_hotel
     @hotel = Hotel.find(params[:hotel_id])
