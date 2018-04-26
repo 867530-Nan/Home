@@ -15,19 +15,19 @@ class Api::DepartmentsController < ApplicationController
     end
   end 
 
-  def create_multiple
-    rv = []
-    errors = []
-    params[:_json].each do |name|
-      department = Department.new(hotel: @hotel, name: name)
-      if department.save 
-        rv << department.to_json
-      else 
-        errors << department.errors.full_messages.join(",")
-      end 
-    end
-    render json: {departments: rv, errors: errors}      
-  end 
+  # def create_multiple
+  #   rv = []
+  #   errors = []
+  #   params[:_json].each do |name|
+  #     department = Department.new(hotel: @hotel, name: name)
+  #     if department.save 
+  #       rv << department.to_json
+  #     else 
+  #       errors << department.errors.full_messages.join(",")
+  #     end 
+  #   end
+  #   render json: {departments: rv, errors: errors}      
+  # end 
 
   private 
   def department_params
