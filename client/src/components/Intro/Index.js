@@ -5,12 +5,20 @@ import Second from './Second'
 import LaborExpenseCPOR from './LaborExpenseCPORIntro'
 import HotelIntroduction from './HotelIntroduction'
 import DepartmentInformation from './DepartmentInformation'
+import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 
 class Index extends Component {
   state = { slide: 1 }
+
+  componentDidMount(){
+    // axios.get('api/employee/2.json')
+    // .then(res => {
+    //   debugger
+    // })
+  }
 
   incrementState = () => {
     this.setState({ slide: this.state.slide + 1 })

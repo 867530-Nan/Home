@@ -32,19 +32,25 @@ export const handleLogout = (history) => {
 }
 
 export const handleLogin = (email, password, history) => {
+  let user_id
+  
   return(dispatch) => {
     axios.post('/api/auth/sign_in', { email, password })
       .then( res => {
+        user_id = res.data.data.id
         let { data: { data: user }, headers } = res
-        dispatch({ type: 'LOGIN', user, headers });
+        dispatch({ type: 'LOGIN', user, headers });  
         history.push('/');
       })
+      .then( res => axios.get(`/api/login_employee/${user_id}.json`))
+      .then( res => dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data}))
       .catch( res => {
         const errors = res.response.data.errors.full_messages ? res.response.data.errors.full_messages : res.response.data.errors
         dispatch(setFlash(errors.join(','), 'error'));
       })
   }
 }
+
 
 export const validateToken = (cb = f => f) => {
   return (dispatch) => {
