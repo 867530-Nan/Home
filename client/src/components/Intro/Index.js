@@ -9,9 +9,10 @@ import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
+import EmployeeGatherContainer from './EmployeeGatherContainer';
 
 class Index extends Component {
-  state = { slide: 1 }
+  state = { slide: 4 }
 
   componentDidMount(){
     // axios.get('api/employee/2.json')
@@ -31,12 +32,10 @@ class Index extends Component {
       component = <First increment={this.incrementState}/>
     } else if (slide === 2) {
       component = <Second increment={this.incrementState} />
-    } else if (slide === 3) {
-      component = <HotelIntroduction increment={this.incrementState} />
-    } else if (slide === 4) {
+    }  else if (slide === 3) {
       component = <DepartmentInformation increment={this.incrementState} />
-    } else if (slide === 5) {
-      component = <LaborExpenseCPOR increment={this.incrementState} />
+    } else if (slide === 4) {
+      component = <EmployeeGatherContainer increment={this.incrementState} />
     } else {
       return(
         <HomeHeader>

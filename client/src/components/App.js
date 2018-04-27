@@ -9,6 +9,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { Switch, Route } from 'react-router-dom';
 import FetchUser from './FetchUser';
 import table from './Intro/Table'
+import HotelInformation from './Intro/HotelIntroduction'
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Intro} />
             <Route exact path='/login' component={Login} />
+            <Route exact path="/hotels" component={HotelInformation} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/table' component={table} />
             <Route component={NoMatch} />

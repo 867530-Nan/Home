@@ -48,7 +48,7 @@ class SingleSubDepartment extends Component {
           />
         </HomeDiv>
         <HomeDiv
-          onClick={() => this.appendSubDepartment()}
+          onClick={this.appendSubDepartment}
           height={'50px'}
           width={'25%'}
           border={`2px solid ${HomeStyleGuide.color.darkgreen}`}

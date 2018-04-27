@@ -5,8 +5,8 @@ import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
 import { Form } from 'semantic-ui-react'
 
-class DepartmentBox extends React.Component {  
-  state = { number: 0, name: "", budget: ""}
+class SingleEmployee extends React.Component {  
+  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: ""}
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -14,13 +14,13 @@ class DepartmentBox extends React.Component {
   }
 
   nextPage = () => {
-    if (this.state.name === ""){
-      alert("Please enter a valid department name")
-      this.setState({name: ""})
+    if (this.state.firstName === "" || this.state.lastName === "" || this.state.emailAddress === "" || this.state.phone_number === ""){
+      alert("Please enter valid employee information")
+      this.setState({firstName: "", lastName: "", emailAddress: "", phone_number: ""})
     } else {
-      this.setState({name: "", budget: ""})
-      const subdepartment = {name: this.state.name, budget: this.state.budget}
-      this.props.appendDepartment(subdepartment)
+      const employee = {firstName: this.state.firstName, lastName: this.state.lastName, phone_number: this.state.phone_number, emailAddress: this.state.emailAddress, departmentID: this.props.departmentID}
+      this.props.appendEmployee(employee)
+      this.setState({firstName: "", lastName: "", emailAddress: "", phone_number: ""})
     }
   }
 
@@ -40,25 +40,42 @@ class DepartmentBox extends React.Component {
           <HomeHeader
             fontSize={HomeStyleGuide.font.size.medium}
           >
-            Next, enter all sub-departments for your department
+            Employee Information.
           </HomeHeader>
-          {this.props.displayDepartments()}
           <HomeInput
             width={'80%'} 
             fluid 
-            value={this.state.name}
+            value={this.state.firstName}
             label='' 
-            placeholder='Department Name' 
-            id="name"
+            placeholder='First Name' 
+            id="firstName"
             onChange={this.handleChange}
           />
           <HomeInput
             width={'80%'} 
             fluid 
-            value={this.state.budget}
+            value={this.state.lastName}
             label='' 
-            placeholder='Sub-Department Budget' 
-            id="budget"
+            placeholder='Last Name' 
+            id="lastName"
+            onChange={this.handleChange}
+          />
+          <HomeInput
+            width={'80%'} 
+            fluid 
+            value={this.state.phone_number}
+            label='' 
+            placeholder='Phone Number' 
+            id="phone_number"
+            onChange={this.handleChange}
+          />
+          <HomeInput
+            width={'80%'} 
+            fluid 
+            value={this.state.emailAddress}
+            label='' 
+            placeholder='Email Address' 
+            id="emailAddress"
             onChange={this.handleChange}
           />
               <HomeDiv
@@ -76,13 +93,12 @@ class DepartmentBox extends React.Component {
                   hoverColor={HomeStyleGuide.color.white}
                   cursor={'pointer'}
                 >
-                  Add Department
+                  Add Employee
                 </HomeDiv>
-                {this.props.departments.length !== 0 && this.props.displayButton()}
               </HomeDiv>
         </HomeDiv>
       </HomeDiv>
     );
   }
 }
- export default DepartmentBox
+ export default SingleEmployee

@@ -5,19 +5,14 @@ import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
 import { Form } from 'semantic-ui-react'
 
-import DepartmentBox from './DepartmentBox'
-import SubDepartmentBox from './SubDepartment'
+import SingleEmployee from './SingleEmployee'
 
-class DepartmentIntroduction extends Component {
-  state = { number: 0, departments: [], subDepartments: [], input: "", increment: 0 }
+class EmployeeGatherContainer extends Component {
+  state = { number: 0, departments: [], employees: [], input: "", increment: 0 }
 
-  componentDidMount() {
-    axios.get('/api/hotels')
-    .then (res => console.log(res) )
-  }
-
-  appendSubDepartment = (sub) => {
-    this.state.subDepartments.push(sub)
+  componentWillMount() {
+    axios.get('/api/hotels/1/departments')
+      .then(res => this.setState({ departments: res.data }))
   }
 
   handleChange = (e) => {
@@ -25,30 +20,49 @@ class DepartmentIntroduction extends Component {
     this.setState({ [id]: value });
   }
 
-  appendDepartment = (name) => {
-    this.state.departments.push(name)
-    this.setState({input: ""})
+  appendEmployee = (employee) => {
+    this.setState({employees: [...this.state.employees, employee]})
+  }
+
+  displayEmployees = (departmentIndex) => {
+    const result = this.state.employees.filter(single => single.departmentID === departmentIndex)
+    return result.map( (single, index) => {
+      return (
+        <HomeDiv
+          flexDirection={'row'}
+          backgroundColor={index % 2 === 0 ? `${HomeStyleGuide.color.white}` : `${HomeStyleGuide.color.gray}`}
+          width={'80%'}
+          borderRadius={'5px'}
+        >
+          <HomeSectionHeader>
+            {single.firstName}
+          </HomeSectionHeader>
+          <HomeSectionHeader>
+          {single.lastName}
+          </HomeSectionHeader>
+        </HomeDiv>
+      )
+    })
   }
 
   displayDepartments = () => {
-    return(
-      this.state.departments.map( (single, index) => {
-        return(
-          <HomeDiv
-            flexDirection={'row'}
-            key={index}
-          >
+    return this.state.departments.map( (single, i) => {
+      return(
+        <HomeDiv
+          height={'100%'}
+          margin={'50px 0'}
+          width={'100%'}
+        >
             <HomeHeader
+              fontSize={HomeStyleGuide.font.size.medium}
             >
               {single.name}
             </HomeHeader>
-            <HomeSectionHeader>
-              {single.budget}
-            </HomeSectionHeader>
+            {this.displayEmployees(single.id)}
+            <SingleEmployee appendEmployee={this.appendEmployee} departmentID={single.id} departmentName={single.name}/>
           </HomeDiv>
         )
       })
-    )
   }
 
   departmentIncrement = () => {
@@ -64,7 +78,7 @@ class DepartmentIntroduction extends Component {
   displayDepartmentIncrement = () => {
     return (
       <HomeDiv
-        onClick={this.props.increment}
+        onClick={this.departmentIncrement}
         height={'50px'}
         width={'25%'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
@@ -91,10 +105,10 @@ class DepartmentIntroduction extends Component {
     this.props.increment()
   }
   
-  displaySubdepartmentIncrement = () => {
+  displayIncrement = () => {
     return (
       <HomeDiv
-        onClick={this.subdepartmentIncrement}
+        onClick={this.props.increment}
         height={'50px'}
         width={'25%'}
         margin={'0 10px'}
@@ -132,13 +146,41 @@ class DepartmentIntroduction extends Component {
   }
   
   render() {
-    switch (this.state.increment){
-    case 0:
-      return <DepartmentBox appendDepartment={this.appendDepartment} incrementState={this.props.incrementState} displayDepartments={this.displayDepartments} handleChange={this.handleChange} displayButton={this.displayDepartmentIncrement} departments={this.state.departments}/>
-    case 1: 
-      return <SubDepartmentBox appendSubDepartment={this.appendSubDepartment} displayBackButton={this.backButton} subDepartments={this.state.subDepartments} departments={this.state.departments} displayButton={this.displaySubdepartmentIncrement}/>
+    if (this.state.departments.length === 0) {
+      return(
+        <div>
+          Loading departments
+        </div>
+      )
+    } else {
+      return (
+      <HomeDiv
+        height={'100%'}
+        backgroundColor={HomeStyleGuide.color.darkred}
+      >
+        <HomeDiv  
+          width={'100%'}
+          backgroundColor={HomeStyleGuide.color.lightgray}
+          borderRadius={'10px'}
+          padding={'2%'}
+          >
+          <HomeHeader
+            fontSize={HomeStyleGuide.font.size.medium}
+          >
+            Next, <br/>Add Employee Information...
+          </HomeHeader>
+            {this.state.departments.length !== 0 && this.displayDepartments()}
+            <HomeDiv
+              flexDirection={'row'}
+              width={'80%'}
+            >
+            { this.state.employees !== [] ? this.displayIncrement() : null  }
+            { this.backButton () }
+            </HomeDiv>
+        </HomeDiv>
+      </HomeDiv>      
+      )}
     }
   }
-}
 
-export default DepartmentIntroduction;
+export default EmployeeGatherContainer;
