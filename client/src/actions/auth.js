@@ -33,7 +33,6 @@ export const handleLogout = (history) => {
 
 export const handleLogin = (email, password, history) => {
   let user_id
-  
   return(dispatch) => {
     axios.post('/api/auth/sign_in', { email, password })
       .then( res => {
