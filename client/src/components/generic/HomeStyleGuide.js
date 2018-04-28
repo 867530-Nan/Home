@@ -2,7 +2,7 @@
 
 const HomeStyleGuide = {
   color: {
-    white: '#F5F5F5',
+    white: '#FFFFFF',
     darkgray: '#807F7F',
     lightgray: '#D9D9D9',
     darkblue: '#30415D',

@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios'
 
 import First from './First'
 import Second from './Second'
-import LaborExpenseCPOR from './LaborExpenseCPORIntro'
 import HotelIntroduction from './HotelIntroduction'
-import DepartmentInformation from './DepartmentInformation'
-import axios from 'axios'
+import DepartmentInformation from '../Departments/DepartmentInformation'
+import EmployeeGatherContainer from '../Employees/EmployeeGatherContainer';
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
-import EmployeeGatherContainer from './EmployeeGatherContainer';
+import {getHotel} from '../../actions/Hotel'
 
 class Index extends Component {
-  state = { slide: 4 }
+  state = { slide: 3, user: this.props.user }
 
   componentDidMount(){
-    // axios.get('api/employee/2.json')
-    // .then(res => {
-    //   debugger
-    // })
+
   }
 
   incrementState = () => {
     this.setState({ slide: this.state.slide + 1 })
+  }
+
+  decrementState = () => {
+    this.setState({ slide: this.state.slide - 1 })
   }
 
   render() {
@@ -35,7 +37,7 @@ class Index extends Component {
     }  else if (slide === 3) {
       component = <DepartmentInformation increment={this.incrementState} />
     } else if (slide === 4) {
-      component = <EmployeeGatherContainer increment={this.incrementState} />
+      component = <EmployeeGatherContainer increment={this.incrementState} decrement={this.decrementState} />
     } else {
       return(
         <HomeHeader>
@@ -50,4 +52,10 @@ class Index extends Component {
   }
 }
 
-export default Index;
+const mapStateToProps = (state) => {
+  return(
+    { user: state.user }
+  )
+}
+
+export default connect(mapStateToProps)(Index);

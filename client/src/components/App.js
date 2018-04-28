@@ -10,22 +10,25 @@ import { Switch, Route } from 'react-router-dom';
 import FetchUser from './FetchUser';
 import table from './Intro/Table'
 import HotelInformation from './Intro/HotelIntroduction'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+      <NavBar />
         <Flash />
         <FetchUser>
+            <MuiThemeProvider>
           <Switch>
-            <Route exact path='/' component={Intro} />
+            <ProtectedRoute exact path='/' component={Intro} />
             <Route exact path='/login' component={Login} />
-            <Route exact path="/hotels" component={HotelInformation} />
+            <ProtectedRoute exact path="/hotels" component={HotelInformation} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/table' component={table} />
             <Route component={NoMatch} />
           </Switch>
+      </MuiThemeProvider>
         </FetchUser>
       </div>
     );

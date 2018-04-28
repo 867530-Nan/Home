@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { validateToken } from '../actions/auth';
+import {getHotel} from '../actions/Hotel'
 
 class FetchUser extends Component {
   state = { loaded: false };
 
   componentDidMount() {
     let { isAuthenticated, dispatch } = this.props;
-    if(isAuthenticated)
+    if(isAuthenticated){
       this.loaded();
-    else {
+    } else {
       dispatch(validateToken(this.loaded));
     }
   }

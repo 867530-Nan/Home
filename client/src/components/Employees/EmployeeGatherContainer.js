@@ -8,7 +8,7 @@ import { Form } from 'semantic-ui-react'
 import SingleEmployee from './SingleEmployee'
 
 class EmployeeGatherContainer extends Component {
-  state = { number: 0, departments: [], employees: [], input: "", increment: 0 }
+  state = { number: 0, departments: [], currentEmployees: [], employeeList: [], input: "", increment: 0 }
 
   componentWillMount() {
     axios.get('/api/hotels/1/departments')
@@ -21,48 +21,60 @@ class EmployeeGatherContainer extends Component {
   }
 
   appendEmployee = (employee) => {
-    this.setState({employees: [...this.state.employees, employee]})
+    this.setState({currentEmployees: [...this.state.currentEmployees, employee]})
   }
 
   displayEmployees = (departmentIndex) => {
-    const result = this.state.employees.filter(single => single.departmentID === departmentIndex)
-    return result.map( (single, index) => {
-      return (
-        <HomeDiv
-          flexDirection={'row'}
-          backgroundColor={index % 2 === 0 ? `${HomeStyleGuide.color.white}` : `${HomeStyleGuide.color.gray}`}
-          width={'80%'}
-          borderRadius={'5px'}
-        >
-          <HomeSectionHeader>
-            {single.firstName}
-          </HomeSectionHeader>
-          <HomeSectionHeader>
-          {single.lastName}
-          </HomeSectionHeader>
-        </HomeDiv>
-      )
-    })
+    return(
+      <HomeDiv
+        width={'80%'}
+        margin={'2%'}
+      >
+        <HomeSectionHeader>
+          Employee List
+        </HomeSectionHeader>
+        {this.state.currentEmployees.map( (single, index) => {
+          return (
+            <HomeDiv
+              flexDirection={'row'}
+              backgroundColor={index % 2 === 0 ? `${HomeStyleGuide.color.white}` : `${HomeStyleGuide.color.gray}`}
+              width={'80%'}
+              borderRadius={'5px'}
+            >
+              <HomeSectionHeader>
+                {single.firstName}
+              </HomeSectionHeader>
+              <HomeSectionHeader>
+              {single.lastName}
+              </HomeSectionHeader>
+            </HomeDiv>
+          )
+        })}
+      </HomeDiv>
+    )
   }
 
-  displayDepartments = () => {
-    return this.state.departments.map( (single, i) => {
+  displayDepartmentForm = () => {
+    if (this.state.departments.length === this.state.increment ){
+      return (
+        <HomeSectionHeader>
+          Message about not having any more departments to complete, figure out what to do here
+        </HomeSectionHeader>
+      )
+    } else {
       return(
         <HomeDiv
           height={'100%'}
           margin={'50px 0'}
-          width={'100%'}
+          width={'80%'}
+          borderRadius={'2px'}
+          border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
         >
-            <HomeHeader
-              fontSize={HomeStyleGuide.font.size.medium}
-            >
-              {single.name}
-            </HomeHeader>
-            {this.displayEmployees(single.id)}
-            <SingleEmployee appendEmployee={this.appendEmployee} departmentID={single.id} departmentName={single.name}/>
-          </HomeDiv>
-        )
-      })
+          {this.state.currentEmployees.length !== 0 && this.displayEmployees(this.state.increment)}
+          <SingleEmployee appendEmployee={this.appendEmployee} departmentID={this.state.increment} />
+        </HomeDiv>
+      )
+    }
   }
 
   departmentIncrement = () => {
@@ -73,24 +85,6 @@ class EmployeeGatherContainer extends Component {
             console.log("error")
             console.log(err)
         });
-  }
-  
-  displayDepartmentIncrement = () => {
-    return (
-      <HomeDiv
-        onClick={this.departmentIncrement}
-        height={'50px'}
-        width={'25%'}
-        border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-        borderRadius={'20px'}
-        margin={'0 10px'}
-        hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-        hoverColor={HomeStyleGuide.color.white}
-        cursor={'pointer'}
-      >
-        Next
-      </HomeDiv>
-    )
   }
 
   subdepartmentIncrement = () => {
@@ -106,19 +100,21 @@ class EmployeeGatherContainer extends Component {
   }
   
   displayIncrement = () => {
+    const { increment } = this.state
+    const employeeBlock = {increment: this.state.currentEmployees}
     return (
       <HomeDiv
-        onClick={this.props.increment}
+        onClick={()=>this.setState({increment: this.state.increment + 1, employeeList: [...this.state.employeeList, employeeBlock ], currentEmployees: []})}
         height={'50px'}
         width={'25%'}
         margin={'0 10px'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-        borderRadius={'20px'}
-        hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.lightgray}
         hoverColor={HomeStyleGuide.color.white}
         cursor={'pointer'}
       >
-        Next
+        Next Department
       </HomeDiv>
     )
   }
@@ -130,13 +126,13 @@ class EmployeeGatherContainer extends Component {
   backButton = () => {
     return (
       <HomeDiv
-        onClick={this.decrement}
+        onClick={this.props.decrement}
         margin={'0 10px'}
         height={'50px'}
         width={'25%'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-        borderRadius={'20px'}
-        hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.lightgray}
         hoverColor={HomeStyleGuide.color.white}
         cursor={'pointer'}
       >
@@ -153,29 +149,36 @@ class EmployeeGatherContainer extends Component {
         </div>
       )
     } else {
+      const singleDepartment = this.state.departments[this.state.increment]
+      console.log(singleDepartment)
       return (
       <HomeDiv
         height={'100%'}
-        backgroundColor={HomeStyleGuide.color.darkred}
+        backgroundColor={HomeStyleGuide.color.darkblue}
+        borderRadius={'2px'}
       >
         <HomeDiv  
           width={'100%'}
-          backgroundColor={HomeStyleGuide.color.lightgray}
-          borderRadius={'10px'}
+          backgroundColor={HomeStyleGuide.color.white}
           padding={'2%'}
+          margin={'2%'}
+          borderRadius={'2px'}
           >
           <HomeHeader
             fontSize={HomeStyleGuide.font.size.medium}
           >
-            Next, <br/>Add Employee Information...
+            Next,
           </HomeHeader>
-            {this.state.departments.length !== 0 && this.displayDepartments()}
+          <HomeSectionHeader>
+            Enter your employee(s) for the {singleDepartment.name} Department..
+          </HomeSectionHeader>
+            {this.state.departments.length !== 0 && this.displayDepartmentForm()}
             <HomeDiv
               flexDirection={'row'}
               width={'80%'}
             >
-            { this.state.employees !== [] ? this.displayIncrement() : null  }
             { this.backButton () }
+            { this.state.currentEmployees !== [] ? this.displayIncrement() : null  }
             </HomeDiv>
         </HomeDiv>
       </HomeDiv>      
