@@ -7,13 +7,14 @@ import Second from './Second'
 import HotelIntroduction from './HotelIntroduction'
 import DepartmentInformation from '../Departments/DepartmentInformation'
 import EmployeeGatherContainer from '../Employees/EmployeeGatherContainer';
+import EnterExpenses from '../Expenses/EnterExpenses'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 import {getHotel} from '../../actions/Hotel'
 
 class Index extends Component {
-  state = { slide: 3, user: this.props.user }
+  state = { slide: 5, user: this.props.user }
 
   componentDidMount(){
 
@@ -38,6 +39,8 @@ class Index extends Component {
       component = <DepartmentInformation increment={this.incrementState} />
     } else if (slide === 4) {
       component = <EmployeeGatherContainer increment={this.incrementState} decrement={this.decrementState} />
+    } else if (slide === 5) {
+      component = <EnterExpenses increment={this.incrementState} decrement={this.decrementState} />
     } else {
       return(
         <HomeHeader>

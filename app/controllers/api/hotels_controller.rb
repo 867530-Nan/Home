@@ -1,8 +1,14 @@
 class Api::HotelsController < ApplicationController
   # before_action :authenticate_user!
+  before_action :get_hotel, only: [ :destroy, :update, :show ]
+
 
   def index
     render json: Hotel.all
+  end
+
+  def show
+    render json: @hotel
   end
 
   def create
@@ -13,6 +19,14 @@ class Api::HotelsController < ApplicationController
       render_error(hotel)
     end
   end 
+
+  def destroy
+
+  end
+
+  def update
+
+  end
 
   private 
   def hotel_params

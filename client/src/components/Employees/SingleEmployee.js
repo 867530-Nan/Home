@@ -37,7 +37,7 @@ class SingleEmployee extends React.Component {
           <HomeHeader
             fontSize={HomeStyleGuide.font.size.medium}
           >
-            Add Employee Information:
+            Employee Information:
           </HomeHeader>
           <TextField
             hintText="Enter Employees First Name"

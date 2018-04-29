@@ -14,7 +14,13 @@ class DepartmentBox extends React.Component {
 
   handleChange = (e) => {
     const { id , value } = e.target;
-    this.setState({ [id]: value });
+    console.log(id + "    " + value)
+    if (id === "budget"){
+      const newthing=parseFloat(value)
+      this.setState({ budget: newthing });
+    } else {
+      this.setState({ [id]: value });
+    }
   }
 
   handleMonth = (e, i, v) => {
@@ -25,13 +31,12 @@ class DepartmentBox extends React.Component {
     if (this.state.name === ""){
       alert("Please enter a valid department name")
       this.setState({name: ""})
-    } else if (this.state.budget === "" || typeof this.state.budget == 'number' ){
-      // alert("Please enter a valid department budget")
-      console.loc(typeof this.state.budget)
-      this.setState({budget: ""})
-    } else if (this.state.month > 12){
+    } else if (this.state.budget === "" ){
       alert("Please enter a valid department budget")
       this.setState({budget: ""})
+    } else if (this.state.month > 12){
+      alert("Please enter a valid department month")
+      this.setState({month: 13})
     } else {
       this.setState({name: "", budget: ""})
       const subdepartment = {name: this.state.name, budget: this.state.budget}
@@ -106,7 +111,7 @@ class DepartmentBox extends React.Component {
     return(
       <HomeDiv
         height={'100vh'}
-        backgroundColor={HomeStyleGuide.color.darkred}
+        backgroundColor={HomeStyleGuide.color.darkgreen}
       >
         <HomeDiv  
           width={'100%'}
@@ -156,7 +161,7 @@ class DepartmentBox extends React.Component {
                   width={'25%'}
                   margin={'0 10px'}
                   border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-                  borderRadius={'20px'}
+                  borderRadius={'2px'}
                   hoverBackgroundColor={HomeStyleGuide.color.darkgray}
                   hoverColor={HomeStyleGuide.color.white}
                   cursor={'pointer'}

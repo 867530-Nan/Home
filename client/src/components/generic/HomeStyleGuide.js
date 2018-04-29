@@ -7,10 +7,10 @@ const HomeStyleGuide = {
     lightgray: '#D9D9D9',
     darkblue: '#30415D',
     lightblue: '#697892',
-    darkred: '#76323F',
+    darkred: '#601927',
     lightred: '#98505E',
-    darkgreen: '#3E5842',
-    lightgreen: '#5A795F',
+    darkgreen: '#124436',
+    lightgreen: '#376F60',
     black: '#0E0E0E'
 },
   font: {
