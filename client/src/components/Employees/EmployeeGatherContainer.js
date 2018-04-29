@@ -91,8 +91,8 @@ class EmployeeGatherContainer extends Component {
               width={'80%'}
               padding={'2%'}
             >
-            { this.state.currentEmployees.length !== 0 ? this.nextSubDepartment() : null  }
             { this.state.employeeList.length !== 0 ? this.backASubDepartmentButton() : null}
+            { this.state.currentEmployees.length !== 0 ? this.nextSubDepartment() : null  }
             </HomeDiv>
         </HomeDiv>
       )
@@ -128,7 +128,7 @@ class EmployeeGatherContainer extends Component {
       <HomeDiv
         onClick={()=>this.setState({increment: this.state.increment + 1, employeeList: [...this.state.employeeList, employeeBlock ], currentEmployees: []})}
         height={'50px'}
-        width={'25%'}
+        width={'50%'}
         margin={'0 10px'}
         border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
         borderRadius={'2px'}
@@ -137,6 +137,24 @@ class EmployeeGatherContainer extends Component {
         cursor={'pointer'}
       >
         Next Department
+      </HomeDiv>
+    )
+  }
+
+  backASubDepartmentButton = () => {
+    return (
+      <HomeDiv
+        onClick={this.decrementState}
+        margin={'0 10px'}
+        height={'50px'}
+        width={'50%'}
+        border={`2px solid ${HomeStyleGuide.color.darkred}`}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.lightgray}
+        hoverColor={HomeStyleGuide.color.white}
+        cursor={'pointer'}
+      >
+        Previous Sub-Department
       </HomeDiv>
     )
   }
@@ -152,7 +170,7 @@ class EmployeeGatherContainer extends Component {
         margin={'0 10px'}
         height={'50px'}
         width={'50%'}
-        backgroundColor={`${HomeStyleGuide.color.lightgreen}`}
+        backgroundColor={`${HomeStyleGuide.color.darkgreen}`}
         borderRadius={'2px'}
         hoverBackgroundColor={HomeStyleGuide.color.lightgray}
         hoverColor={HomeStyleGuide.color.black}
@@ -174,7 +192,7 @@ class EmployeeGatherContainer extends Component {
         margin={'0 10px'}
         height={'50px'}
         width={'50%'}
-        backgroundColor={`${HomeStyleGuide.color.lightred}`}
+        backgroundColor={`${HomeStyleGuide.color.darkred}`}
         borderRadius={'2px'}
         hoverBackgroundColor={HomeStyleGuide.color.lightgray}
         hoverColor={HomeStyleGuide.color.black}
@@ -185,24 +203,6 @@ class EmployeeGatherContainer extends Component {
         >
           Previous Section
         </HomeSectionHeader>
-      </HomeDiv>
-    )
-  }
-
-  backASubDepartmentButton = () => {
-    return (
-      <HomeDiv
-        onClick={this.decrementState}
-        margin={'0 10px'}
-        height={'50px'}
-        width={'25%'}
-        border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-        borderRadius={'2px'}
-        hoverBackgroundColor={HomeStyleGuide.color.lightgray}
-        hoverColor={HomeStyleGuide.color.white}
-        cursor={'pointer'}
-      >
-        Go Back a Sub-Department
       </HomeDiv>
     )
   }

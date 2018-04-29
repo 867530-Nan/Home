@@ -78,7 +78,7 @@ class EnterExpenses extends Component {
         margin={'0 10px'}
         height={'50px'}
         width={'50%'}
-        backgroundColor={`${HomeStyleGuide.color.lightgreen}`}
+        backgroundColor={`${HomeStyleGuide.color.darkgreen}`}
         borderRadius={'2px'}
         hoverBackgroundColor={HomeStyleGuide.color.lightgray}
         hoverColor={HomeStyleGuide.color.black}
@@ -100,7 +100,7 @@ class EnterExpenses extends Component {
         margin={'0 10px'}
         height={'50px'}
         width={'50%'}
-        backgroundColor={`${HomeStyleGuide.color.lightred}`}
+        backgroundColor={`${HomeStyleGuide.color.darkred}`}
         borderRadius={'2px'}
         hoverBackgroundColor={HomeStyleGuide.color.lightgray}
         hoverColor={HomeStyleGuide.color.black}
