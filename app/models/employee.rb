@@ -15,6 +15,11 @@ class Employee < ApplicationRecord
     self.jobs.map{|j| {department: j.department.id, title: j.name}}
   end
 
+  def visible_departments
+    d = self.jobs.first.department
+    d.subtree.arrange_serializable
+  end 
+
   def hotel_id
     self.hotels.first.id
   end 

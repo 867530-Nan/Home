@@ -6,6 +6,10 @@ class Api::DepartmentsController < ApplicationController
     render json: @hotel.departments
   end
 
+  def visible_departments
+    @department = User.find(params[:id]).employee.jobs.first.department
+  end 
+
   def create
     department = @hotel.departments.create(department_params)
     if department.save
