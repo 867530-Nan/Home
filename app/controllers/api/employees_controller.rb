@@ -10,7 +10,6 @@ class Api::EmployeesController < ApplicationController
   end 
 
   def active_employee
-    binding.pry
     @employee = User.find(params[:id]).employee
   end
 
