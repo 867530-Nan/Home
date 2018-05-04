@@ -42,7 +42,12 @@ export const handleLogin = (email, password, history) => {
         history.push('/');
       })
       .then( res => axios.get(`/api/login_employee/${user_id}.json`))
-      .then( res => dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data}))
+      .then( res => {
+        console.log(res),
+        dispatch({type: 'ADD_VISIBLE_DEPARTMENTS', departments: res.data.visible_departments});
+        dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data});
+        dispatch({type: 'ADD_VISIBLE_EMPLOYEES', employees: res.data.visible_employees})
+      })
       .catch( res => {
         const errors = res.response.data.errors.full_messages ? res.response.data.errors.full_messages : res.response.data.errors
         dispatch(setFlash(errors.join(','), 'error'));

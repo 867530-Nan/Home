@@ -5,21 +5,26 @@ import axios from 'axios'
 import Departments from './Departments'
 import DepartmentForm from './DepartmentForm'
 import JobsForm from '../Jobs/JobsForm'
+import SubDepartmentForm from './SubDepartmentForm'
+import Employees from './Employees'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 import {getHotel} from '../../actions/Hotel'
-import { addSubDepartment } from '../../actions/departments'
+import { addSubDepartment, addVisibleSubDepartment } from '../../actions/departments'
 import { addJob } from '../../actions/jobs'
 
 class DashboardContainer extends Component {
 
-  state = { slide: 1, additionalDepartments: [], jobs: []}
+  state = { slide: 1, additionalDepartments: [], jobs: [] }
 
   appendSubDepartment = (single) => {
       this.props.dispatch(addSubDepartment(single))
-      this.setState({additionalDepartments: [...this.state.additionalDepartments, single]})
   }
+
+  appendVisibleSubDepartment = (single) => {
+    this.props.dispatch(addVisibleSubDepartment(single))
+}
 
   appendJob = (single) => {
     this.props.dispatch(addJob(single))
@@ -35,26 +40,37 @@ class DashboardContainer extends Component {
   }
 
   departmentForm = () => {
-    this.setState({ slide: 4 })
+    this.setState({ slide: 2 })
   }
 
   JobsForm = (prop) => {
-    this.setState({ slide: 5, subDeptID: prop })
+    this.setState({ slide: 3, subDeptID: prop })
+  }
+
+  SubDepartmentForm = (prop) => {
+    this.setState({ slide: 4, visibleID: prop })
   }
 
   back = () => {
-    this.setState({ slide: 3 })
+    this.setState({ slide: 1 })
   }
 
   render() {
     const { slide } = this.state;
     let component = null
     if (slide === 1) {
-      component = <Departments jobs={this.state.jobs} jobsForm={this.JobsForm} departmentForm={this.departmentForm} additionalDepartments={this.state.additionalDepartments}  department={this.props.user.employee}/>  
+      component = (
+        <div>
+          <Departments jobs={this.state.jobs} jobsForm={this.JobsForm} departmentForm={this.departmentForm} additionalDepartments={this.props.subDepartments}  department={this.props.user.employee.jobs} />
+          <Employees employees={this.props.employees} />
+        </div>
+      )
     } else if (slide === 2) {
       component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.props.user.employee.jobs} />
     } else if (slide === 3) {
       component = <JobsForm back={this.back} appendJob={this.appendJob} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
+    } else if (slide === 4) {
+      component = <SubDepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.state.visibleID} />
     } else {
       return(
         <HomeHeader>
@@ -71,7 +87,10 @@ class DashboardContainer extends Component {
 
 const mapStateToProps = (state) => {
   return(
-    { user: state.user }
+    { user: state.user,
+      subDepartments: state.department,
+      employees: state.employees
+    }
   )
 }
 

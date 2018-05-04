@@ -34,6 +34,42 @@ class Departments extends Component {
     }))
   }
 
+  displayChildren = (children) => {
+    return ( children.map( (single, index) => {
+      return(
+        <HomeDiv
+          width={'100%'}
+          border={`1px solid ${HomeStyleGuide.color.lightgray}`}
+        >
+          <HomeDiv
+            width={'100%'}
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            backgroundColor={ index % 2 === 0 ? `${HomeStyleGuide.color.lightgray}`: `${HomeStyleGuide.color.white}`}
+          >
+            <HomeDiv
+              flexDirection={'row'}
+              width={'25%'}
+            >
+              <HomeSectionHeader>
+                {single.name}
+              </HomeSectionHeader>
+            </HomeDiv>
+            <HomeDiv
+              width={'75%'}
+              flexDirection={'row'}
+            >
+              <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
+              <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(index)} />
+            </HomeDiv>
+          </HomeDiv>
+          { this.props.jobs.length > 0 && this.displayJobs(index) }
+          { single.children ? this.displayChildren(single.children) : null }
+        </HomeDiv>
+      )
+    }))
+  }
+
   displaySubdepartments = () => {
     return ( this.props.additionalDepartments.map( (single, index) => {
       return(
@@ -49,29 +85,29 @@ class Departments extends Component {
           >
             <HomeDiv
               flexDirection={'row'}
-              width={'75%'}
+              width={'25%'}
             >
               <HomeSectionHeader>
                 {single.name}
               </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.budget}
-              </HomeSectionHeader>
             </HomeDiv>
             <HomeDiv
-              width={'25%'}
+              width={'75%'}
+              flexDirection={'row'}
             >
+              <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
               <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(index)} />
             </HomeDiv>
           </HomeDiv>
-          {this.props.jobs.length > 0 && this.displayJobs(index)}
+          { this.props.jobs.length > 0 && this.displayJobs(index) }
+          { single.children ? this.displayChildren(single.children) : null }
         </HomeDiv>
       )
     }))
   }
 
-  displayDepartments = (department) => {
-    return ( department.jobs.map( single => {
+  displayDepartments = () => {
+    return ( this.props.department.map( single => {
       return(
         <HomeDiv
             width={'100%'}
@@ -101,8 +137,10 @@ class Departments extends Component {
     console.log("departments rendered")
     console.log(this.props)
     return(
-      <HomeDiv>
-        {this.displayDepartments(this.props.department)}
+      <HomeDiv
+        margin={'2%'}
+      >
+        {this.displayDepartments()}
       </HomeDiv>
     )
   }

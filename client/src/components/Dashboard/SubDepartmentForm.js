@@ -7,7 +7,7 @@ import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/Ge
 
 
 
-class DepartmentForm extends Component {
+class SubDepartmentForm extends Component {
   state = { 
     name: "", 
     budget: "", 
@@ -20,8 +20,8 @@ class DepartmentForm extends Component {
   }
 
   appendSubDepartment = () => {
-    const single = {name: this.state.name, budget: this.state.budget, departmentID: this.props.departmentID[0].department}
-    this.props.appendSubDepartment(single)
+    const single = {name: this.state.name, budget: this.state.budget, departmentID: this.props.departmentID}
+    this.props.appendVisibleSubDepartment(single)
     this.setState({currentInput: [...this.state.currentInput, single]})
     this.setState({name: "", budget: ""})
   }
@@ -128,4 +128,4 @@ class DepartmentForm extends Component {
   }
 }
 
-export default DepartmentForm;
+export default SubDepartmentForm;
