@@ -6,4 +6,9 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_one :employee
+
+  def visible_employees
+    Employee.joins(:employee_jobs).where("employee_jobs.department IN (#{self.jobs.first.department.subtree_ids.join(",")})")
+  end
+  
 end

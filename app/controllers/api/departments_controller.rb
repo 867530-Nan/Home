@@ -3,12 +3,8 @@ class Api::DepartmentsController < ApplicationController
   before_action :get_hotel
 
   def index
-    render json: @hotel.departments
+    render json: current_user.jobs.first.department.subtree.arrange_serializable
   end
-
-  def visible_departments
-    @department = User.find(params[:id]).employee.jobs.first.department
-  end 
 
   def create
     department = @hotel.departments.create(department_params)
