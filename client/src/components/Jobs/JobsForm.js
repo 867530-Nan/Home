@@ -20,12 +20,42 @@ class JobsForm extends Component {
     this.setState({name: "", payrate: "", paytype: ""})
   }
 
+  displayJobs = (subIndex) => {
+    const result = this.props.jobs.filter(single => single.subDeptID === subIndex)
+    return ( result.map( (single, index) => {
+      return(
+        <HomeDiv
+            flexDirection={'row'}
+            justifyContent={'space-between'}
+            backgroundColor={ index % 2 === 0 ? `${HomeStyleGuide.color.lightgray}`: `${HomeStyleGuide.color.white}`}
+            width={'80%'}
+          >
+            <HomeDiv
+              flexDirection={'row'}
+              width={'75%'}
+            >
+              <HomeSectionHeader>
+                {single.name}
+              </HomeSectionHeader>
+              <HomeSectionHeader>
+                {single.payrate}
+              </HomeSectionHeader>
+              <HomeSectionHeader>
+                {single.paytype}
+              </HomeSectionHeader>
+            </HomeDiv>
+          </HomeDiv>
+      )
+    }))
+  }
+
   displayInput = () => {
     return(
       <HomeDiv
         flexDirection={'row'}
         width={'100%'}
       >
+        {this.displayJobs()}
         {this.state.currentInput.map( single => {
           return(
             <div>

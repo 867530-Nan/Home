@@ -56,11 +56,7 @@ class Index extends Component {
     } else if (slide === 2) {
       component = <Second increment={this.incrementState} />
     }  else if (slide === 3) {
-      component = <Departments jobs={this.state.jobs} jobsForm={this.JobsForm} departmentForm={this.departmentForm} additionalDepartments={this.state.additionalDepartments}  department={this.props.user.employee}/>  
-    } else if (slide === 4) {
-      component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.props.user.employee.jobs} />
-    } else if (slide === 5) {
-      component = <JobsForm back={this.back} appendJob={this.appendJob} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
+      component = <DashboardContainer />  
     } else {
       return(
         <HomeHeader>

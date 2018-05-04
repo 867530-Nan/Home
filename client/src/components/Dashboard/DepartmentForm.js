@@ -21,16 +21,6 @@ class DepartmentForm extends Component {
     name: "", 
     budget: "", 
     currentInput: [], 
-    fixedHeader: true,
-    fixedFooter: true,
-    stripedRows: false,
-    showRowHover: false,
-    selectable: true,
-    multiSelectable: false,
-    enableSelectAll: false,
-    deselectOnClickaway: true,
-    showCheckboxes: true,
-    height: '300px',
   }
 
   handleChange = (e) => {

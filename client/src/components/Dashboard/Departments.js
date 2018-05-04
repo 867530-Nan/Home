@@ -13,7 +13,7 @@ class Departments extends Component {
             flexDirection={'row'}
             justifyContent={'space-between'}
             backgroundColor={ index % 2 === 0 ? `${HomeStyleGuide.color.lightgray}`: `${HomeStyleGuide.color.white}`}
-            width={'100%'}
+            width={'80%'}
           >
             <HomeDiv
               flexDirection={'row'}
@@ -29,11 +29,6 @@ class Departments extends Component {
                 {single.paytype}
               </HomeSectionHeader>
             </HomeDiv>
-            <HomeDiv
-              width={'25%'}
-            >
-              <RaisedButton label="Add Jobs" secondary={true} style={{margin: '12px'}} onClick={this.props.jobsForm} />
-            </HomeDiv>
           </HomeDiv>
       )
     }))
@@ -44,6 +39,7 @@ class Departments extends Component {
       return(
         <HomeDiv
           width={'100%'}
+          border={`1px solid ${HomeStyleGuide.color.lightgray}`}
         >
           <HomeDiv
             width={'100%'}
@@ -65,10 +61,10 @@ class Departments extends Component {
             <HomeDiv
               width={'25%'}
             >
-              <RaisedButton label="Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(index)} />
+              <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(index)} />
             </HomeDiv>
           </HomeDiv>
-          {/* {this.props.jobs.length > 0 && this.displayJobs(index)} */}
+          {this.props.jobs.length > 0 && this.displayJobs(index)}
         </HomeDiv>
       )
     }))
@@ -112,4 +108,4 @@ class Departments extends Component {
   }
 }
 
-export default Departments
+export default Departments;
