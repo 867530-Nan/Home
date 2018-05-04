@@ -4,5 +4,7 @@ json.last_name @employee.last_name
 json.email @employee.email_address
 json.hotel @employee.hotel_id
 json.jobs @employee.jobs_objects
-json.visible_departments @employee.jobs.first.department.subtree.arrange_serializable
+json.visible_departments @employee.visible_departments
+json.visible_employees @employee.visible_employees
+
 

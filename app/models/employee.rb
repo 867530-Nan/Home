@@ -16,9 +16,12 @@ class Employee < ApplicationRecord
   end
 
   def visible_departments
-    d = self.jobs.first.department
-    d.subtree.arrange_serializable
+    self.jobs.first.department.subtree.arrange_serializable
   end 
+
+  def visible_employees
+    Employee.joins(:employee_jobs).joins(:jobs).where("jobs.department_id IN (#{self.jobs.first.department.subtree_ids.join(",")})")
+  end  
 
   def hotel_id
     self.hotels.first.id

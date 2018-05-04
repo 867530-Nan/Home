@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
     get '/login_employee/:id', to: 'employees#active_employee'
+    resources :employees 
     resources :departments do 
       resources :jobs
     end 
     resources :hotels do 
-      resources :employees 
     end 
      
     #API ROUTES SHOULD GO HERE

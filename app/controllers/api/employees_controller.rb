@@ -2,7 +2,7 @@ class Api::EmployeesController < ApplicationController
   # before_action :get_employee
   
   def index
-
+    render json: current_user.visible_employees
   end 
   
   def show
@@ -10,7 +10,7 @@ class Api::EmployeesController < ApplicationController
   end 
 
   def active_employee
-    @employee = User.find(params[:id]).employee
+    @employee = current_user.employee
   end
 
   private
