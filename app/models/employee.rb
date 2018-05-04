@@ -23,6 +23,10 @@ class Employee < ApplicationRecord
     Employee.joins(:employee_jobs).joins(:jobs).where("jobs.department_id IN (#{self.jobs.first.department.subtree_ids.join(",")})")
   end  
 
+  def show_departments
+    self.jobs.map{|j| j.department.name}.uniq.join(",")
+  end
+
   def hotel_id
     self.hotels.first.id
   end 
