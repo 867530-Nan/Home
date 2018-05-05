@@ -5,6 +5,7 @@ class Employee < ApplicationRecord
   has_many :jobs, through: :employee_jobs
   has_many :departments, through: :jobs 
   has_many :hotels, through: :departments
+  has_many :invitations
 
   validates :first_name, presence: { message: "Please enter the employee\'s first name." } 
   validates :last_name, presence: { message: "Please enter the employee\'s last name." } 

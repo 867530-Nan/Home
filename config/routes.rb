@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
-    get '/login_employee/:id', to: 'employees#active_employee'
+    get '/login_employee/', to: 'employees#active_employee'
+    get '/validate_invitation/:token', to: 'invitations#validate_invite'
     resources :employees 
     resources :departments do 
       resources :jobs

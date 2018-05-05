@@ -2,9 +2,25 @@ import React, { Component } from 'react';
 import { Header, Form, Button, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { registerUser } from '../actions/auth';
+import * as qs from 'query-string';
+import axios from 'axios'
 
-class Register extends Component {
-  state = { email: '', password: '', passwordConfirmation: '' };
+class Register extends Component {  
+  state = { email: '', password: '', passwordConfirmation: '', employee: {} };
+
+  componentDidMount(){
+    let token = qs.parse(this.props.location.search).token
+    axios.get(`api/validate_invitation/${token}`)
+      .then( res => {
+        this.setState({employee: res.data, email: res.data.email_address})
+      })
+      .catch( res => {
+        //KICK THEM OUT WITH INVALID TOKEN
+      })
+    // SEND REQUEST TO SEE IF TOKEN IS LEGIT, IF SO PROCEED, IF NOT BOOT THEM OUT
+    // axios.get() 
+  }
+
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -29,18 +45,8 @@ class Register extends Component {
 
     return(
       <Segment basic>
-        <Header as='h1' textAlign='center'>Register Component</Header>
+        <Header as='h1' textAlign='center'>Hello {this.state.employee.first_name}!</Header>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <label>Email</label>
-            <input
-              id='email'
-              placeholder='Email'
-              required
-              value={email}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
           <Form.Field>
             <label>Password</label>
             <input

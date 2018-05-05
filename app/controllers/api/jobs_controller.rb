@@ -5,6 +5,15 @@ class Api::JobsController < ApplicationController
     render json: @department.jobs 
   end
   
+  def create 
+    job = @department.jobs.new(job_params)
+    if job.save 
+      render json: job
+    else 
+      render_error(job)
+    end 
+  end 
+
   def update 
     if @job.update(job_params)
       render json: @job 

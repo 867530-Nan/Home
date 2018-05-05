@@ -61,6 +61,8 @@ GEM
     ffi (1.9.23)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    has_secure_token (1.0.0)
+      activerecord (>= 3.0)
     hashie (3.5.7)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
@@ -157,6 +159,7 @@ DEPENDENCIES
   devise
   devise_token_auth
   faker
+  has_secure_token
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   omniauth
