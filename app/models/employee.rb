@@ -32,4 +32,8 @@ class Employee < ApplicationRecord
     self.hotels.first.id
   end 
 
+  def invite_employee
+    UserMailer.send_invitation(Invitation.create(employee: self)).deliver_later
+  end
+
 end
