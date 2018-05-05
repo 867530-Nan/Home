@@ -39,14 +39,8 @@ export const handleLogin = (email, password, history) => {
         user_id = res.data.data.id
         let { data: { data: user }, headers } = res
         dispatch({ type: 'LOGIN', user, headers });  
+        getEmployeeDetails(dispatch)
         history.push('/');
-      })
-      .then( res => axios.get(`/api/login_employee/${user_id}.json`))
-      .then( res => {
-        console.log(res),
-        dispatch({type: 'ADD_VISIBLE_DEPARTMENTS', departments: res.data.visible_departments});
-        dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data});
-        dispatch({type: 'ADD_VISIBLE_EMPLOYEES', employees: res.data.visible_employees})
       })
       .catch( res => {
         const errors = res.response.data.errors.full_messages ? res.response.data.errors.full_messages : res.response.data.errors
@@ -61,7 +55,20 @@ export const validateToken = (cb = f => f) => {
     dispatch({ type: 'VALIDATE_TOKEN' })
     let headers = axios.defaults.headers.common
     axios.get('/api/auth/validate_token', headers)
-      .then( res => dispatch({ type: 'LOGIN', user: res.data.data }) )
+      .then( res => {
+         dispatch({ type: 'LOGIN', user: res.data.data }) 
+         getEmployeeDetails(dispatch)
+      })
       .catch(() => cb())
   }
+}
+
+const getEmployeeDetails = (dispatch) => {
+  axios.get(`/api/login_employee`)
+      .then( res => {
+        console.log(res),
+        dispatch({type: 'ADD_VISIBLE_DEPARTMENTS', departments: res.data.visible_departments, headers: res.headers});
+        dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data});
+        dispatch({type: 'ADD_VISIBLE_EMPLOYEES', employees: res.data.visible_employees})
+      })
 }
