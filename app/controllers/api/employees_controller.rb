@@ -13,7 +13,10 @@ class Api::EmployeesController < ApplicationController
   def create 
     employee = Employee.create(employee_params)
     if employee.save
-      #HERE WE TAKE PARAMS FOR CREATING EMPLOYEE JOB
+      #HERE WE TAKE PARAMS FOR CREATING EMPLOYEE JOB(S), eventually
+      # employee.employee_job.create(employee: employee, job: params[:employee][:job_id])
+      #HERE WE SEND INVITATION IF A USER IS ALSO BEING CREATED
+      # employee.invite_employee if params[:employee][:create_user]
       render json: employee.to_json
     else
       render_error(employee)
