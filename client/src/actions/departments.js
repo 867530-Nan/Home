@@ -3,5 +3,5 @@ export const addSubDepartment = (department) => {
 }
 
 export const addVisibleSubDepartment = (department) => {
-  return({ type: ''})
+  return({ type: 'ADD_VISIBLE_SUB_DEPARTMENT', department: department })
 }

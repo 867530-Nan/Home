@@ -3,7 +3,7 @@ const department = (state = [], action) => {
     case 'ADD_SUB_DEPARTMENT':
       return [...state, action.department ];
     case 'ADD_VISIBLE_DEPARTMENTS':
-      return action.departments
+      return action.departments;
     default:
       return state;
   }

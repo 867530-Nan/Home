@@ -25,7 +25,7 @@ class Departments extends Component {
           <HomeDiv
             width={'50%'}
           >
-            <RaisedButton label="Add Sub-Departments" primary={true} style={{margin: '12px', width: '25%'}} /*onClick={this.props.departmentForm}*/ />
+            <RaisedButton label="Add Employees" primary={true} style={{margin: '12px', width: '100%'}} onClick={this.props.employeeForm} />
           </HomeDiv>
         </HomeDiv>
         <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable>

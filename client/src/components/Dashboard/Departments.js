@@ -59,7 +59,7 @@ class Departments extends Component {
               width={'75%'}
               flexDirection={'row'}
             >
-              <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
+              <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.SubDepartmentForm(single.id)} />
               <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(index)} />
             </HomeDiv>
           </HomeDiv>
