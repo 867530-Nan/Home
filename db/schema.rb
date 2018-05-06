@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180505225436) do
+ActiveRecord::Schema.define(version: 20180506002402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,17 @@ ActiveRecord::Schema.define(version: 20180505225436) do
     t.datetime "updated_at", null: false
     t.bigint "department_id"
     t.index ["department_id"], name: "index_budgets_on_department_id"
+  end
+
+  create_table "daily_occupancies", force: :cascade do |t|
+    t.bigint "hotel_id"
+    t.integer "rooms_occupied"
+    t.integer "arrivals"
+    t.integer "departures"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hotel_id"], name: "index_daily_occupancies_on_hotel_id"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -122,6 +133,7 @@ ActiveRecord::Schema.define(version: 20180505225436) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "department_id"
+    t.float "pay_rate"
     t.index ["department_id"], name: "index_jobs_on_department_id"
   end
 
@@ -146,6 +158,15 @@ ActiveRecord::Schema.define(version: 20180505225436) do
     t.datetime "updated_at", null: false
     t.index ["right_id"], name: "index_roles_rights_on_right_id"
     t.index ["role_id"], name: "index_roles_rights_on_role_id"
+  end
+
+  create_table "shifts", force: :cascade do |t|
+    t.bigint "employee_job_id"
+    t.datetime "shift_start"
+    t.datetime "shift_end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_job_id"], name: "index_shifts_on_employee_job_id"
   end
 
   create_table "users", force: :cascade do |t|

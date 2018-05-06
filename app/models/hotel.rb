@@ -1,8 +1,8 @@
 class Hotel < ApplicationRecord
   has_one :address, as: :addressable
   has_many :departments 
-  has_many :subdepartments, through: :departments
   has_many :employee_roles
+  has_many :daily_occupanices
 
   validates :name, presence: { message: "Please enter the hotel name." } 
   validates :phone_number, presence: { message: "Please enter the hotel phone number" },
