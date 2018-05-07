@@ -82,7 +82,7 @@ class DashboardContainer extends Component {
     } else if (slide === 2) {
       component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.props.user.employee.jobs} />
     } else if (slide === 3) {
-      component = <JobsForm back={this.back} appendJob={this.appendJob} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
+      component = <JobsForm back={this.back} appendJob={this.appendJob} departments={this.props.subDepartments} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
     } else if (slide === 4) {
       component = <SubDepartmentForm back={this.back} appendVisibleSubDepartment={this.appendVisibleSubDepartment} departmentID={this.state.visibleID} />
     } else if (slide === 5) {

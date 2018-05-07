@@ -9,7 +9,7 @@ import { Form, Dropdown } from 'semantic-ui-react'
 let departmentList = []
 
 class SingleEmployee extends React.Component {  
-  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "", departmentID: undefined }
+  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "", departmentID: undefined, departmentList: [] }
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -46,7 +46,7 @@ class SingleEmployee extends React.Component {
     }
     console.log("here we are")
     console.log(departmentList)
-    return
+    this.setState({ departmentList: departmentList })
   }
 
   render() {
@@ -95,7 +95,7 @@ class SingleEmployee extends React.Component {
             value={this.state.emailAddress}
             style={{width: '80%'}}
           />
-          <Dropdown placeholder='Choose Department' fluid selection options={departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+          <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
           <HomeDiv
             flexDirection={'row'}
             width={'80%'}

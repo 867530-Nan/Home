@@ -3,10 +3,16 @@ import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
-import { Form } from 'semantic-ui-react'
+import { Form, Dropdown } from 'semantic-ui-react'
+
+let departmentList = []
 
 class JobsForm extends Component {
-  state = { name: "", payrate: "", paytype: "", currentInput: []}
+  state = { name: "", payrate: "", paytype: "", currentInput: [], departmentList: [] }
+
+  componentDidMount() {
+    this.setDepartmentList(this.props.departments)
+  }
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -18,6 +24,23 @@ class JobsForm extends Component {
     this.props.appendJob(single)
     this.setState({currentInput: [...this.state.currentInput, single]})
     this.setState({name: "", payrate: "", paytype: ""})
+  }
+
+  setDepartmentList = (departments) => {
+    console.log("inside setin")
+    for (let i = 0; i < departments.length; i += 1) {
+      console.log("single dep")
+      console.log(departments[i])
+      const department = { text: departments[i].name, value: departments[i].id }
+      departmentList.push(department)
+      if (departments[i].children) {
+        console.log("children children")
+          const childDepartment = this.setDepartmentList(departments[i].children)
+      }
+    }
+    console.log("here we are")
+    console.log(departmentList)
+    this.setState({ departmentList: departmentList })
   }
 
   displayJobs = (subIndex) => {
@@ -112,6 +135,7 @@ class JobsForm extends Component {
             id="paytype"
             onChange={this.handleChange}
           />
+          <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
         </HomeDiv>
         <HomeDiv
           onClick={this.appendJob}
