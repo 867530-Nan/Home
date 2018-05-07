@@ -13,6 +13,7 @@ import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 import {getHotel} from '../../actions/Hotel'
 import { addSubDepartment, addVisibleSubDepartment } from '../../actions/departments'
+import { addEmployee } from '../../actions/employees'
 import { addJob } from '../../actions/jobs'
 
 class DashboardContainer extends Component {
@@ -34,9 +35,11 @@ class DashboardContainer extends Component {
     this.setState({jobs: [...this.state.jobs, single]})
 }
 
-appendEmployee = () => {
-  return 
-}
+  appendEmployee = (single, id) => {
+    this.props.dispatch(addEmployee(single, id))
+    console.log("in append employee")
+    console.log(single)
+  }
 
   incrementState = () => {
     this.setState({ slide: this.state.slide + 1 })
@@ -83,7 +86,7 @@ appendEmployee = () => {
     } else if (slide === 4) {
       component = <SubDepartmentForm back={this.back} appendVisibleSubDepartment={this.appendVisibleSubDepartment} departmentID={this.state.visibleID} />
     } else if (slide === 5) {
-      component = <EmployeeForm back={this.back} departmentID={this.state.visibleID} departments={this.props.subDepartments} appendEmployee={this.appendEmployee} />
+      component = <EmployeeForm back={this.back} departments={this.props.subDepartments} appendEmployee={this.appendEmployee} />
     } else {
       return(
         <HomeHeader>

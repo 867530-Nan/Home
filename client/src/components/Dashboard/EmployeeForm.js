@@ -4,10 +4,12 @@ import axios from 'axios'
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
 import TextField from 'material-ui/TextField';
-import { Form } from 'semantic-ui-react'
+import { Form, Dropdown } from 'semantic-ui-react'
+
+let departmentList = []
 
 class SingleEmployee extends React.Component {  
-  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "" }
+  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "", departmentID: undefined }
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -19,10 +21,32 @@ class SingleEmployee extends React.Component {
       alert("Please enter valid employee information")
       this.setState({firstName: "", lastName: "", emailAddress: "", phone_number: ""})
     } else {
-      const employee = {firstName: this.state.firstName, lastName: this.state.lastName, phone_number: this.state.phone_number, emailAddress: this.state.emailAddress, departmentID: this.props.departmentID}
-      this.props.appendEmployee(employee)
+      const employee = {first_name: this.state.firstName, last_name: this.state.lastName, phone_number: this.state.phone_number, email_address: this.state.emailAddress}
+      const ID = this.state.departmentID
+      this.props.appendEmployee(employee, ID)
       this.setState({firstName: "", lastName: "", emailAddress: "", phone_number: ""})
     }
+  }
+
+  componentDidMount() {
+    this.setDepartmentList(this.props.departments)
+  }
+
+  setDepartmentList = (departments) => {
+    console.log("inside setin")
+    for (let i = 0; i < departments.length; i += 1) {
+      console.log("single dep")
+      console.log(departments[i])
+      const department = { text: departments[i].name, value: departments[i].id }
+      departmentList.push(department)
+      if (departments[i].children) {
+        console.log("children children")
+          const childDepartment = this.setDepartmentList(departments[i].children)
+      }
+    }
+    console.log("here we are")
+    console.log(departmentList)
+    return
   }
 
   render() {
@@ -71,6 +95,7 @@ class SingleEmployee extends React.Component {
             value={this.state.emailAddress}
             style={{width: '80%'}}
           />
+          <Dropdown placeholder='Choose Department' fluid selection options={departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
           <HomeDiv
             flexDirection={'row'}
             width={'80%'}
