@@ -9,6 +9,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { Switch, Route } from 'react-router-dom';
 import FetchUser from './FetchUser';
 import table from './Intro/Table'
+import Schedule from './Schedule/Schedule'
 import HotelInformation from './Intro/HotelIntroduction'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -22,6 +23,7 @@ class App extends Component {
             <MuiThemeProvider>
           <Switch>
             <ProtectedRoute exact path='/' component={Intro} />
+            <ProtectedRoute exact path='/schedule' component={Schedule} />
             <Route exact path='/login' component={Login} />
             <ProtectedRoute exact path="/hotels" component={HotelInformation} />
             <Route exact path='/register' component={Register} />
