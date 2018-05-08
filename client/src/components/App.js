@@ -12,6 +12,7 @@ import table from './Intro/Table'
 import Schedule from './Schedule/Schedule'
 import HotelInformation from './Intro/HotelIntroduction'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Dashboard from '../components/Dashboard/DashboardContainer'
 
 class App extends Component {
   render() {
@@ -22,8 +23,9 @@ class App extends Component {
         <FetchUser>
             <MuiThemeProvider>
           <Switch>
-            <ProtectedRoute exact path='/' component={Intro} />
+            <ProtectedRoute exact path='/' component={Dashboard} />
             <ProtectedRoute exact path='/schedule' component={Schedule} />
+            <ProtectedRoute exact path='/welcome' component={Intro} />
             <Route exact path='/login' component={Login} />
             <ProtectedRoute exact path="/hotels" component={HotelInformation} />
             <Route exact path='/register' component={Register} />

@@ -25,11 +25,12 @@ class Schedule extends React.Component {
 
     })
 
-    axios.get('/api/all_managed_jobs')
+    axios.get('/api/all_managed_jobs')    
     .then( res => {
       this.setState({jobs: res.data})
     })
     .catch( res => {
+      console.log(res)
       debugger
 
     })

@@ -67,7 +67,7 @@ class DashboardContainer extends Component {
   render() {
     const { slide } = this.state;
     let component = null
-    if (slide === 1) {
+    if (this.props.user.employee && slide === 1) {
       component = (
         <div>
           <Departments jobs={this.state.jobs} jobsForm={this.JobsForm} departmentForm={this.departmentForm} SubDepartmentForm={this.SubDepartmentForm} additionalDepartments={this.props.subDepartments}  department={this.props.user.employee.jobs} />
@@ -85,7 +85,7 @@ class DashboardContainer extends Component {
     } else {
       return(
         <HomeHeader>
-          This ends my basic introduction to Home<br/>~ Mr. Peterson
+          
         </HomeHeader>
       )
     }
