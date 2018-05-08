@@ -13,7 +13,7 @@ class Api::DepartmentsController < ApplicationController
     else
       render_error(department)
     end
-  end 
+  end
 
   # def create_multiple
   #   rv = []

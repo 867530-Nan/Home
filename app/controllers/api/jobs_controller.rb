@@ -4,6 +4,12 @@ class Api::JobsController < ApplicationController
   def index 
     render json: @department.jobs 
   end
+
+  def all_managed_jobs
+    binding.pry 
+    @jobs = Job.where(department_id: current_user.employee.managed_dept_ids)
+    render json: @jobs
+  end 
   
   def create 
     job = @department.jobs.new(job_params)

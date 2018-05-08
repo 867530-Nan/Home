@@ -17,7 +17,7 @@ class Employee < ApplicationRecord
   end
 
   def visible_departments
-    self.jobs.first.department.subtree.arrange_serializable
+    self.highest_dept.subtree.arrange_serializable
   end 
 
   def visible_employees
@@ -35,5 +35,13 @@ class Employee < ApplicationRecord
   def invite_employee
     UserMailer.send_invitation(Invitation.create(employee: self)).deliver_later
   end
+
+  def highest_dept
+    self.departments.min_by{|d| d.depth}
+  end 
+
+  def managed_dept_ids
+    self.highest_dept.subtree.pluck(:id)
+  end 
 
 end

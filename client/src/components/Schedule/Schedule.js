@@ -5,7 +5,48 @@ import { Segment, Table } from 'semantic-ui-react'
  
 
 
-class Schedule extends React.Component {  
+class Schedule extends React.Component {
+  state = {jobs: [], employee_jobs: [], shifts: []}
+  
+  componentDidMount(){
+    axios.get('api/shifts')
+    .then( res => {
+      this.setState({shifts: res.data})
+    })
+    .catch( res => {
+
+    })
+
+    axios.get('api/employee_jobs')
+    .then( res => {
+      this.setState({employee_jobs: res.data})
+    })
+    .catch( res => {
+
+    })
+
+    axios.get('/api/all_managed_jobs')
+    .then( res => {
+      this.setState({jobs: res.data})
+    })
+    .catch( res => {
+      debugger
+
+    })
+  }  
+
+  // renderDepartmentRows = (departments) => {
+  //   return (
+  //     departments.map(department => {
+  //        return(
+  //         <DepartmentHeaderRow props />
+          
+  //           <Department>{department.name}
+  //             { department.children.length > 0 && this.renderDepartments(department.children, level+1) }
+  //         </Segment>
+  //        )
+  //   )
+  // }
 
   render(){
     return(
@@ -13,8 +54,10 @@ class Schedule extends React.Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Employee</Table.HeaderCell>
-            <Table.HeaderCell>Correct Guesses</Table.HeaderCell>
+            <Table.HeaderCell>1/1/2018</Table.HeaderCell>
+            <Table.HeaderCell>1/2/2018</Table.HeaderCell>
           </Table.Row>
+          {/* {this.renderDepartmentRows(this.props.departments)} */}
         </Table.Header>
       </Table>
     )
