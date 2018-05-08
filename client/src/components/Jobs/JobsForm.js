@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
-import { Form, Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Form, Icon, Label, Menu, Table, Checkbox } from 'semantic-ui-react'
 
 
 
@@ -21,9 +21,10 @@ class JobsForm extends Component {
     this.setState({ [id]: value });
   }
 
+  handleRadio = (e, { value }) => this.setState({ value })
+
   appendJob = () => {
-    // payrate: this.state.payrate, WE SHOULD ADD PAY RATE???
-    const single = {name: this.state.name, pay_type: this.state.paytype, department_id: this.props.subDeptID}
+    const single = {name: this.state.name, pay_type: this.state.paytype, pay_rate: this.state.value.toLowerCase()}
     this.props.appendJob(single, this.props.subDeptID)
     this.setState({displayJobs: [...this.state.displayJobs, single]})
     this.setState({name: "", payrate: "", paytype: ""})
@@ -64,78 +65,13 @@ class JobsForm extends Component {
   }
   
   render() {
-    if (this.state.displayJobs.length === 0 ) {
-      return (
-        <HomeDiv
-            flexDirection={'column'}
-          >
-          <HomeDiv
-            flexDirection={'row'}
-            width={'90%'}
-          >
-            <HomeInput
-              width={'80%'} 
-              fluid 
-              value={this.state.name}
-              label='' 
-              placeholder='Job Name' 
-              id="name"
-              onChange={this.handleChange}
-            />
-            <HomeInput
-              width={'80%'} 
-              fluid 
-              value={this.state.payrate}
-              label='' 
-              placeholder="Pay Rate" 
-              id="payrate"
-              onChange={this.handleChange}
-            />
-            <HomeInput
-              width={'80%'} 
-              fluid 
-              value={this.state.paytype}
-              label='' 
-              placeholder="Pay Type" 
-              id="paytype"
-              onChange={this.handleChange}
-            />
-          </HomeDiv>
-          <HomeDiv
-            onClick={this.appendJob}
-            height={'50px'}
-            width={'25%'}
-            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-            borderRadius={'2px'}
-            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-            hoverColor={HomeStyleGuide.color.white}
-            cursor={'pointer'}
-            >
-            Add Job
-          </HomeDiv>  
-          <HomeDiv
-            onClick={this.props.back}
-            height={'50px'}
-            width={'25%'}
-            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-            borderRadius={'2px'}
-            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-            hoverColor={HomeStyleGuide.color.white}
-            cursor={'pointer'}
-            >
-            Finished
-          </HomeDiv>  
-        </HomeDiv>
-      )
-    } else {
-      
       return(
           <HomeDiv
           >
           <HomeDiv
             width={'90%'}
           >
-            {this.displayJobs()}
+            {this.state.displayJobs.length > 0 && this.displayJobs()}
             <HomeInput
               width={'80%'} 
               fluid 
@@ -148,21 +84,37 @@ class JobsForm extends Component {
             <HomeInput
               width={'80%'} 
               fluid 
-              value={this.state.payrate}
-              label='' 
-              placeholder="Pay Rate" 
-              id="payrate"
-              onChange={this.handleChange}
-            />
-            <HomeInput
-              width={'80%'} 
-              fluid 
               value={this.state.paytype}
               label='' 
               placeholder="Pay Type" 
               id="paytype"
               onChange={this.handleChange}
             />
+            <Form>
+              <Form.Field>
+                This position is paid: <b>{this.state.value === "" ? "PLEASE SELECT FROM BELOW" : this.state.value}</b>
+              </Form.Field>
+              <Form.Field>
+                <Checkbox
+                  radio
+                  label='Hourly Pay'
+                  name='checkboxRadioGroup'
+                  value='Hourly'
+                  checked={this.state.value === 'Hourly'}
+                  onChange={this.handleRadio}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Checkbox
+                  radio
+                  label='Salary'
+                  name='checkboxRadioGroup'
+                  value='Salary'
+                  checked={this.state.value === 'Salary'}
+                  onChange={this.handleRadio}
+                />
+              </Form.Field>
+            </Form>
           </HomeDiv>
           <HomeDiv
             onClick={this.appendJob}
@@ -190,7 +142,6 @@ class JobsForm extends Component {
           </HomeDiv>  
         </HomeDiv>
       );
-    }
   }
 }
 

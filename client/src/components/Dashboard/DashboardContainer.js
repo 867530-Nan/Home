@@ -30,7 +30,6 @@ class DashboardContainer extends Component {
 
   appendJob = (single, id) => {
     this.props.dispatch(addJob(single, id))
-    this.setState({jobs: [...this.state.jobs, single]})
 }
 
   appendEmployee = (single, id) => {
