@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
-import { Form, Dropdown, Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Form, Icon, Label, Menu, Table } from 'semantic-ui-react'
 
 
 
@@ -11,7 +11,6 @@ class JobsForm extends Component {
   state = { name: "", payrate: "", paytype: "", currentInput: [], departmentList: [], departmentID: undefined, displayJobs: [] }
 
   componentDidMount() {
-    this.setDepartmentList(this.props.departments)
     axios.get(`/api/departments/${this.props.subDeptID}/jobs`)
     .then(res => this.setState({ displayJobs: res.data }))
     .catch ( res => console.log(res) )
@@ -24,22 +23,10 @@ class JobsForm extends Component {
 
   appendJob = () => {
     // payrate: this.state.payrate, WE SHOULD ADD PAY RATE???
-    const single = {name: this.state.name, pay_type: this.state.paytype}
-    this.props.appendJob(single, this.state.departmentID)
+    const single = {name: this.state.name, pay_type: this.state.paytype, department_id: this.props.subDeptID}
+    this.props.appendJob(single, this.props.subDeptID)
     this.setState({displayJobs: [...this.state.displayJobs, single]})
     this.setState({name: "", payrate: "", paytype: ""})
-  }
-
-  setDepartmentList = (departments) => {
-    let departmentList = []
-    for (let i = 0; i < departments.length; i += 1) {
-      const department = { text: departments[i].name, value: departments[i].id }
-      departmentList.push(department)
-      if (departments[i].children) {
-          const childDepartment = this.setDepartmentList(departments[i].children)
-      }
-    }
-    this.setState({ departmentList: departmentList })
   }
 
   displayJobs = (subIndex) => {
@@ -113,7 +100,6 @@ class JobsForm extends Component {
               id="paytype"
               onChange={this.handleChange}
             />
-            <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
           </HomeDiv>
           <HomeDiv
             onClick={this.appendJob}
@@ -177,7 +163,6 @@ class JobsForm extends Component {
               id="paytype"
               onChange={this.handleChange}
             />
-            <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
           </HomeDiv>
           <HomeDiv
             onClick={this.appendJob}
