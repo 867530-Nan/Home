@@ -8,7 +8,7 @@ import { Form, Icon, Label, Menu, Table, Checkbox } from 'semantic-ui-react'
 
 
 class JobsForm extends Component {
-  state = { name: "", payrate: "", paytype: "", currentInput: [], departmentList: [], departmentID: undefined, displayJobs: [] }
+  state = { name: "", pay_rate: undefined, pay_type: "", currentInput: [], departmentList: [], departmentID: undefined, displayJobs: [] }
 
   componentDidMount() {
     axios.get(`/api/departments/${this.props.subDeptID}/jobs`)
@@ -21,13 +21,14 @@ class JobsForm extends Component {
     this.setState({ [id]: value });
   }
 
-  handleRadio = (e, { value }) => this.setState({ value })
+  handleRadio = (e, { value }) => this.setState({ pay_type: value })
 
   appendJob = () => {
-    const single = {name: this.state.name, pay_type: this.state.paytype, pay_rate: this.state.value.toLowerCase()}
+    const parse = parseFloat(this.state.pay_rate)
+    const single = {name: this.state.name, pay_rate: parse, pay_type: this.state.pay_type.toLowerCase()}
     this.props.appendJob(single, this.props.subDeptID)
     this.setState({displayJobs: [...this.state.displayJobs, single]})
-    this.setState({name: "", payrate: "", paytype: ""})
+    this.setState({name: "", payrate: "", pay_rate: ""})
   }
 
   displayJobs = (subIndex) => {
@@ -84,15 +85,15 @@ class JobsForm extends Component {
             <HomeInput
               width={'80%'} 
               fluid 
-              value={this.state.paytype}
+              value={this.state.pay_rate}
               label='' 
-              placeholder="Pay Type" 
-              id="paytype"
+              placeholder="Pay Rate" 
+              id="pay_rate"
               onChange={this.handleChange}
             />
             <Form>
               <Form.Field>
-                This position is paid: <b>{this.state.value === "" ? "PLEASE SELECT FROM BELOW" : this.state.value}</b>
+                This position is paid: <b>{this.state.pay_type === "" ? "PLEASE SELECT FROM BELOW" : this.state.pay_type }</b>
               </Form.Field>
               <Form.Field>
                 <Checkbox
@@ -100,7 +101,7 @@ class JobsForm extends Component {
                   label='Hourly Pay'
                   name='checkboxRadioGroup'
                   value='Hourly'
-                  checked={this.state.value === 'Hourly'}
+                  checked={this.state.pay_type === 'Hourly'}
                   onChange={this.handleRadio}
                 />
               </Form.Field>
@@ -110,7 +111,7 @@ class JobsForm extends Component {
                   label='Salary'
                   name='checkboxRadioGroup'
                   value='Salary'
-                  checked={this.state.value === 'Salary'}
+                  checked={this.state.pay_type === 'Salary'}
                   onChange={this.handleRadio}
                 />
               </Form.Field>
