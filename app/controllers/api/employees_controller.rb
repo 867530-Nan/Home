@@ -12,7 +12,6 @@ class Api::EmployeesController < ApplicationController
   
   def create 
     employee = Employee.create(employee_params)
-    binding.pry
     if employee.save
       #HERE WE TAKE PARAMS FOR CREATING EMPLOYEE JOB(S), eventually
       # employee.employee_job.create(employee: employee, job: params[:employee][:job_id])

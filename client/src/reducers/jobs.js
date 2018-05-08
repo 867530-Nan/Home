@@ -7,4 +7,4 @@ const jobs = (state = [], action) => {
   }
 }
 
-export default department;
+export default jobs;

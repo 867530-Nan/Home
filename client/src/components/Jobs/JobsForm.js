@@ -3,15 +3,18 @@ import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
-import { Form, Dropdown } from 'semantic-ui-react'
+import { Form, Dropdown, Icon, Label, Menu, Table } from 'semantic-ui-react'
 
-let departmentList = []
+
 
 class JobsForm extends Component {
-  state = { name: "", payrate: "", paytype: "", currentInput: [], departmentList: [] }
+  state = { name: "", payrate: "", paytype: "", currentInput: [], departmentList: [], departmentID: undefined, displayJobs: [] }
 
   componentDidMount() {
     this.setDepartmentList(this.props.departments)
+    axios.get(`/api/departments/${this.props.subDeptID}/jobs`)
+    .then(res => this.setState({ displayJobs: res.data }))
+    .catch ( res => console.log(res) )
   }
 
   handleChange = (e) => {
@@ -20,149 +23,189 @@ class JobsForm extends Component {
   }
 
   appendJob = () => {
-    const single = {name: this.state.name, payrate: this.state.payrate, paytype: this.state.paytype, subDeptID: this.props.subDeptID}
-    this.props.appendJob(single)
-    this.setState({currentInput: [...this.state.currentInput, single]})
+    // payrate: this.state.payrate, WE SHOULD ADD PAY RATE???
+    const single = {name: this.state.name, pay_type: this.state.paytype}
+    this.props.appendJob(single, this.state.departmentID)
+    this.setState({displayJobs: [...this.state.displayJobs, single]})
     this.setState({name: "", payrate: "", paytype: ""})
   }
 
   setDepartmentList = (departments) => {
-    console.log("inside setin")
+    let departmentList = []
     for (let i = 0; i < departments.length; i += 1) {
-      console.log("single dep")
-      console.log(departments[i])
       const department = { text: departments[i].name, value: departments[i].id }
       departmentList.push(department)
       if (departments[i].children) {
-        console.log("children children")
           const childDepartment = this.setDepartmentList(departments[i].children)
       }
     }
-    console.log("here we are")
-    console.log(departmentList)
     this.setState({ departmentList: departmentList })
   }
 
   displayJobs = (subIndex) => {
-    const result = this.props.jobs.filter(single => single.subDeptID === subIndex)
-    return ( result.map( (single, index) => {
+    const result = this.state.displayJobs.filter(single => single.subDeptID === subIndex)
+    const newResult = result.filter( single => single.name === this.props.singleDepartmentName)
       return(
         <HomeDiv
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            backgroundColor={ index % 2 === 0 ? `${HomeStyleGuide.color.lightgray}`: `${HomeStyleGuide.color.white}`}
-            width={'80%'}
-          >
-            <HomeDiv
-              flexDirection={'row'}
-              width={'75%'}
-            >
-              <HomeSectionHeader>
-                {single.name}
-              </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.payrate}
-              </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.paytype}
-              </HomeSectionHeader>
-            </HomeDiv>
-          </HomeDiv>
-      )
-    }))
-  }
-
-  displayInput = () => {
-    return(
-      <HomeDiv
-        flexDirection={'row'}
         width={'100%'}
+        margin={'0'}
+        padding={'0'}
       >
-        {this.displayJobs()}
-        {this.state.currentInput.map( single => {
-          return(
-            <div>
-              <HomeSectionHeader>
-                {single.name}
-              </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.payrate}
-              </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.paytype}
-              </HomeSectionHeader>
-            </div>
+        <HomeSectionHeader>
+          Jobs for {this.props.singleDepartmentName}
+        </HomeSectionHeader>
+        <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Pay Type</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+        {this.state.displayJobs.map( (single, index) => {
+          return (
+              <Table.Row>
+                <Table.Cell>{single.name}</Table.Cell>
+                <Table.Cell>{single.pay_type}</Table.Cell>
+              </Table.Row>
           )
         })}
+          </Table.Body>
+        </Table>
         </HomeDiv>
-    )
+      )
   }
   
   render() {
-    return(
+    if (this.state.displayJobs.length === 0 ) {
+      return (
         <HomeDiv
-          flexDirection={'column'}
-        >
-        <HomeDiv
-          flexDirection={'row'}
-          width={'90%'}
-        >
-          {this.displayInput()}
-          <HomeInput
-            width={'80%'} 
-            fluid 
-            value={this.state.name}
-            label='' 
-            placeholder='Job Name' 
-            id="name"
-            onChange={this.handleChange}
-          />
-          <HomeInput
-            width={'80%'} 
-            fluid 
-            value={this.state.payrate}
-            label='' 
-            placeholder="Pay Rate" 
-            id="payrate"
-            onChange={this.handleChange}
-          />
-          <HomeInput
-            width={'80%'} 
-            fluid 
-            value={this.state.paytype}
-            label='' 
-            placeholder="Pay Type" 
-            id="paytype"
-            onChange={this.handleChange}
-          />
-          <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+            flexDirection={'column'}
+          >
+          <HomeDiv
+            flexDirection={'row'}
+            width={'90%'}
+          >
+            <HomeInput
+              width={'80%'} 
+              fluid 
+              value={this.state.name}
+              label='' 
+              placeholder='Job Name' 
+              id="name"
+              onChange={this.handleChange}
+            />
+            <HomeInput
+              width={'80%'} 
+              fluid 
+              value={this.state.payrate}
+              label='' 
+              placeholder="Pay Rate" 
+              id="payrate"
+              onChange={this.handleChange}
+            />
+            <HomeInput
+              width={'80%'} 
+              fluid 
+              value={this.state.paytype}
+              label='' 
+              placeholder="Pay Type" 
+              id="paytype"
+              onChange={this.handleChange}
+            />
+            <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+          </HomeDiv>
+          <HomeDiv
+            onClick={this.appendJob}
+            height={'50px'}
+            width={'25%'}
+            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            borderRadius={'2px'}
+            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+            hoverColor={HomeStyleGuide.color.white}
+            cursor={'pointer'}
+            >
+            Add Job
+          </HomeDiv>  
+          <HomeDiv
+            onClick={this.props.back}
+            height={'50px'}
+            width={'25%'}
+            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            borderRadius={'2px'}
+            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+            hoverColor={HomeStyleGuide.color.white}
+            cursor={'pointer'}
+            >
+            Finished
+          </HomeDiv>  
         </HomeDiv>
-        <HomeDiv
-          onClick={this.appendJob}
-          height={'50px'}
-          width={'25%'}
-          border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-          borderRadius={'2px'}
-          hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-          hoverColor={HomeStyleGuide.color.white}
-          cursor={'pointer'}
+      )
+    } else {
+      
+      return(
+          <HomeDiv
           >
-          Add Job
-        </HomeDiv>  
-        <HomeDiv
-          onClick={this.props.back}
-          height={'50px'}
-          width={'25%'}
-          border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-          borderRadius={'2px'}
-          hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-          hoverColor={HomeStyleGuide.color.white}
-          cursor={'pointer'}
+          <HomeDiv
+            width={'90%'}
           >
-          Finished
-        </HomeDiv>  
-      </HomeDiv>
-    );
+            {this.displayJobs()}
+            <HomeInput
+              width={'80%'} 
+              fluid 
+              value={this.state.name}
+              label='' 
+              placeholder='Job Name' 
+              id="name"
+              onChange={this.handleChange}
+            />
+            <HomeInput
+              width={'80%'} 
+              fluid 
+              value={this.state.payrate}
+              label='' 
+              placeholder="Pay Rate" 
+              id="payrate"
+              onChange={this.handleChange}
+            />
+            <HomeInput
+              width={'80%'} 
+              fluid 
+              value={this.state.paytype}
+              label='' 
+              placeholder="Pay Type" 
+              id="paytype"
+              onChange={this.handleChange}
+            />
+            <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+          </HomeDiv>
+          <HomeDiv
+            onClick={this.appendJob}
+            height={'50px'}
+            width={'25%'}
+            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            borderRadius={'2px'}
+            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+            hoverColor={HomeStyleGuide.color.white}
+            cursor={'pointer'}
+            >
+            Add Job
+          </HomeDiv>  
+          <HomeDiv
+            onClick={this.props.back}
+            height={'50px'}
+            width={'25%'}
+            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            borderRadius={'2px'}
+            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
+            hoverColor={HomeStyleGuide.color.white}
+            cursor={'pointer'}
+            >
+            Finished
+          </HomeDiv>  
+        </HomeDiv>
+      );
+    }
   }
 }
 

@@ -25,20 +25,16 @@ class DashboardContainer extends Component {
   }
 
   appendVisibleSubDepartment = (single) => {
-    console.log("heereerhere")
-    console.log(single)
     this.props.dispatch(addVisibleSubDepartment(single))
 }
 
-  appendJob = (single) => {
-    this.props.dispatch(addJob(single))
+  appendJob = (single, id) => {
+    this.props.dispatch(addJob(single, id))
     this.setState({jobs: [...this.state.jobs, single]})
 }
 
   appendEmployee = (single, id) => {
     this.props.dispatch(addEmployee(single, id))
-    console.log("in append employee")
-    console.log(single)
   }
 
   incrementState = () => {
@@ -53,8 +49,8 @@ class DashboardContainer extends Component {
     this.setState({ slide: 2 })
   }
 
-  JobsForm = (prop) => {
-    this.setState({ slide: 3, subDeptID: prop })
+  JobsForm = (prop, name) => {
+    this.setState({ slide: 3, subDeptID: prop, singleDepartmentName: name })
   }
 
   SubDepartmentForm = (prop) => {
@@ -82,7 +78,7 @@ class DashboardContainer extends Component {
     } else if (slide === 2) {
       component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.props.user.employee.jobs} />
     } else if (slide === 3) {
-      component = <JobsForm back={this.back} appendJob={this.appendJob} departments={this.props.subDepartments} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
+      component = <JobsForm back={this.back} appendJob={this.appendJob} singleDepartmentName={this.state.singleDepartmentName} departments={this.props.subDepartments} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
     } else if (slide === 4) {
       component = <SubDepartmentForm back={this.back} appendVisibleSubDepartment={this.appendVisibleSubDepartment} departmentID={this.state.visibleID} />
     } else if (slide === 5) {
