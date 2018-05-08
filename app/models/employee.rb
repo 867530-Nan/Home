@@ -1,5 +1,5 @@
 class Employee < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   has_one :employee_role
   has_many :employee_jobs
   has_many :jobs, through: :employee_jobs

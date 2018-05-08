@@ -7,12 +7,12 @@ class User < ActiveRecord::Base
 
   has_one :employee
 
-  # after_create :hook_employee
+  after_create :hook_employee
 
-  # def hook_employee
-  #   return unless self.provider == "email"
-  #   Employee.find_by(email_address: self.uid).update(user_id: self.id)
-  # end 
+  def hook_employee
+    return unless self.provider == "email"
+    Employee.find_by(email_address: self.uid).update(user_id: self.id)
+  end 
 
 
 end
