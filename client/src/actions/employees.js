@@ -3,7 +3,7 @@ import { setFlash } from '../actions/flash';
 
 export const addEmployee = (single, id) => {
   return(dispatch) => {
-    axios.post('/api/employees', single)
+    axios.post('/api/employees', {employee: single})
       .then( res => {
         debugger
         return({ type: 'ADD_SINGLE_EMPLOYEE', employee: res.data })

@@ -24,11 +24,16 @@ class JobsForm extends Component {
   handleRadio = (e, { value }) => this.setState({ pay_type: value })
 
   appendJob = () => {
-    const parse = parseFloat(this.state.pay_rate)
-    const single = {name: this.state.name, pay_rate: parse, pay_type: this.state.pay_type.toLowerCase()}
-    this.props.appendJob(single, this.props.subDeptID)
-    this.setState({displayJobs: [...this.state.displayJobs, single]})
-    this.setState({name: "", payrate: "", pay_rate: ""})
+    if (this.state.name === "" || this.state.pay_rate === undefined || this.state.pay_type === ""){
+      alert("Please fill out all fields")
+      this.setState({ name: "", pay_rate: undefined, pay_type: "" })
+    } else {
+      const parse = parseFloat(this.state.pay_rate)
+      const single = {name: this.state.name, pay_rate: parse, pay_type: this.state.pay_type.toLowerCase()}
+      this.props.appendJob(single, this.props.subDeptID)
+      this.setState({displayJobs: [...this.state.displayJobs, single]})
+      this.setState({name: "", payrate: "", pay_rate: ""})
+    }
   }
 
   displayJobs = (subIndex) => {

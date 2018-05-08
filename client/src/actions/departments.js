@@ -1,5 +1,20 @@
-export const addSubDepartment = (department) => {
-  return({ type: 'ADD_SUB_DEPARTMENT', department: department })
+import axios from 'axios';
+import { setFlash } from '../actions/flash';
+
+export const addDepartment = (department, id) => {
+  return(dispatch) => {
+    axios.post(`/api/departments`, {department: department})
+      .then( res => {
+        debugger
+        dispatch({ type: 'ADD_JOB', job: res.data })
+        dispatch(setFlash('Employee Added!', 'success'));
+      })
+      .catch( res => {
+        const message = res.response.data.errors.full_messages.join(',');
+        dispatch(setFlash(message, 'error'));
+      });
+    }
+  
 }
 
 export const addVisibleSubDepartment = (department) => {

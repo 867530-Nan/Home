@@ -12,7 +12,7 @@ import EmployeeForm from './EmployeeForm'
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 import {getHotel} from '../../actions/Hotel'
-import { addSubDepartment, addVisibleSubDepartment } from '../../actions/departments'
+import { addDepartment, addVisibleSubDepartment } from '../../actions/departments'
 import { addEmployee } from '../../actions/employees'
 import { addJob } from '../../actions/jobs'
 
@@ -21,7 +21,7 @@ class DashboardContainer extends Component {
   state = { slide: 1, additionalDepartments: [], jobs: [] }
 
   appendSubDepartment = (single) => {
-      this.props.dispatch(addSubDepartment(single))
+      this.props.dispatch(addDepartment(single))
   }
 
   appendVisibleSubDepartment = (single) => {
@@ -44,8 +44,8 @@ class DashboardContainer extends Component {
     this.setState({ slide: this.state.slide - 1 })
   }
 
-  departmentForm = () => {
-    this.setState({ slide: 2 })
+  departmentForm = (id) => {
+    this.setState({ slide: 2, visibleID: id })
   }
 
   JobsForm = (prop, name) => {
@@ -70,12 +70,23 @@ class DashboardContainer extends Component {
     if (this.props.user.employee && slide === 1) {
       component = (
         <div>
-          <Departments jobs={this.state.jobs} jobsForm={this.JobsForm} departmentForm={this.departmentForm} SubDepartmentForm={this.SubDepartmentForm} additionalDepartments={this.props.subDepartments}  department={this.props.user.employee.jobs} />
-          <Employees employees={this.props.employees} employeeForm={this.EmployeeForm} />
+          <Departments 
+            jobs={this.state.jobs} 
+            jobsForm={this.JobsForm} 
+            departmentForm={this.departmentForm} 
+            SubDepartmentForm={this.SubDepartmentForm} 
+            additionalDepartments={this.props.subDepartments}  
+            department={this.props.subDepartments} 
+            user={this.props.user} 
+          />
+          <Employees 
+            employees={this.props.employees} 
+            employeeForm={this.EmployeeForm} 
+          />
         </div>
       )
     } else if (slide === 2) {
-      component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.props.user.employee.jobs} />
+      component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.state.visibleID} />
     } else if (slide === 3) {
       component = <JobsForm back={this.back} appendJob={this.appendJob} singleDepartmentName={this.state.singleDepartmentName} departments={this.props.subDepartments} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
     } else if (slide === 4) {

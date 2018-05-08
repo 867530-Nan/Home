@@ -121,6 +121,7 @@ export const HomeHeader = styled.h1.attrs({
 })`
   width: ${props => props.width || '100%'};
   text-align: ${props => props.textAlign};
+  backgorund-color: ${props => props.backgroundColor};
   margin: ${props => props.margin};
   color: ${props => props.color};
   padding: ${props => props.padding};

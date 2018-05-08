@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { HomeDiv, HomeSectionHeader } from '../generic/GenericStyledComponents';
+import { HomeDiv, HomeSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 import RaisedButton from 'material-ui/RaisedButton';
 import HomeStyleGuide from '../generic/HomeStyleGuide';
 
@@ -106,12 +106,11 @@ class Departments extends Component {
     }))
   }
 
-  displayDepartments = () => {
-    return ( this.props.department.map( single => {
+  displayDepartments = (departments) => {
+    return ( departments.map( single => {
       return(
         <HomeDiv
             width={'100%'}
-            border={`2px solid ${HomeStyleGuide.color.darkblue}`}
           >
             <HomeDiv
               flexDirection={'row'}
@@ -122,11 +121,12 @@ class Departments extends Component {
               <HomeSectionHeader
                 width={'50%'}
               >
-                {single.title}
+                {single.name}
               </HomeSectionHeader>
-              <RaisedButton label="Add Sub-Departments" primary={true} style={{margin: '12px', width: '25%'}} onClick={this.props.departmentForm} />
+              <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
+              <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(single.id, single.name)} />
             </HomeDiv>
-            {this.props.additionalDepartments.length > 0 && this.displaySubdepartments()}
+            {single.children && this.displayDepartments(single.children)}
           </HomeDiv>
       )
     }))
@@ -139,8 +139,16 @@ class Departments extends Component {
     return(
       <HomeDiv
         margin={'2%'}
+        border={`2px solid ${HomeStyleGuide.color.darkblue}`}
       >
-        {this.displayDepartments()}
+        <HomeHeader
+          backgroundColor={HomeStyleGuide.color.lightgray}
+          borderRadius={'2px 2px 0 0'}
+          fontSize={HomeStyleGuide.font.size.mediumLarge}
+        >
+          Department Information for {this.props.user.name !== null && this.props.user.name !== undefined ? this.props.user.name : this.props.user.email}
+        </HomeHeader>
+        {this.displayDepartments(this.props.department)}
       </HomeDiv>
     )
   }

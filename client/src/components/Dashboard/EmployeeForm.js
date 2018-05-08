@@ -113,6 +113,19 @@ class SingleEmployee extends React.Component {
             >
               Add Employee
             </HomeDiv>
+            <HomeDiv
+              onClick={this.props.back}
+              height={'50px'}
+              width={'100%'}
+              margin={'30px 20px 0 0'}
+              border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+              borderRadius={'2px 2px 0 0'}
+              hoverBackgroundColor={HomeStyleGuide.color.lightgray}
+              hoverColor={HomeStyleGuide.color.white}
+              cursor={'pointer'}
+            >
+              Add Employee
+            </HomeDiv>
           </HomeDiv>
       </HomeDiv>
     );

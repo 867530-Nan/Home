@@ -12,14 +12,14 @@ import JobsForm from '../Jobs/JobsForm'
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledComponents';
 import {getHotel} from '../../actions/Hotel'
-import { addSubDepartment } from '../../actions/departments'
+import { addDepartment } from '../../actions/departments'
 import { addJob } from '../../actions/jobs'
 
 class Index extends Component {
   state = { slide: 1, additionalDepartments: [], jobs: []}
 
   appendSubDepartment = (single) => {
-      this.props.dispatch(addSubDepartment(single))
+      this.props.dispatch(addDepartment(single))
       this.setState({additionalDepartments: [...this.state.additionalDepartments, single]})
   }
 
