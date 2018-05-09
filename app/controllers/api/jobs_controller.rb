@@ -20,7 +20,7 @@ class Api::JobsController < ApplicationController
   end 
 
   def update 
-    if @job.update(job_params)
+    if @department.jobs.update(job_params)
       render json: @job 
     else
       render_error(@job)
@@ -28,6 +28,7 @@ class Api::JobsController < ApplicationController
   end 
 
   def destroy 
+    binding.pry
     @job.destroy 
   end 
 

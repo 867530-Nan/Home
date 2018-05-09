@@ -14,7 +14,7 @@ import { HHeader, HSectionHeader, HomeHeader } from '../generic/GenericStyledCom
 import {getHotel} from '../../actions/Hotel'
 import { addDepartment, addVisibleSubDepartment } from '../../actions/departments'
 import { addEmployee } from '../../actions/employees'
-import { addJob } from '../../actions/jobs'
+import { addJob, destroyJob, updateJob } from '../../actions/jobs'
 
 class DashboardContainer extends Component {
 
@@ -26,11 +26,19 @@ class DashboardContainer extends Component {
 
   appendVisibleSubDepartment = (single) => {
     this.props.dispatch(addVisibleSubDepartment(single))
-}
+  }
 
   appendJob = (single, id) => {
     this.props.dispatch(addJob(single, id))
-}
+  }
+
+  destroyJob = (departmentID, jobID) => {
+    this.props.dispatch(destroyJob(departmentID, jobID))
+  }
+
+  updateJob = (single, id) => {
+    this.props.dispatch(updateJob(single, id))
+  }
 
   appendEmployee = (single, id) => {
     this.props.dispatch(addEmployee(single, id))
@@ -88,7 +96,7 @@ class DashboardContainer extends Component {
     } else if (slide === 2) {
       component = <DepartmentForm back={this.back} appendSubDepartment={this.appendSubDepartment} departmentID={this.state.visibleID} />
     } else if (slide === 3) {
-      component = <JobsForm back={this.back} appendJob={this.appendJob} singleDepartmentName={this.state.singleDepartmentName} departments={this.props.subDepartments} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
+      component = <JobsForm updateJob={this.updateJob} destroyJob={this.destroyJob} back={this.back} appendJob={this.appendJob} singleDepartmentName={this.state.singleDepartmentName} departments={this.props.subDepartments} jobs={this.state.jobs} departmentID={this.props.user.employee.jobs} subDeptID={this.state.subDeptID} />
     } else if (slide === 4) {
       component = <SubDepartmentForm back={this.back} appendVisibleSubDepartment={this.appendVisibleSubDepartment} departmentID={this.state.visibleID} />
     } else if (slide === 5) {
