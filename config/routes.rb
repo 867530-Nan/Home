@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   namespace :api do
     get '/login_employee/', to: 'employees#active_employee'
     get '/validate_invitation/:token', to: 'invitations#validate_invite'
-    get '/all_managed_jobs', to: 'jobs#all_managed_jobs'
+    get '/all_managed_jobs/', to: 'jobs#all_managed_jobs'
+    get '/week_shifts/:start_date', to: 'shifts#week_shifts'
     resources :shifts 
     resources :employee_jobs
     resources :employees 
