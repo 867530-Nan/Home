@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { Segment, Table } from 'semantic-ui-react'
+import DepartmentHeaderRow from './DepartmentHeaderRow'
+import JobHeaderRow from './JobHeaderRow'
+import EmployeeJobRow from './EmployeeJobRow'
+import { ISO_8601 } from 'moment';
 var moment = require('moment');
 
 
 class Schedule extends React.Component {
-  state = {jobs: [], employee_jobs: [], shifts: [], startDate: moment().startOf("week").format("YYYY-MM-DD")}
+  state = {jobs: [], employee_jobs: [], shifts: [], startDate: moment().startOf("week").format(), datesArray: []}
   
   componentDidMount(){
     axios.get('api/employee_jobs')
@@ -25,8 +29,8 @@ class Schedule extends React.Component {
 
     })
 
+    this.setDatesArray()
     this.getShifts()
-
   }  
 
   getShifts = () => {
@@ -39,32 +43,51 @@ class Schedule extends React.Component {
     })
   }
 
-  renderDateHeaders = () => {
+  setDatesArray = () => {
     let array = []
-    for (let i = 0; i < 7; i++){
-      array.push(moment(this.state.start_date).clone().add(i, 'days').format("MM/DD/YYYY"))
-    }
+    for (let i = 0; i < 7; i++)
+      array.push(moment(this.state.startDate).add(i, 'days').format("MM/DD/YYYY"))
+    this.setState({datesArray: array})
+  }
+
+  renderDateHeaders = () => {
     return(
       <Table.Row>
-        { array.map( day => (<Table.HeaderCell>{day}</Table.HeaderCell>)) }
+        <Table.HeaderCell>Employee</Table.HeaderCell>
+        { this.state.datesArray.map( day => (<Table.HeaderCell>{day}</Table.HeaderCell>)) }
       </Table.Row>
     )
   }
 
   
 
-  // renderDepartmentRows = (departments) => {
-  //   return (
-  //     departments.map(department => {
-  //        return(
-  //         <DepartmentHeaderRow props />
-  //           <JobHeaderRow props={this.state.jobs.filter(job => job.department === subIndex)
-  //           <Department>{department.name}
-  //             { department.children.length > 0 && this.renderDepartments(department.children, level+1) }
-  //         </Segment>
-  //        )
-  //   )
-  // }
+  renderDepartmentRows = (departments) => {
+    return (
+      departments.map(department => {
+         return(
+          <React.Fragment>
+            <DepartmentHeaderRow department={department} />
+            {this.state.jobs.filter(job => job.department_id === department.id ).map(job => {
+              return(
+                <React.Fragment>
+                  <JobHeaderRow job={job} />
+                    {this.state.employee_jobs.filter(ej => ej.job_id === job.id).map(ej => {
+                      return(
+                        <EmployeeJobRow ej={ej} dates={this.state.datesArray} shifts={this.state.shifts.filter(s => s.employee_job_id === ej.id)} />
+                      )
+                    })}
+                </React.Fragment> 
+              )
+            })
+          }
+          { department.children.length > 0 && this.renderDepartmentRows(department.children) }
+          </React.Fragment>
+         )
+      })
+    )
+  }
+
+  
 
   render(){
     return(
@@ -73,7 +96,7 @@ class Schedule extends React.Component {
           {this.renderDateHeaders()}
         </Table.Header>
         <Table.Body>
-          
+          {this.renderDepartmentRows(this.props.departments)}
         </Table.Body>
       </Table>
     )
