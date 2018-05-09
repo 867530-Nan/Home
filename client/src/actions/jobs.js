@@ -15,7 +15,6 @@ export const addJob = (job, id) => {
     }
   
 }
-//comment to test
 export const updateJob = (single, id) => {
   return(dispatch) => {
     axios.put(`/api/departments/${id}/jobs/${single.id}`, single)
