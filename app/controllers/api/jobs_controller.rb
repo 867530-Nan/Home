@@ -1,5 +1,6 @@
 class Api::JobsController < ApplicationController
   before_action :get_department, only: [ :index, :create, :update, :destroy ]
+  before_action :get_job, only: [:update, :destroy]
 
   def index 
     render json: @department.jobs 
@@ -20,7 +21,7 @@ class Api::JobsController < ApplicationController
   end 
 
   def update 
-    if @department.jobs.update(job_params)
+    if @job.update(job_params)
       render json: @job 
     else
       render_error(@job)
@@ -28,7 +29,6 @@ class Api::JobsController < ApplicationController
   end 
 
   def destroy 
-    binding.pry
     @job.destroy 
   end 
 
