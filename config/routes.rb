@@ -8,11 +8,13 @@ Rails.application.routes.draw do
     get '/week_shifts/:start_date', to: 'shifts#week_shifts'
     resources :shifts 
     resources :employee_jobs
-    resources :employees 
+    resources :employees
+    resources :daily_occupancies 
     resources :departments do 
       resources :jobs
     end 
     resources :hotels do 
+      get '/week_occupancies/:start_date', to: 'daily_occupancies#week_occupancies'
     end 
      
     #API ROUTES SHOULD GO HERE
