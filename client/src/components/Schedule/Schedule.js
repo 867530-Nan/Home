@@ -10,7 +10,7 @@ var moment = require('moment');
 
 
 class Schedule extends React.Component {
-  state = {jobs: [], employee_jobs: [], shifts: [], startDate: moment().startOf("week").format(), datesArray: []}
+  state = {jobs: [], employee_jobs: [], shifts: [], dailyOcc: [], startDate: moment().startOf("week").format(), datesArray: []}
   
   componentDidMount(){
     axios.get('api/employee_jobs')
@@ -33,6 +33,11 @@ class Schedule extends React.Component {
     this.getShifts()
   }  
 
+  componentWillReceiveProps(newProps) {    
+    if (newProps.user.employee && this.state.dailyOcc.length == 0)
+      this.getDailyOcc() 
+ }
+
   getShifts = () => {
     axios.get(`api/week_shifts/${this.state.startDate}`)
     .then( res => {
@@ -41,6 +46,19 @@ class Schedule extends React.Component {
     .catch( res => {
 
     })
+  }
+
+  getDailyOcc = () => {
+    if (this.props.user.employee) 
+    {
+      axios.get(`api/hotels/${this.props.user.employee.hotel}/week_occupancies/${this.state.startDate}`)
+      .then( res => {
+        this.setState({dailyOcc: res.data})
+      })
+      .catch( res => {
+
+      })
+    }
   }
 
   setDatesArray = () => {
@@ -56,6 +74,40 @@ class Schedule extends React.Component {
         <Table.HeaderCell>Employee</Table.HeaderCell>
         { this.state.datesArray.map( day => (<Table.HeaderCell>{day}</Table.HeaderCell>)) }
       </Table.Row>
+    )
+  }
+
+  renderDailyOccupancies = () => {
+    if (this.state.dailyOcc.length > 0)
+    {
+      let projected_occ = []
+      let arrivals = []
+      let departures = []
+      this.state.dailyOcc.map(daily_o => {
+          projected_occ.push(daily_o.rooms_occupied)
+          arrivals.push(daily_o.arrivals)
+          departures.push(daily_o.departures)
+      })
+      return(
+        <React.Fragment>
+          {this.renderSingleOccRow(projected_occ, "Projected Occ.")}
+          {this.renderSingleOccRow(arrivals, "Arrivals")}
+          {this.renderSingleOccRow(departures, "Departures")}
+        </React.Fragment>
+      )
+    }
+  }
+
+  renderSingleOccRow = (arr, title) => {
+    return(
+      <Table.Row>
+        <Table.HeaderCell>{title}</Table.HeaderCell>
+        {arr.map(a => {
+          return(
+            <Table.Cell>{a}</Table.Cell>
+          )
+        })} 
+      </Table.Row>  
     )
   }
 
@@ -96,6 +148,7 @@ class Schedule extends React.Component {
           {this.renderDateHeaders()}
         </Table.Header>
         <Table.Body>
+          {this.renderDailyOccupancies()}
           {this.renderDepartmentRows(this.props.departments)}
         </Table.Body>
       </Table>
