@@ -1,10 +1,19 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import { HomeDiv, HomeSectionHeader } from '../generic/GenericStyledComponents';
 import RaisedButton from 'material-ui/RaisedButton';
 import HomeStyleGuide from '../generic/HomeStyleGuide';
 import { Form, Icon, Label, Menu, Table } from 'semantic-ui-react'
+import EditEmployeeForm from '../Employees/EditEmployeeForm';
+import { deleteEmployee } from '../../actions/employees'
 
-class Departments extends Component {
+class Employees extends Component {
+    state = { slide: 1, editEmployee: undefined }
+
+
+    deleteEmployee = (id) => {
+      this.props.dispatch(deleteEmployee(id))
+    }
 
   displayEmployees = () => {
     return ( 
@@ -34,6 +43,7 @@ class Departments extends Component {
               <Table.HeaderCell>First Name</Table.HeaderCell>
               <Table.HeaderCell>Last Name</Table.HeaderCell>
               <Table.HeaderCell>Department</Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -43,6 +53,11 @@ class Departments extends Component {
               <Table.Cell>{single.first_name}</Table.Cell>
               <Table.Cell>{single.last_name}</Table.Cell>
               <Table.Cell>{single.departments}</Table.Cell>
+              <Table.Cell style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}} singleLine={true}>
+                  <RaisedButton label="Edit" labelColor={"#0d0047"} style={{margin: '12px', color: 'white'}} onClick={() => this.setState({ slide : 2, editEmployee: single})} />
+                  <br/>
+                  <RaisedButton label="Delete" secondary={true} style={{margin: '12px'}} onClick={() => this.deleteEmployee(single.id)} />
+                </Table.Cell>
             </Table.Row>
           )
         })}
@@ -56,15 +71,27 @@ class Departments extends Component {
   render() {
     console.log("departments rendered")
     console.log(this.props)
-    return(
-      <HomeDiv
-        flexDirection={'row'}
-        width={'100%'}
-      >
-        {this.displayEmployees()}
-      </HomeDiv>
-    )
+    if (this.state.slide === 1 ){
+      return(
+        <HomeDiv
+          flexDirection={'row'}
+          width={'100%'}
+        >
+          {this.props.employees && this.displayEmployees()}
+        </HomeDiv>
+      )
+    } else {
+      return(
+        <EditEmployeeForm departments={this.props.departments} employee={this.state.editEmployee} back={() => this.setState({ slide: 1 })}/>
+      )
+    }
   }
 }
 
-export default Departments;
+const mapStateToProps = state => {
+  return{
+    employees: state.employees
+  }
+}
+
+export default connect(mapStateToProps)(Employees);

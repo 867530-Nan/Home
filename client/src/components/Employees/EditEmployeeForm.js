@@ -10,18 +10,40 @@ import { addEmployee } from '../../actions/employees'
 
 let departmentList = []
 
-class SingleEmployee extends React.Component {  
+class EditEmployeeForm extends React.Component {  
   state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "", departmentID: undefined, departmentList: [] }
+
+  componentDidMount() {
+    this.setState({ firstName: this.props.employee.first_name, phone_number: this.props.employee.phone_number, lastName: this.props.employee.last_name, email_address: this.props.employee.email_address })
+    this.setDepartmentList(this.props.departments)
+  }
 
   handleChange = (e) => {
     const { id , value } = e.target;
     this.setState({ [id]: value });
   }
 
-  appendEmployee = () => {
-    const single = {first_name: this.state.firstName, last_name: this.state.lastName, phone_number: this.state.phone_number, email_address: this.state.emailAddress}
-    this.props.dispatch(addEmployee(single))
+  updateEmployee = () => {
+    const single = {  
+                    first_name: this.state.firstName, 
+                    last_name: this.state.lastName, 
+                    phone_number: this.state.phone_number, 
+                    email_address: this.state.email_address
+                    }
+    // this.props.dispatch(updateEmployee(single))
     this.props.back()
+  } 
+
+  
+  setDepartmentList = (departments) => {
+    for (let i = 0; i < departments.length; i += 1) {
+      const department = { text: departments[i].name, value: departments[i].id }
+      departmentList.push(department)
+      if (departments[i].children) {
+          const childDepartment = this.setDepartmentList(departments[i].children)
+      }
+    }
+    this.setState({ departmentList: departmentList })
   }
 
   nextPage = () => {
@@ -34,21 +56,6 @@ class SingleEmployee extends React.Component {
       this.props.appendEmployee(employee, ID)
       this.setState({firstName: "", lastName: "", emailAddress: "", phone_number: ""})
     }
-  }
-
-  componentDidMount() {
-    this.setDepartmentList(this.props.departments)
-  }
-
-  setDepartmentList = (departments) => {
-    for (let i = 0; i < departments.length; i += 1) {
-      const department = { text: departments[i].name, value: departments[i].id }
-      departmentList.push(department)
-      if (departments[i].children) {
-          const childDepartment = this.setDepartmentList(departments[i].children)
-      }
-    }
-    this.setState({ departmentList: departmentList })
   }
 
   render() {
@@ -113,7 +120,7 @@ class SingleEmployee extends React.Component {
               hoverColor={HomeStyleGuide.color.white}
               cursor={'pointer'}
             >
-              Add Employee
+              Update Employee
             </HomeDiv>
             <HomeDiv
               onClick={this.props.back}
@@ -137,4 +144,4 @@ class SingleEmployee extends React.Component {
 
 
 
-export default connect()(SingleEmployee)
+export default connect()(EditEmployeeForm)

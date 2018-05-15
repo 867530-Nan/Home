@@ -5,41 +5,14 @@ import HomeStyleGuide from '../generic/HomeStyleGuide';
 
 class Departments extends Component {
 
-  displayJobs = (subIndex) => {
-    const result = this.props.jobs.filter(single => single.subDeptID === subIndex)
-    return ( result.map( (single, index) => {
-      return(
-        <HomeDiv
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            backgroundColor={ index % 2 === 0 ? `${HomeStyleGuide.color.lightgray}`: `${HomeStyleGuide.color.white}`}
-            width={'80%'}
-          >
-            <HomeDiv
-              flexDirection={'row'}
-              width={'75%'}
-            >
-              <HomeSectionHeader>
-                {single.name}
-              </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.payrate}
-              </HomeSectionHeader>
-              <HomeSectionHeader>
-                {single.paytype}
-              </HomeSectionHeader>
-            </HomeDiv>
-          </HomeDiv>
-      )
-    }))
-  }
-
   displayChildren = (children) => {
     return ( children.map( (single, index) => {
       return(
         <HomeDiv
           width={'100%'}
           border={`1px solid ${HomeStyleGuide.color.lightgray}`}
+          padding={'0 0 2% 0'}
+          className="Child"
         >
           <HomeDiv
             width={'100%'}
@@ -76,6 +49,8 @@ class Departments extends Component {
         <HomeDiv
           width={'100%'}
           border={`1px solid ${HomeStyleGuide.color.lightgray}`}
+          padding={'0 0 2% 0'}
+          className="subDepartment"
         >
           <HomeDiv
             width={'100%'}
@@ -106,27 +81,41 @@ class Departments extends Component {
     }))
   }
 
-  displayDepartments = (departments) => {
+  displayDepartments = (departments, first) => {
     return ( departments.map( single => {
       return(
         <HomeDiv
             width={'100%'}
+            className="department"
+            padding={first === 1 ? '0' : '0 0 2% 0'}
+            margin={first === 1 ? '0' : '0 0 2% 0'}
+            backgroundColor={ first === 1 ? 'null' : HomeStyleGuide.color.lightgray}
           >
             <HomeDiv
               flexDirection={'row'}
-              justifyContent={'space-around'}
+              justifyContent={ first === 1 ? 'space-between' : 'space-around'}
               borderBottom={this.props.additionalDepartments.length > 0 ? `1px solid ${HomeStyleGuide.color.black}` : null }
               width={'100%'}
             >
-              <HomeSectionHeader
-                width={'50%'}
+              <HomeDiv
+                flexDirection={'row'}
+                width={first === 1 ? 'auto' : '50%'}
               >
-                {single.name}
-              </HomeSectionHeader>
-              <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
-              <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(single.id, single.name)} />
+                <HomeSectionHeader
+                  
+                >
+                  {single.name}
+                </HomeSectionHeader>
+              </HomeDiv>
+              <HomeDiv
+                width={first === 1 ? 'auto' : '50%'}
+                flexDirection={'row'}
+              >
+                <RaisedButton label="Add Sub Departments" secondary={true} style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
+                <RaisedButton label="View / Add Jobs" secondary={true} style={{margin: '12px'}} onClick={() => this.props.jobsForm(single.id, single.name)} />
+              </HomeDiv>
             </HomeDiv>
-            {single.children && this.displayDepartments(single.children)}
+            {single.children && this.displayDepartments(single.children, 0)}
           </HomeDiv>
       )
     }))
@@ -148,7 +137,7 @@ class Departments extends Component {
         >
           Department Information for {this.props.user.name !== null && this.props.user.name !== undefined ? this.props.user.name : this.props.user.email}
         </HomeHeader>
-        {this.displayDepartments(this.props.department)}
+        {this.displayDepartments(this.props.department, 1)}
       </HomeDiv>
     )
   }

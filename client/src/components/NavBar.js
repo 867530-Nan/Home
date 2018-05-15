@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { handleLogout } from '../actions/auth';
 import { withRouter } from 'react-router-dom';
+import { HomeDiv, HomeHeader, HomeParagraph } from './generic/GenericStyledComponents';
 
 class NavBar extends Component {
   rightNavs = () => {
@@ -40,8 +41,11 @@ class NavBar extends Component {
     return (
       <div>
         <Menu pointing secondary>
-          <Link to='/dashboard'>
+          <Link to={this.props.user ? '/dashboard' : '/'} >
             <Menu.Item name='home' />
+          </Link>
+          <Link to="/settings">
+            <Menu.Item name={this.props.user.name} />
           </Link>
           { this.rightNavs() }
         </Menu>

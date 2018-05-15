@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import axios from 'axios'
 import RaisedButton from 'material-ui/RaisedButton';
+import { getJobs } from '../../actions/jobs'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader, HomeParagraph } from '../generic/GenericStyledComponents';
 import { Form, Icon, Label, Menu, Table, Checkbox } from 'semantic-ui-react'
-
+import { __esModule } from 'react-redux/lib/connect/connect';
+import { addJob, destroyJob, updateJob } from '../../actions/jobs'
 
 
 class JobsForm extends Component {
-  state = { name: "", pay_rate: undefined, pay_type: "", currentInput: [], departmentList: [], departmentID: undefined, displayJobs: [], slide: 1 }
+  state = { name: "", pay_rate: undefined, pay_type: "", job_id: undefined, currentInput: [], departmentList: [], departmentID: undefined, displayJobs: [], slide: 1 }
 
   componentDidMount() {
-    axios.get(`/api/departments/${this.props.subDeptID}/jobs`)
-    .then(res => this.setState({ displayJobs: res.data }))
-    .catch ( res => console.log(res) )
+    this.props.dispatch(getJobs(this.props.subDeptID))
+  }
+
+  updateJob = (single, departmentID) => {
+    
   }
 
   handleChange = (e) => {
@@ -25,10 +30,9 @@ class JobsForm extends Component {
   handleRadio = (e, { value }) => this.setState({ pay_type: value })
 
   destroyJob = (deptID, jobID) => {
-    console.log("hey")
-    const newJobs = this.state.displayJobs.filter(single => single.id !== jobID)
+    const newJobs = this.props.jobs.filter(single => single.id !== jobID)
     this.setState({ display: newJobs })
-    this.props.destroyJob(deptID, jobID)
+    this.props.dispatch(destroyJob(deptID, jobID))
   }
 
   appendJob = () => {
@@ -38,34 +42,29 @@ class JobsForm extends Component {
     } else {
       const parse = parseFloat(this.state.pay_rate)
       const single = {name: this.state.name, pay_rate: parse, pay_type: this.state.pay_type.toLowerCase()}
-      this.props.appendJob(single, this.props.subDeptID)
+      this.props.dispatch(addJob(single, this.props.subDeptID))
       this.setState({displayJobs: [...this.state.displayJobs, single]})
       this.setState({name: "", payrate: "", pay_rate: ""})
     }
   }
 
   editJob = (single) => {
-    this.setState({editedName: single.name, name: single.name, pay_rate: single.pay_rate, pay_type: single.pay_type, visible_id: '', slide: 0})
+    this.setState({editedName: single.name, name: single.name, pay_rate: single.pay_rate, pay_type: single.pay_type, job_id: single.id, slide: 0})
   }
 
   updateJob = () => {
     const parse = parseFloat(this.state.pay_rate)
-      const single = {name: this.state.name, pay_rate: parse, pay_type: this.state.pay_type.toLowerCase()}
-      this.props.updateJob(single, this.props.subDeptID)
-      console.log(this.state.displayJobs)
-      console.log(single)
+      const single = {name: this.state.name, pay_rate: parse, pay_type: this.state.pay_type.toLowerCase(), id: this.state.job_id}
+      this.props.dispatch(updateJob(single, this.props.subDeptID))
       let newArray = this.state.displayJobs.filter( item => {
         item.name !== this.state.editedName
       } )
       newArray.push(single)
-      console.log(newArray)
-      this.setState({displayJobs: [newArray, single]})
+      this.setState({displayJobs: newArray})
       this.setState({name: "", payrate: "", pay_rate: "", slide: 1})
   }
 
   displayJobs = (subIndex) => {
-    const result = this.state.displayJobs.filter(single => single.subDeptID === subIndex)
-    const newResult = result.filter( single => single.name === this.props.singleDepartmentName)
       return(
         <HomeDiv
         width={'100%'}
@@ -83,9 +82,13 @@ class JobsForm extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-        {this.state.displayJobs.map( (single, index) => {
+        {this.props.jobs.map( (single, index) => {
+          console.log("rendiner jobs")
+          console.log(single)
           return (
-              <Table.Row>
+              <Table.Row
+                key={index}
+              >
                 <Table.Cell>
                   <HomeParagraph>
                     {single.name}
@@ -115,7 +118,7 @@ class JobsForm extends Component {
           <HomeDiv
             width={'90%'}
           >
-            {this.state.displayJobs.length > 0 && this.displayJobs()}
+            { this.props.jobs && this.displayJobs()}
             <HomeInput
               width={'80%'} 
               fluid 
@@ -174,10 +177,10 @@ class JobsForm extends Component {
               hoverColor={HomeStyleGuide.color.white}
               cursor={'pointer'}
               >
-              {this.state.slide === 1 ? "Add Job" : "Update Job"}
+              Add Job
             </HomeDiv>  
             <HomeDiv
-              onClick={this.state.slider === 1 ? this.props.back : () => this.setState({slide: 0 }) }
+              onClick={this.props.back }
               height={'50px'}
               width={'25%'}
               border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
@@ -186,7 +189,7 @@ class JobsForm extends Component {
               hoverColor={HomeStyleGuide.color.white}
               cursor={'pointer'}
               >
-              {this.state.slide === 1 ? "Finished" : "Back"}
+              Back
             </HomeDiv>  
           </HomeDiv>
         </HomeDiv>
@@ -246,7 +249,7 @@ class JobsForm extends Component {
             flexDirection={'row'}
           >
             <HomeDiv
-              onClick={this.state.slide === 1 ? this.appendJob : this.updateJob }
+              onClick={this.updateJob}
               height={'50px'}
               width={'25%'}
               border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
@@ -255,10 +258,10 @@ class JobsForm extends Component {
               hoverColor={HomeStyleGuide.color.white}
               cursor={'pointer'}
               >
-              {this.state.slide === 1 ? "Add Job" : "Update Job"}
+                Update Job
             </HomeDiv>  
             <HomeDiv
-              onClick={this.state.slider === 1 ? this.props.back : () => this.setState({slide: 1 }) }
+              onClick={() => this.setState({slide: 1 })}
               height={'50px'}
               width={'25%'}
               border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
@@ -267,7 +270,7 @@ class JobsForm extends Component {
               hoverColor={HomeStyleGuide.color.white}
               cursor={'pointer'}
               >
-              {this.state.slide === 1 ? "Finished" : "Back"}
+                Back
             </HomeDiv>  
           </HomeDiv>
         </HomeDiv>
@@ -276,4 +279,10 @@ class JobsForm extends Component {
   }
 }
 
-export default JobsForm;
+const mapStateToProps = state => {
+  return{
+    jobs: state.jobs
+  }
+}
+
+export default connect(mapStateToProps)(JobsForm);
