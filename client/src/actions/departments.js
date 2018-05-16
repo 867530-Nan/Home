@@ -5,9 +5,8 @@ export const addDepartment = (department, id) => {
   return(dispatch) => {
     axios.post(`/api/departments`, {department: department})
       .then( res => {
-        debugger
         dispatch({ type: 'ADD_JOB', job: res.data })
-        dispatch(setFlash('Employee Added!', 'success'));
+        dispatch(setFlash('Department Added!', 'success'));
       })
       .catch( res => {
         const message = res.response.data.errors.full_messages.join(',');

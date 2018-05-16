@@ -40,7 +40,7 @@ export const handleLogin = (email, password, history) => {
         let { data: { data: user }, headers } = res
         dispatch({ type: 'LOGIN', user, headers });  
         getEmployeeDetails(dispatch)
-        history.push('/');
+        history.push('/dashboard');
       })
       .catch( res => {
         const errors = res.response.data.errors.full_messages ? res.response.data.errors.full_messages : res.response.data.errors

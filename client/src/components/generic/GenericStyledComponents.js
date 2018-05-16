@@ -37,16 +37,14 @@ export const HomeDiv = styled.div.attrs({
   alignItems: props => props.alignItems || 'center',
   flexWrap: props => props.flexWrap || null,
   flex: props => props.flex || 'wrap',
-  height: props => props.height || null,
   width: props => props.width || null,
-  maxWidth: props => props.maxWidth || null,
   order: props => props.order || null,
   backgroundColor: props => props.backgroundColor || null,
   background: props => props.background,
   backgroundImage: props => props.desktopImage || null,
   backgroundRepeat: props => props.backgroundRepeat || 'no-repeat',
-  backgroundAttachment: props => props.backgroundAttachment || null,
   backgroundPosition: props => props.backgroundPosition || 'center center',
+  backgroundAttachment: props => props.backgroundAttachment || null,
   backgroundSize: props => props.backgroundSize || null,
   border: props => props.border || null,
   borderLeft: props => props.borderLeft || null,
@@ -67,13 +65,12 @@ export const HomeDiv = styled.div.attrs({
   align-items: ${props => props.alignItems};
   height: ${props => props.height ? props.height : 'auto'};
   width: ${props => props.width};
-  max-width: ${props => props.maxWidth};
   background-color: ${props => props.backgroundColor};
   background: ${props => props.background};
-  background-image: url(${props => props.desktopImage});
+  background-image: ${props => props.desktopImage};
   background-repeat: ${props => props.backgroundRepeat}; 
-  background-attachment: ${props => props.backgroundAttachment}; 
   background-position: ${props => props.backgroundPosition};
+  background-attachment: ${props => props.backgroundAttachment}; 
   background-size: ${props => props.backgroundSize};
   border: ${props => props.border};
   border-top: ${props => props.borderTop};
@@ -82,7 +79,9 @@ export const HomeDiv = styled.div.attrs({
   border-right: ${props => props.borderRight};
   border-radius: ${props => props.borderRadius};
   order: ${props => props.order};
-  
+  min-width: ${props => props.minWidth};
+  box-shadow ${props => props.boxShadow};
+
     &:hover {
       background: ${props => props.hoverBackgroundColor};
       background-size: ${props => props.hoverBackgroundSize};
@@ -93,19 +92,20 @@ export const HomeDiv = styled.div.attrs({
       color: ${props => props.hoverColor};
     }
 
-    @media (max-width: ${mediaQueryMediumMaxWidth}){
-      height: ${props => props.tabletHeight || props.height};
+    @media (max-width: 768px){
+      height: ${props => props.tabletHeight};
+      width: ${props => props.tabletWidth};
       background: ${props => props.backgroundColor}, 
-        url(${props => props.mobileBackground || props.background})
+        url(${props => props.mobileBackground})
         ${props => props.backgroundRepeat}
         ${props => props.backgroundAttachment}
         ${props => props.backgroundPosition};
-      flex-direction: ${props => props.smallTabletFlexDirection || 'column'};
+      flex-direction: ${props => props.smallTabletFlexDirection};
     }
 
-    @media (max-width: ${mediaQuerySmallMaxWidth}){
-      height: ${props => props.mobileHeight || props.height};
-      background-position: top center;
+    @media (max-width: 400px){
+      height: ${props => props.mobileHeight};
+      background-position: ${props => props.mobileBackgroundPosition || 'top center'};
     }
 
 `

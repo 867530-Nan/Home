@@ -83,8 +83,6 @@ class JobsForm extends Component {
           </Table.Header>
           <Table.Body>
         {this.props.jobs.map( (single, index) => {
-          console.log("rendiner jobs")
-          console.log(single)
           return (
               <Table.Row
                 key={index}

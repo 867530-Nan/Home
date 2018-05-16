@@ -70,6 +70,7 @@ class DashboardContainer extends Component {
             department={this.props.subDepartments} 
             user={this.props.user} 
           />
+          <hr />
           <Employees 
             employeeForm={this.EmployeeForm}
             departments={this.props.subDepartments} 
@@ -101,7 +102,8 @@ class DashboardContainer extends Component {
       component = <EmployeeForm 
                     back={this.back} 
                     departments={this.props.subDepartments} 
-                    appendEmployee={this.appendEmployee} 
+                    appendEmployee={this.appendEmployee}
+                    jobs={this.props}
                   />
     } else {
       return(

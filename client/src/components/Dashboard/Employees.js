@@ -22,7 +22,6 @@ class Employees extends Component {
         margin={'0'}
         padding={'0'}
         width={'100%'}
-        border={`2px solid ${HomeStyleGuide.color.darkblue}`}
       >
         <HomeDiv
           flexDirection={'row'}
@@ -34,29 +33,29 @@ class Employees extends Component {
           <HomeDiv
             width={'50%'}
           >
-            <RaisedButton label="Add Employees" primary={true} style={{margin: '12px', width: '100%'}} onClick={this.props.employeeForm} />
+            <RaisedButton label="Add Employees" backgroundColor="#B2DFDB" style={{margin: '12px', width: '100%'}} onClick={this.props.employeeForm} />
           </HomeDiv>
         </HomeDiv>
-        <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable>
+        <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable singleLine>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>First Name</Table.HeaderCell>
-              <Table.HeaderCell>Last Name</Table.HeaderCell>
-              <Table.HeaderCell>Department</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
+              <Table.HeaderCell style={{textAlign: 'center'}} >First Name</Table.HeaderCell>
+              <Table.HeaderCell style={{textAlign: 'center'}} >Last Name</Table.HeaderCell>
+              <Table.HeaderCell style={{textAlign: 'center'}} >Department</Table.HeaderCell>
+              <Table.HeaderCell style={{textAlign: 'center'}} >Options</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
         {this.props.employees.map( single => {
           return(
             <Table.Row>
-              <Table.Cell>{single.first_name}</Table.Cell>
-              <Table.Cell>{single.last_name}</Table.Cell>
-              <Table.Cell>{single.departments}</Table.Cell>
-              <Table.Cell style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}} singleLine={true}>
-                  <RaisedButton label="Edit" labelColor={"#0d0047"} style={{margin: '12px', color: 'white'}} onClick={() => this.setState({ slide : 2, editEmployee: single})} />
+              <Table.Cell style={{textAlign: 'center'}}>{single.first_name}</Table.Cell>
+              <Table.Cell style={{textAlign: 'center'}}>{single.last_name}</Table.Cell>
+              <Table.Cell style={{textAlign: 'center'}}>{single.departments}</Table.Cell>
+              <Table.Cell style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} singleLine={true}>
+                  <RaisedButton label="Edit" backgroundColor="#C8E6C9" style={{margin: '12px', color: 'white'}} onClick={() => this.setState({ slide : 2, editEmployee: single})} />
                   <br/>
-                  <RaisedButton label="Delete" secondary={true} style={{margin: '12px'}} onClick={() => this.deleteEmployee(single.id)} />
+                  <RaisedButton label="Delete" backgroundColor="#FFFFFF" style={{margin: '12px'}} onClick={() => this.deleteEmployee(single.id)} />
                 </Table.Cell>
             </Table.Row>
           )
@@ -76,6 +75,7 @@ class Employees extends Component {
         <HomeDiv
           flexDirection={'row'}
           width={'100%'}
+          margin={'3% 0'}
         >
           {this.props.employees && this.displayEmployees()}
         </HomeDiv>

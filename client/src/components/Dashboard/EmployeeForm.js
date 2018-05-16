@@ -9,9 +9,15 @@ import { Form, Dropdown } from 'semantic-ui-react'
 import { addEmployee } from '../../actions/employees'
 
 let departmentList = []
+let universalJobList = []
 
-class SingleEmployee extends React.Component {  
-  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "", departmentID: undefined, departmentList: [] }
+class EmployeeForm extends React.Component {  
+  state = { number: 0, firstName: "", lastName: "", emailAddress: "", phone_number: "", department: "", departmentID: undefined, departmentList: [], jobList: [], jobID: undefined }
+
+  componentDidMount() {
+    this.setDepartmentList(this.props.departments)
+    this.createJobList(this.props.departments)
+  }
 
   handleChange = (e) => {
     const { id , value } = e.target;
@@ -19,7 +25,8 @@ class SingleEmployee extends React.Component {
   }
 
   appendEmployee = () => {
-    const single = {first_name: this.state.firstName, last_name: this.state.lastName, phone_number: this.state.phone_number, email_address: this.state.emailAddress}
+    const single = {first_name: this.state.firstName, last_name: this.state.lastName, phone_number: this.state.phone_number, email_address: this.state.emailAddress, employeeJob: { job_id: this.state.jobID}}
+    debugger
     this.props.dispatch(addEmployee(single))
     this.props.back()
   }
@@ -36,9 +43,29 @@ class SingleEmployee extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.setDepartmentList(this.props.departments)
+  sendJobsToState = jobs => {
+    console.log(jobs)
+    return ( jobs.map( element => {
+      const single = {text: element.name, value: element.id}
+      this.setState({ jobList: [...this.state.jobList, single]})
+    }))
   }
+
+  createJobList = departments => {
+    departments.map(single => {
+      axios.get(`/api/departments/${single.id}/jobs`)
+      .then( res => this.sendJobsToState(res.data))
+      .catch( res => console.log(res))
+      if (single.children) {
+        this.createJobList(single.children)
+      }
+    })
+    if (universalJobList.length === departments.length) {
+      this.forceUpdate()
+    }
+  }
+
+  
 
   setDepartmentList = (departments) => {
     for (let i = 0; i < departments.length; i += 1) {
@@ -52,7 +79,6 @@ class SingleEmployee extends React.Component {
   }
 
   render() {
-
     return(
       <HomeDiv
         height={'100%'}
@@ -98,6 +124,7 @@ class SingleEmployee extends React.Component {
             style={{width: '80%'}}
           />
           <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+          <Dropdown placeholder='Choose Department' fluid selection options={this.state.jobList} onChange={(e, d)=>this.setState({jobID: d.value})} />
           <HomeDiv
             flexDirection={'row'}
             width={'80%'}
@@ -130,11 +157,11 @@ class SingleEmployee extends React.Component {
             </HomeDiv>
           </HomeDiv>
       </HomeDiv>
-    );
+    )
   }
 } 
 
 
 
 
-export default connect()(SingleEmployee)
+export default connect()(EmployeeForm)
