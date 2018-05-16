@@ -35,8 +35,8 @@ class DashboardContainer extends Component {
     this.setState({ slide: this.state.slide - 1 })
   }
 
-  departmentForm = (id) => {
-    this.setState({ slide: 2, visibleID: id })
+  departmentForm = (id, parentID) => {
+    this.setState({ slide: 2, visibleID: id, parentID: parentID })
   }
 
   JobsForm = (prop, name) => {
@@ -82,6 +82,7 @@ class DashboardContainer extends Component {
                     back={this.back} 
                     appendSubDepartment={this.appendSubDepartment} 
                     departmentID={this.state.visibleID} 
+                    parentID={this.state.parentID}
                   />
     } else if (slide === 3) {
       component = <JobsForm 

@@ -70,9 +70,9 @@ class Departments extends Component {
         <HomeHeader
           backgroundColor={HomeStyleGuide.color.lightgray}
           borderRadius={'2px 2px 0 0'}
-          fontSize={HomeStyleGuide.font.size.mediumLarge}
+          fontSize={HomeStyleGuide.font.size.medium}
         >
-          Department Information for {this.props.user.name !== null && this.props.user.name !== undefined ? this.props.user.name : this.props.user.email}
+          Department Information
         </HomeHeader>
         {this.displayDepartments(this.props.department, 1)}
       </HomeDiv>

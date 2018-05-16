@@ -8,6 +8,7 @@ class Api::DepartmentsController < ApplicationController
 
   def create
     department = @hotel.departments.create(department_params)
+    binding.pry
     if department.save
       render json: department.to_json
     else

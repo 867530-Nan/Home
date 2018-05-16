@@ -42,7 +42,7 @@ class Employees extends Component {
               <Table.HeaderCell style={{textAlign: 'center'}} >First Name</Table.HeaderCell>
               <Table.HeaderCell style={{textAlign: 'center'}} >Last Name</Table.HeaderCell>
               <Table.HeaderCell style={{textAlign: 'center'}} >Department</Table.HeaderCell>
-              <Table.HeaderCell style={{textAlign: 'center'}} >Options</Table.HeaderCell>
+              <Table.HeaderCell style={{textAlign: 'center'}} >Employee Options</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

@@ -44,7 +44,6 @@ class EmployeeForm extends React.Component {
   }
 
   sendJobsToState = jobs => {
-    console.log(jobs)
     return ( jobs.map( element => {
       const single = {text: element.name, value: element.id}
       this.setState({ jobList: [...this.state.jobList, single]})

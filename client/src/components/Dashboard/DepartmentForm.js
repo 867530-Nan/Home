@@ -20,7 +20,7 @@ class DepartmentForm extends Component {
   }
 
   appendSubDepartment = () => {
-    const single = {name: this.state.name, id: this.props.departmentID}
+    const single = {name: this.state.name, id: this.props.departmentID, parent_id: this.props.parentID}
     this.props.appendSubDepartment(single)
     this.setState({currentInput: [...this.state.currentInput, single]})
     this.setState({name: "", budget: ""})
