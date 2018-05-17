@@ -40,15 +40,15 @@ class Departments extends Component {
     <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable singleLine> 
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell style={{textAlign: 'center'}}>Department Name</Table.HeaderCell>
-          <Table.HeaderCell style={{textAlign: 'center'}}>Department Options</Table.HeaderCell>
+          <Table.HeaderCell style={{textAlign: 'center', fontSize: `${HomeStyleGuide.font.size.mediumSmall}`}}>Department Name</Table.HeaderCell>
+          <Table.HeaderCell style={{textAlign: 'center', fontSize: `${HomeStyleGuide.font.size.mediumSmall}`}}>Department Options</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
       { allDepartments.map( single => {
         return(
         <Table.Row>
-          <Table.Cell style={{width: '50%', textAlign: 'center'}}>{single.name}</Table.Cell>
+          <Table.Cell style={{width: '50%', textAlign: 'center', fontSize: `${HomeStyleGuide.font.size.small}`}}>{single.name}</Table.Cell>
           <Table.Cell style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} singleLine={true}>
             <RaisedButton label="Add Sub Departments" backgroundColor="#FFE0B2" style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
             <br/>
@@ -72,7 +72,7 @@ class Departments extends Component {
           borderRadius={'2px 2px 0 0'}
           fontSize={HomeStyleGuide.font.size.medium}
         >
-          Department Information
+          Departments
         </HomeHeader>
         {this.displayDepartments(this.props.department, 1)}
       </HomeDiv>

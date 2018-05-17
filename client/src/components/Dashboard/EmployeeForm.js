@@ -3,7 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
-import { HomeInput, HomeDiv, HomeHeader } from '../generic/GenericStyledComponents';
+import { HomeInput, HomeDiv, HomeHeader, HomeParagraph } from '../generic/GenericStyledComponents';
 import TextField from 'material-ui/TextField';
 import { Form, Dropdown } from 'semantic-ui-react'
 import { addEmployee } from '../../actions/employees'
@@ -59,9 +59,6 @@ class EmployeeForm extends React.Component {
         this.createJobList(single.children)
       }
     })
-    if (universalJobList.length === departments.length) {
-      this.forceUpdate()
-    }
   }
 
   
@@ -90,70 +87,97 @@ class EmployeeForm extends React.Component {
           >
             Employee Information:
           </HomeHeader>
-          <TextField
-            hintText="Enter Employees First Name"
-            floatingLabelText="First Name"
-            id="firstName"
-            onChange={this.handleChange}
-            value={this.state.firstName}
-            style={{width: '80%'}}
-          />
-          <TextField
-            hintText="Enter Employee's Last Name"
-            floatingLabelText="Last Name"
-            id="lastName"
-            onChange={this.handleChange}
-            value={this.state.lastName}
-            style={{width: '80%'}}
-          />
-          <TextField
-            hintText="Enter Employees Phone Number"
-            floatingLabelText="Phone Number"
-            id="phone_number"
-            onChange={this.handleChange}
-            value={this.state.phone_number}
-            style={{width: '80%'}}
-          />
-          <TextField
-            hintText="Enter Employees Email Address"
-            floatingLabelText="Email Address"
-            id="emailAddress"
-            onChange={this.handleChange}
-            value={this.state.emailAddress}
-            style={{width: '80%'}}
-          />
-          <Dropdown placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
-          <Dropdown placeholder='Choose Department' fluid selection options={this.state.jobList} onChange={(e, d)=>this.setState({jobID: d.value})} />
           <HomeDiv
             flexDirection={'row'}
-            width={'80%'}
+            width={'100%'}
+            justifyContent={'space-around'}
+            padding={'0'}
+            margin={'2% 0'}
+          >
+            <Dropdown style={{width: '40%'}} placeholder='Choose Department' fluid selection options={this.state.departmentList} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+            <Dropdown style={{width: '40%'}} placeholder='Choose Position' fluid selection options={this.state.jobList} onChange={(e, d)=>this.setState({jobID: d.value})} />
+          </HomeDiv>
+          <HomeDiv
+            margin={'2% 0'}
+            width={'100%'}
+          >
+            <TextField
+              hintText="Enter Employees First Name"
+              floatingLabelText="First Name"
+              id="firstName"
+              onChange={this.handleChange}
+              value={this.state.firstName}
+              style={{width: '80%'}}
+              autoFocus={true}
+            />
+            <TextField
+              hintText="Enter Employee's Last Name"
+              floatingLabelText="Last Name"
+              id="lastName"
+              onChange={this.handleChange}
+              value={this.state.lastName}
+              style={{width: '80%'}}
+            />
+            <TextField
+              hintText="Enter Employees Phone Number"
+              floatingLabelText="Phone Number"
+              id="phone_number"
+              onChange={this.handleChange}
+              value={this.state.phone_number}
+              style={{width: '80%'}}
+            />
+            <TextField
+              hintText="Enter Employees Email Address"
+              floatingLabelText="Email Address"
+              id="emailAddress"
+              onChange={this.handleChange}
+              value={this.state.emailAddress}
+              style={{width: '80%'}}
+            />
+          </HomeDiv>
+          <HomeDiv
+            flexDirection={'row'}
+            width={'100%'}
+            justifyContent={'space-around'}
           >
             <HomeDiv
-              onClick={this.appendEmployee}
+              onClick={this.appendEmployee }
               height={'50px'}
-              width={'100%'}
-              margin={'30px 20px 0 0'}
-              border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-              borderRadius={'2px 2px 0 0'}
-              hoverBackgroundColor={HomeStyleGuide.color.lightgray}
-              hoverColor={HomeStyleGuide.color.white}
+              width={'25%'}
+              boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+              backgroundColor={HomeStyleGuide.color.featherGreen}
+              borderRadius={'2px'}
+              hoverBackgroundColor={HomeStyleGuide.color.white}
+              hoverColor={HomeStyleGuide.color.black}
               cursor={'pointer'}
-            >
-              Add Employee
-            </HomeDiv>
+              >
+                <HomeParagraph
+                  width={'100%'}
+                  textAlign={'center'}
+                  color={HomeStyleGuide.color.white}
+                >
+                  Add Employee
+                </HomeParagraph>
+            </HomeDiv> 
             <HomeDiv
               onClick={this.props.back}
               height={'50px'}
-              width={'100%'}
-              margin={'30px 20px 0 0'}
-              border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
-              borderRadius={'2px 2px 0 0'}
-              hoverBackgroundColor={HomeStyleGuide.color.lightgray}
-              hoverColor={HomeStyleGuide.color.white}
+              width={'25%'}
+              boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+              backgroundColor={HomeStyleGuide.color.featherRed}
+              borderRadius={'2px'}
+              hoverBackgroundColor={HomeStyleGuide.color.white}
+              hoverColor={HomeStyleGuide.color.black}
               cursor={'pointer'}
-            >
-              Go Back
-            </HomeDiv>
+              >
+                <HomeParagraph
+                  width={'100%'}
+                  textAlign={'center'}
+                  color={HomeStyleGuide.color.white}
+                >
+                  Back
+                </HomeParagraph>
+            </HomeDiv> 
           </HomeDiv>
       </HomeDiv>
     )

@@ -5,13 +5,17 @@ const HomeStyleGuide = {
     white: '#FFFFFF',
     darkgray: '#807F7F',
     lightgray: '#D9D9D9',
+    cyan: '#80DEEA',
     darkblue: '#30415D',
     lightblue: '#697892',
+    skyBlue: '#BBDEFB',
     darkred: '#601927',
     lightred: '#98505E',
+    featherRed: '#E57373',
     darkgreen: '#124436',
     lightgreen: '#376F60',
-    black: '#0E0E0E'
+    featherGreen: '#81C784',
+    black: '#0E0E0E',
 },
   font: {
     size: {

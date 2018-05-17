@@ -27,13 +27,15 @@ class Employees extends Component {
           flexDirection={'row'}
           width={'100%'}
           >
-          <HomeSectionHeader>
+          <HomeSectionHeader
+            width={'50%'}
+          >
             Employee Information
           </HomeSectionHeader>
           <HomeDiv
             width={'50%'}
           >
-            <RaisedButton label="Add Employees" backgroundColor="#B2DFDB" style={{margin: '12px', width: '100%'}} onClick={this.props.employeeForm} />
+            <RaisedButton label="Add Employees" backgroundColor="#B2DFDB" style={{margin: '12px', width: '60%'}} onClick={this.props.employeeForm} />
           </HomeDiv>
         </HomeDiv>
         <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable singleLine>
@@ -53,9 +55,9 @@ class Employees extends Component {
               <Table.Cell style={{textAlign: 'center'}}>{single.last_name}</Table.Cell>
               <Table.Cell style={{textAlign: 'center'}}>{single.departments}</Table.Cell>
               <Table.Cell style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} singleLine={true}>
-                  <RaisedButton label="Edit" backgroundColor="#C8E6C9" style={{margin: '12px', color: 'white'}} onClick={() => this.setState({ slide : 2, editEmployee: single})} />
+                  <RaisedButton label="Edit" backgroundColor={HomeStyleGuide.color.skyBlue} style={{margin: '12px', color: 'white'}} onClick={() => this.setState({ slide : 2, editEmployee: single})} />
                   <br/>
-                  <RaisedButton label="Delete" backgroundColor="#FFFFFF" style={{margin: '12px'}} onClick={() => this.deleteEmployee(single.id)} />
+                  <RaisedButton label="Delete" backgroundColor={HomeStyleGuide.color.white} style={{margin: '12px'}} onClick={() => this.deleteEmployee(single.id)} />
                 </Table.Cell>
             </Table.Row>
           )

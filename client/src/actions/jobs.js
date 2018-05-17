@@ -6,7 +6,6 @@ export const getJobs = (id) => {
     axios.get(`/api/departments/${id}/jobs`)
       .then( res => {
         dispatch({ type: 'GET_JOBS', jobs: res.data })
-        dispatch(setFlash('Job Added!', 'success'));
       })
       .catch( res => {
         const message = res.response.data.errors.full_messages.join(',');
@@ -44,7 +43,6 @@ export const updateJob = (single, id) => {
 }
 
 export const destroyJob = (department, job) => {
-  console.log(department)
   return(dispatch) => {
     axios.delete(`/api/departments/${department}/jobs/${job}`)
       .then( res => {

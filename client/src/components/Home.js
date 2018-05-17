@@ -87,7 +87,7 @@ class Home extends Component {
           <HomeSectionHeader
             fontWeight={'300'}
           >
-            HOME<br/>- Hotel Opeartions Made Easy -<hr/>For a free trial, email our team <a href="mailto:vonpaulbergen@gmail.com">here</a>.<br/>- Salt Lake City, Utah -
+            HOME<br/>- Hotel Opeartions Made Easy -<hr/>For a more information, email our team <a href="mailto:vonpaulbergen@gmail.com">here</a>.<br/>- Salt Lake City, Utah -
           </HomeSectionHeader>
         </HomeDiv>
       </div>

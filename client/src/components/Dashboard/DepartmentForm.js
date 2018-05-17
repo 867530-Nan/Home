@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Form, Icon, Label, Menu, Table } from 'semantic-ui-react'
+import TextField from 'material-ui/TextField';
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
-import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
+import { HomeInput, HomeParagraph, HomeDiv, HomeHeader, HomeSectionHeader } from '../generic/GenericStyledComponents';
 
 
 
@@ -64,64 +65,87 @@ class DepartmentForm extends Component {
         flexDirection={'column'}
       >
         <HomeDiv
+          width={'100%'}
+          padding={'2%'}
+        >
+          <HomeSectionHeader>
+            Add Sub-Departments
+          </HomeSectionHeader>
+        </HomeDiv>
+        <HomeDiv
           margin={'40px 0'}
           width={'75%'}
+          display={this.state.currentInput.length > 0 ? 'flex' : 'none'}
           >
           {this.state.currentInput.length > 0 && this.displayInput()}
         </HomeDiv>
         <HomeDiv
           flexDirection={'row'}
-          width={'90%'}
+          width={'100%'}
+          justifyContent={'space-around'}
+          margin={'40px 0'}
         >
-          <HomeInput
-            width={'80%'} 
-            fluid 
-            value={this.state.name}
-            label='' 
-            placeholder='Sub-Department Name' 
+          <TextField
+            hintText="Enter Sub-Department Name"
+            floatingLabelText="Sub-Department Name"
             id="name"
             onChange={this.handleChange}
+            value={this.state.name}
+            style={{width: '40%'}}
+            autoFocus={true}
           />
-          <HomeInput
-            width={'80%'} 
-            fluid 
-            value={this.state.budget}
-            label='' 
-            placeholder="Monthly Budget" 
+          <TextField
+            hintText="Enter Monthly Budget"
+            floatingLabelText="Monthly Budget"
             id="budget"
             onChange={this.handleChange}
+            value={this.state.budget}
+            style={{width: '40%'}}
           />
         </HomeDiv>
         <HomeDiv
           flexDirection={'row'}
-          width={'80%'}
+          width={'100%'}
+          justifyContent={'space-around'}
         >
           <HomeDiv
             onClick={this.appendSubDepartment}
             height={'50px'}
-            width={'50%'}
-            margin={'20px'}
-            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            width={'25%'}
+            boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+            backgroundColor={HomeStyleGuide.color.featherGreen}
             borderRadius={'2px'}
-            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-            hoverColor={HomeStyleGuide.color.white}
+            hoverBackgroundColor={HomeStyleGuide.color.white}
+            hoverColor={HomeStyleGuide.color.black}
             cursor={'pointer'}
             >
-            Add Sub-Department
+              <HomeParagraph
+                width={'100%'}
+                textAlign={'center'}
+                color={HomeStyleGuide.color.white}
+              >
+                Add Sub-Department
+              </HomeParagraph>
           </HomeDiv>  
           <HomeDiv
             onClick={this.props.back}
             height={'50px'}
-            width={'50%'}
-            margin={'20px'}
-            border={`2px solid ${HomeStyleGuide.color.darkgreen}`}
+            width={'25%'}
+            boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+            backgroundColor={HomeStyleGuide.color.featherRed}
             borderRadius={'2px'}
-            hoverBackgroundColor={HomeStyleGuide.color.darkgray}
-            hoverColor={HomeStyleGuide.color.white}
+            hoverBackgroundColor={HomeStyleGuide.color.white}
+            hoverColor={HomeStyleGuide.color.black}
             cursor={'pointer'}
             >
-            Finished
-          </HomeDiv>  
+              <HomeParagraph
+                textAlign={'center'}
+                width={'100%'}
+                color={HomeStyleGuide.color.white}
+              >
+                Finished
+              </HomeParagraph>
+          </HomeDiv> 
         </HomeDiv>
       </HomeDiv>
     );
