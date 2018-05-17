@@ -30,7 +30,7 @@ class Employees extends Component {
           <HomeSectionHeader
             width={'50%'}
           >
-            Employee Information
+            Employees
           </HomeSectionHeader>
           <HomeDiv
             width={'50%'}
