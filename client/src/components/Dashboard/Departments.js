@@ -6,7 +6,7 @@ import { Form, Icon, Label, Menu, Table } from 'semantic-ui-react'
 import HomeStyleGuide from '../generic/HomeStyleGuide';
 
 let allDepartments = []
-
+// comment for clas
 class Departments extends Component {
 
   // displayDepartments = (departments, first) => {
