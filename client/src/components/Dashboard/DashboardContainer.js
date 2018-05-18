@@ -35,8 +35,8 @@ class DashboardContainer extends Component {
     this.setState({ slide: this.state.slide - 1 })
   }
 
-  departmentForm = (id, parentID) => {
-    this.setState({ slide: 2, visibleID: id, parentID: parentID })
+  departmentForm = (id) => {
+    this.setState({ slide: 2, visibleID: id })
   }
 
   JobsForm = (prop, name) => {

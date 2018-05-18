@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setFlash } from '../actions/flash';
 
-export const addDepartment = (department, id) => {
+export const addDepartment = (department) => {
   return(dispatch) => {
     axios.post(`/api/departments`, {department: department})
       .then( res => {
