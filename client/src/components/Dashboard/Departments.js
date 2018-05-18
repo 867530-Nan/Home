@@ -25,21 +25,25 @@ class Departments extends Component {
   //   }))
   // }
 
-  collapseChildren = departments => {
+  collapseChildren = (departments, level) => {
     return (departments.map( single => {
-      if (allDepartments.includes(single)) {
+      let newSingle = {department: single, level: level}
+      if (allDepartments.includes(newSingle)) {
         return 
       } else {
-        allDepartments.push(single)
+        allDepartments.push(newSingle)
       }
       if (single.children) {
-        this.collapseChildren(single.children)
+        this.collapseChildren(single.children, level+1)
       }
     }))
   }
 
-  displayDepartments = (departments, first, second) => {
-    this.collapseChildren(departments)
+  displayDepartments = (departments, level, second) => {
+    this.collapseChildren(departments, level)
+    allDepartments.sort(function(a,b) {
+      return a.level > b.level
+    })
     return (
     <Table celled color={`${HomeStyleGuide.color.lightgreen}`} selectable singleLine> 
       <Table.Header>
@@ -50,13 +54,14 @@ class Departments extends Component {
       </Table.Header>
       <Table.Body>
       { allDepartments.map( single => {
+        console.log(single)
         return(
         <Table.Row>
-          <Table.Cell style={{width: '50%', textAlign: 'center', fontSize: `${HomeStyleGuide.font.size.small}`}}>{single.name}</Table.Cell>
+          <Table.Cell style={{width: '50%', textAlign: 'center', fontSize: `${HomeStyleGuide.font.size.small}`}}>{single.department.name}</Table.Cell>
           <Table.Cell style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} singleLine={true}>
-            <RaisedButton label="Add Sub Departments" backgroundColor="#FFE0B2" style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.id)} />
+            <RaisedButton label="Add Sub Departments" backgroundColor="#FFE0B2" style={{margin: '12px'}} onClick={() => this.props.departmentForm(single.department.id)} />
             <br/>
-            <RaisedButton label="View / Add Jobs" backgroundColor="#FFCCBC" style={{margin: '12px'}} onClick={() => this.props.jobsForm(single.id, single.name)} />
+            <RaisedButton label="View / Add Jobs" backgroundColor="#FFCCBC" style={{margin: '12px'}} onClick={() => this.props.jobsForm(single.department.id, single.department.name)} />
           </Table.Cell>
         </Table.Row>
         )
