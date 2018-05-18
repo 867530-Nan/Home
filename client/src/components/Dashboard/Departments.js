@@ -27,7 +27,11 @@ class Departments extends Component {
 
   collapseChildren = departments => {
     return (departments.map( single => {
-      allDepartments.push(single)
+      if (allDepartments.includes(single)) {
+        return 
+      } else {
+        allDepartments.push(single)
+      }
       if (single.children) {
         this.collapseChildren(single.children)
       }
