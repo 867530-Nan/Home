@@ -41,7 +41,7 @@ class Departments extends Component {
 
   displayDepartments = (departments, level, second) => {
     this.collapseChildren(departments, level)
-    allDepartments.sort(function(a,b) {
+    allDepartments.sort(function(a, b) {
       return a.level > b.level
     })
     return (
