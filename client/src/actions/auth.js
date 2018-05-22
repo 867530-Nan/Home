@@ -63,12 +63,14 @@ export const validateToken = (cb = f => f) => {
   }
 }
 
-const getEmployeeDetails = (dispatch) => {
-  axios.get(`/api/login_employee`)
-      .then( res => {
-        console.log(res),
-        dispatch({type: 'ADD_VISIBLE_DEPARTMENTS', departments: res.data.visible_departments, headers: res.headers});
-        dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data});
-        dispatch({type: 'ADD_VISIBLE_EMPLOYEES', employees: res.data.visible_employees})
-      })
+export const getEmployeeDetails = (dispatch) => {
+  return (
+    axios.get(`/api/login_employee`)
+        .then( res => {
+          console.log(res),
+          dispatch({type: 'ADD_VISIBLE_DEPARTMENTS', departments: res.data.visible_departments, headers: res.headers});
+          dispatch({ type: 'SET_USER_EMPLOYEE', employee: res.data});
+          dispatch({type: 'ADD_VISIBLE_EMPLOYEES', employees: res.data.visible_employees})
+        })
+      )
 }

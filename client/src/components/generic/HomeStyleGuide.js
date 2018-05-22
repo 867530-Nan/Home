@@ -15,6 +15,12 @@ const HomeStyleGuide = {
     darkgreen: '#124436',
     lightgreen: '#376F60',
     featherGreen: '#81C784',
+    featherOrange: '#FF8A65',
+    featherIndigo: '#3F51B5',
+    featherGreen: '#81C784',
+    featherTeal: '#4DB6AC',
+    featherLime: '#DCE775',
+    lightIndigo: '#C5CAE9',
     black: '#0E0E0E',
 },
   font: {

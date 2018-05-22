@@ -1,5 +1,3 @@
-import { CommentActions } from "semantic-ui-react";
-
 const jobs = (state = [], action) => {
   switch(action.type) {
     case 'GET_JOBS': 

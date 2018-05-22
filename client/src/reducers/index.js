@@ -5,6 +5,7 @@ import hotel from './Hotel'
 import department from './department'
 import employees from './employees'
 import jobs from './jobs'
+import expenses from './expenses'
 
 const rootReducer = combineReducers({
   user,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   hotel,
   department,
   employees,
-  jobs
+  jobs,
+  expenses
 })
 
 export default rootReducer

@@ -26,7 +26,7 @@ class EmployeeForm extends React.Component {
 
   appendEmployee = () => {
     const single = {first_name: this.state.firstName, last_name: this.state.lastName, phone_number: this.state.phone_number, email_address: this.state.emailAddress, employeeJob: { job_id: this.state.jobID}}
-    debugger
+  
     this.props.dispatch(addEmployee(single))
     this.props.back()
   }
