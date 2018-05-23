@@ -61,7 +61,7 @@ class NavBar extends Component {
     } else {
       <Menu.Menu>
           <Link to='/' >
-            <Menu.Item name='home' />
+            <Menu.Item name='Home' />
           </Link>
           <Link to="/settings">
             <Menu.Item name={this.props.user.name} />
