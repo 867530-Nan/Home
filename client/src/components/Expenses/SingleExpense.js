@@ -50,6 +50,30 @@ class SingleEmployee extends React.Component {
     }
   }
 
+  showBackButton = () => {
+    return( 
+      <HomeDiv
+        onClick={this.props.back}
+        height={'50px'}
+        width={'25%'}
+        boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+        backgroundColor={HomeStyleGuide.color.featherRed}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.white}
+        hoverColor={HomeStyleGuide.color.black}
+        cursor={'pointer'}
+        >
+          <HomeParagraph
+            width={'100%'}
+            textAlign={'center'}
+            color={HomeStyleGuide.color.white}
+          >
+            Back
+          </HomeParagraph>
+      </HomeDiv>
+    )
+  }
+
   render() {
 
     return(
@@ -66,7 +90,7 @@ class SingleEmployee extends React.Component {
           </HomeHeader>
           <TextField
             hintText="Enter a Budget Expense Name"
-            floatingLabelText="Budget Expense Name"
+            floatingLabelText="Expense Name"
             id="name"
             onChange={this.handleChange}
             value={this.state.name}
@@ -75,7 +99,7 @@ class SingleEmployee extends React.Component {
           />
           <TextField
             hintText="Enter a Budget Expense Amount"
-            floatingLabelText="Budget Expense Amount"
+            floatingLabelText="Expense Amount"
             id="amount"
             onChange={this.handleChange}
             value={this.state.amount}
@@ -84,11 +108,12 @@ class SingleEmployee extends React.Component {
           <HomeDiv
             flexDirection={'row'}
             width={'80%'}
-            justifyContent={'space-around'}
+            justifyContent={'space-between'}
+            padding={'0'}
           >
             <TextField
               hintText="Enter / Create the Expense Items ID"
-              floatingLabelText="Expense Item Invenentory ID (optional)"
+              floatingLabelText="Item's Inventory ID (optional)"
               id="item_id"
               onChange={this.handleChange}
               value={this.state.item_id}
@@ -100,11 +125,13 @@ class SingleEmployee extends React.Component {
           flexDirection={'row'}
           width={'100%'}
           justifyContent={'space-around'}
+          padding={'3%'}
         >  
+          { this.props.back ? this.showBackButton() : null } 
           <HomeDiv
             onClick={this.addExpense}
             height={'50px'}
-            width={'25%'}
+            width={this.props.back? '50%' : '25%'}
             boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
             backgroundColor={HomeStyleGuide.color.featherGreen}
             borderRadius={'2px'}
@@ -120,25 +147,6 @@ class SingleEmployee extends React.Component {
                 Add Expense
               </HomeParagraph>
           </HomeDiv>
-          <HomeDiv
-            onClick={this.props.back}
-            height={'50px'}
-            width={'25%'}
-            boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
-            backgroundColor={HomeStyleGuide.color.featherRed}
-            borderRadius={'2px'}
-            hoverBackgroundColor={HomeStyleGuide.color.white}
-            hoverColor={HomeStyleGuide.color.black}
-            cursor={'pointer'}
-            >
-              <HomeParagraph
-                width={'100%'}
-                textAlign={'center'}
-                color={HomeStyleGuide.color.white}
-              >
-                Back
-              </HomeParagraph>
-          </HomeDiv> 
         </HomeDiv>
       </HomeDiv>
     );

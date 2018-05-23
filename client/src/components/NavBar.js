@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Dropdown } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { handleLogout } from '../actions/auth';
@@ -13,9 +13,21 @@ class NavBar extends Component {
     if(user.id) {
       return(
         <Menu.Menu position='right'>
-          <Link to='/schedule'>
-            <Menu.Item name='Schedule' />
+          <Link to='/dashboard'>
+            <Menu.Item name='Dashboard' />
           </Link>
+          <Dropdown item text='Tasks'>
+            <Dropdown.Menu>
+              <Dropdown.Item as="a" href="/schedule">Scheduling</Dropdown.Item>
+              <Dropdown.Item as="a" href="/expensetracker" >Expense Tracker</Dropdown.Item>
+              <Dropdown.Item as="a" disabled>Month Review</Dropdown.Item>
+              <Dropdown.Item as="a" disabled>Purchase Orders</Dropdown.Item>
+              <Dropdown.Item as="a" disabled>Productivity Tracker</Dropdown.Item>
+              <Dropdown.Item as="a" disabled>Work Orders</Dropdown.Item>
+              <Dropdown.Item as="a" disabled>Budget</Dropdown.Item>
+              <Dropdown.Item as="a" disabled>Daily Actuals</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <Menu.Item
             name='Logout'
             onClick={() => dispatch(handleLogout(history))}
@@ -36,16 +48,33 @@ class NavBar extends Component {
     }
   }
 
+  leftNavs = () => {
+    const { user } = this.props
+    if (user.id) {
+      return(
+        <Menu.Menu>
+          <Link to="/settings">
+            <Menu.Item name={this.props.user.name} />
+          </Link>
+        </Menu.Menu>
+      )
+    } else {
+      <Menu.Menu>
+          <Link to='/' >
+            <Menu.Item name='home' />
+          </Link>
+          <Link to="/settings">
+            <Menu.Item name={this.props.user.name} />
+          </Link>
+        </Menu.Menu>
+    }
+  }
+
   render() {
     return (
       <div>
         <Menu pointing secondary>
-          <Link to={this.props.user.email ? '/dashboard' : '/'} >
-            <Menu.Item name='home' />
-          </Link>
-          <Link to="/dashboard">
-            <Menu.Item name={this.props.user.name} />
-          </Link>
+          { this.leftNavs() }
           { this.rightNavs() }
         </Menu>
       </div>

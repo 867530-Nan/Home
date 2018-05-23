@@ -87,7 +87,31 @@ class Departments extends Component {
         <div/>
       )
     }
-    }
+  }
+
+  showDepartmentsButton = () => {
+    return(
+      <HomeDiv
+        onClick={() => this.setState({ showSingle: !this.state.showSingle })}
+        height={'50px'}
+        width={'50%'}
+        boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+        backgroundColor={HomeStyleGuide.color.featherOrange}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.white}
+        hoverColor={HomeStyleGuide.color.black}
+        cursor={'pointer'}
+        >
+          <HomeParagraph
+            width={'100%'}
+            textAlign={'center'}
+            color={HomeStyleGuide.color.white}
+          >
+            {this.state.showSingle ? "Show All Departments" : "Hide Sub Departments"}
+          </HomeParagraph>
+      </HomeDiv>
+    )
+  }
 
 
   render() {
@@ -105,25 +129,7 @@ class Departments extends Component {
           Departments
         </HomeHeader>
         {this.displayDepartments(this.props.department, 1)}
-        <HomeDiv
-              onClick={() => this.setState({ showSingle: !this.state.showSingle })}
-              height={'50px'}
-              width={'50%'}
-              boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
-              backgroundColor={HomeStyleGuide.color.featherOrange}
-              borderRadius={'2px'}
-              hoverBackgroundColor={HomeStyleGuide.color.white}
-              hoverColor={HomeStyleGuide.color.black}
-              cursor={'pointer'}
-              >
-                <HomeParagraph
-                  width={'100%'}
-                  textAlign={'center'}
-                  color={HomeStyleGuide.color.white}
-                >
-                  {this.state.showSingle ? "Show All Departments" : "Hide Sub Departments"}
-                </HomeParagraph>
-            </HomeDiv>  
+        { this.props.department.length > 0 && this.props.department[0].children && this.showDepartmentsButton() }  
       </HomeDiv>
     )} else if (this.state.slide === 2) {
       return(

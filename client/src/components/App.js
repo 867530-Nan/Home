@@ -15,6 +15,7 @@ import HotelInformation from './Intro/HotelIntroduction'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dashboard from '../components/Dashboard/DashboardContainer';
 import Settings from '../components/Settings/Index'
+import ExpenseTracker from '../components/Expenses/ExpenseTracker'
 
 class App extends Component {
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
               <ProtectedRoute exact path='/dashboard' component={Dashboard} />
               <ProtectedRoute exact path="/hotels" component={HotelInformation} />
               <ProtectedRoute exact path='/settings' component={Settings} />
+              <ProtectedRoute exact path='/expensetracker' component={ExpenseTracker} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/table' component={table} />

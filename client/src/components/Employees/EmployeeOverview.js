@@ -87,6 +87,30 @@ class EmployeeOverview extends Component {
     )
   }
 
+  showEmployeesButton = () => {
+    return(
+      <HomeDiv
+        onClick={() => this.setState({ showSingle: !this.state.showSingle })}
+        height={'50px'}
+        width={'50%'}
+        boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+        backgroundColor={HomeStyleGuide.color.featherIndigo}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.white}
+        hoverColor={HomeStyleGuide.color.black}
+        cursor={'pointer'}
+        >
+          <HomeParagraph
+            width={'100%'}
+            textAlign={'center'}
+            color={HomeStyleGuide.color.white}
+          >
+            {this.state.showSingle ? "Show All Employees" : "Hide Employees"}
+          </HomeParagraph>
+      </HomeDiv>  
+    )
+  }
+
 
   render() {
     console.log("departments rendered")
@@ -99,25 +123,7 @@ class EmployeeOverview extends Component {
           margin={'3% 0'}
         >
           {this.props.employees.length > 0 && this.displayEmployees()}
-          <HomeDiv
-              onClick={() => this.setState({ showSingle: !this.state.showSingle })}
-              height={'50px'}
-              width={'50%'}
-              boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
-              backgroundColor={HomeStyleGuide.color.featherIndigo}
-              borderRadius={'2px'}
-              hoverBackgroundColor={HomeStyleGuide.color.white}
-              hoverColor={HomeStyleGuide.color.black}
-              cursor={'pointer'}
-              >
-                <HomeParagraph
-                  width={'100%'}
-                  textAlign={'center'}
-                  color={HomeStyleGuide.color.white}
-                >
-                  {this.state.showSingle ? "Show All Employees" : "Hide Employees"}
-                </HomeParagraph>
-            </HomeDiv>  
+          { this.props.employees.length > 1 && this.showEmployeesButton() }
         </HomeDiv>
       )
     } else {

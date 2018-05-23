@@ -93,6 +93,30 @@ class EmployeeOverview extends Component {
     )
   }
 
+  showExpensesButotn = () => {
+    return(
+      <HomeDiv
+        onClick={() => this.setState({ showSingle: !this.state.showSingle })}
+        height={'50px'}
+        width={'50%'}
+        boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
+        backgroundColor={HomeStyleGuide.color.featherTeal}
+        borderRadius={'2px'}
+        hoverBackgroundColor={HomeStyleGuide.color.white}
+        hoverColor={HomeStyleGuide.color.black}
+        cursor={'pointer'}
+        >
+          <HomeParagraph
+            width={'100%'}
+            textAlign={'center'}
+            color={HomeStyleGuide.color.white}
+          >
+            {this.state.showSingle ? "Show All Expenses" : "Hide Expenses"}
+          </HomeParagraph>
+      </HomeDiv>
+    )
+  }
+
 
   render() {
     if (this.props.expenses && this.state.slide === 1 ){
@@ -103,25 +127,7 @@ class EmployeeOverview extends Component {
           margin={'3% 0'}
         >
           { this.props.expenses.length > 0 && this.displayExpenses()}
-          <HomeDiv
-              onClick={() => this.setState({ showSingle: !this.state.showSingle })}
-              height={'50px'}
-              width={'50%'}
-              boxShadow={`0px 1px 5px 1px ${HomeStyleGuide.color.lightgray}`}
-              backgroundColor={HomeStyleGuide.color.featherTeal}
-              borderRadius={'2px'}
-              hoverBackgroundColor={HomeStyleGuide.color.white}
-              hoverColor={HomeStyleGuide.color.black}
-              cursor={'pointer'}
-              >
-                <HomeParagraph
-                  width={'100%'}
-                  textAlign={'center'}
-                  color={HomeStyleGuide.color.white}
-                >
-                  {this.state.showSingle ? "Show All Expenses" : "Hide Expenses"}
-                </HomeParagraph>
-            </HomeDiv>
+          { this.props.expenses.length > 1 && this.showExpensesButotn() }
         </HomeDiv>
       )
     } else {
