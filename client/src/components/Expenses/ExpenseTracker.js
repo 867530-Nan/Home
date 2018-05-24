@@ -4,14 +4,16 @@ import axios from 'axios'
 
 import HomeStyleGuide from '../generic/HomeStyleGuide'
 import { HomeInput, HomeDiv, HomeHeader, HomeSectionHeader, HomeParagraph } from '../generic/GenericStyledComponents';
-import { Form } from 'semantic-ui-react'
+import { Form, Dropdown } from 'semantic-ui-react'
+import { getExpenses } from '../../actions/expenses'
 
 import SingleExpense from './SingleExpense'
 
 class ExpenseTracker extends Component {
   state = { number: 0, expenses: [], departments: [] }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.props.dispatch(getExpenses())
     
   }
 
@@ -24,7 +26,57 @@ class ExpenseTracker extends Component {
     this.setState({expenses: [...this.state.expenses, singleExpense]})
   }
 
-  displayExpenses = (departmentIndex) => {
+  dateSelect = () => {
+    const Months = [
+      { name: "January", value: 1 },
+      { name: "February", value: 2 },
+      { name: "March", value: 3 },
+      { name: "April", value: 4 },
+      { name: "May", value: 5 },
+      { name: "June", value: 6 },
+      { name: "July", value: 7 },
+      { name: "August", value: 8 },
+      { name: "September", value: 9 },
+      { name: "October", value: 10 },
+      { name: "November", value: 11 },
+      { name: "December", value: 12 },
+    ]
+    return(
+      <HomeDiv
+        width={'100%'}
+        height={'150px'}
+        justifyContent={'space-around'}
+      >
+        <HomeSectionHeader>
+          Step 1: Select Month
+        </HomeSectionHeader>
+        <Dropdown style={{width: '40%'}} placeholder='Choose Department' fluid selection options={Months} onChange={(e, d)=>this.setState({departmentID: d.value})} />
+      </HomeDiv>
+    )
+  }
+
+  setExpenseDropDown = () => {
+    let expenseChoices = []
+    
+    this.props.expenses.map( single => {
+      const currentChoice = {key: single.name, value: single.name, text: single.name, original: single }
+      expenseChoices.push(currentChoice)
+    })
+    debugger
+      this.setState({ expenseList: expenseChoices })
+
+  }
+
+  expenseSelect = () => {
+    let expenseChoices = []
+    
+    this.props.expenses.map( single => {
+      const currentChoice = {key: single.name, value: single.name, text: single.name, original: single }
+      expenseChoices.push(currentChoice)
+    })
+    if (expenseChoices.length === []) {
+      return <HomeDiv />
+    } else {
     return(
       <HomeDiv
         width={'100%'}
@@ -32,40 +84,22 @@ class ExpenseTracker extends Component {
         padding={'0'}
       >
         <HomeSectionHeader>
-          Expenses List
+          Step 2: Choose from past Expenses
         </HomeSectionHeader>
-        {this.props.expenses.map( (single, index) => {
-          return (
-            <HomeDiv
-              flexDirection={'row'}
-              backgroundColor={index % 2 === 0 ? `${HomeStyleGuide.color.white}` : `${HomeStyleGuide.color.gray}`}
-              width={'100%'}
-              padding={'0'}
-              borderRadius={'5px'}
-            >
-              <HomeParagraph>
-                {single.amount}
-              </HomeParagraph>
-              <HomeParagraph>
-                ${single.amount}
-              </HomeParagraph>
-            </HomeDiv>
-          )
-        })}
+    { expenseChoices.length && <Dropdown placeholder='State' fluid multiple search selection options={expenseChoices} /> } 
       </HomeDiv>
-    )
+      )
+    }
   }
 
   displayExpensesForm = () => {
     return(
       <HomeDiv
         height={'100%'}
-        margin={'50px 0'}
         width={'80%'}
         borderRadius={'2px'}
       >
-        {this.props.expenses.length !== 0 && this.displayExpenses()}
-        <SingleExpense appendExpense={this.appendExpense} departments={this.props.departments} Back={false} />
+        <SingleExpense appendExpense={this.appendExpense} departments={this.props.departments} Back={false} headerText={"Step 2: Enter Expenses"}/>
       </HomeDiv>
     )
   }
@@ -103,7 +137,6 @@ class ExpenseTracker extends Component {
       )
     } else {
       const singleDepartment = this.state.departments[this.state.increment]
-      console.log(singleDepartment)
       return (
       <HomeDiv
         height={'100%'}
@@ -116,15 +149,9 @@ class ExpenseTracker extends Component {
           margin={'2%'}
           borderRadius={'2px'}
           >
-          <HomeHeader
-            fontSize={HomeStyleGuide.font.size.medium}
-          >
-            Step 3: Expenses
-          </HomeHeader>
-          <HomeSectionHeader>
-            Enter all your department's expenses for ***PULL MONTH***
-          </HomeSectionHeader>
-            {this.props.departments.length !== 0 && this.displayExpensesForm()}
+            { this.dateSelect() }
+            { this.props.expenses.length && this.expenseSelect() }
+            {this.props.departments.length && this.displayExpensesForm()}
             <HomeDiv
               flexDirection={'row'}
               width={'80%'}

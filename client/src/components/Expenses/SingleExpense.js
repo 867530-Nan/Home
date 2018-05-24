@@ -80,13 +80,13 @@ class SingleEmployee extends React.Component {
       <HomeDiv
         height={'100%'}
         backgroundColor={HomeStyleGuide.color.white}
-        padding={'2%'}
+        padding={'0'}
         width={'100%'}
       >
           <HomeHeader
             fontSize={HomeStyleGuide.font.size.medium}
           >
-            Expense Information:
+            {this.props.headerText}
           </HomeHeader>
           <TextField
             hintText="Enter a Budget Expense Name"
